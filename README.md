@@ -1,12 +1,14 @@
-OSMT2013
-========
+#OSMT2013
 
-OS Project Team 30
+####OS Project Team 30 (CS510)
 
-TEAM
-=======
-* Navin Pai
-* Kanchan Gupta
-* Rajat Bansal
-* Neetika Panwar
-* Ankit Sharma
+###International Institute of Information Technology - Bangalore
+
+
+###TEAM
+
+* [Navin Pai](https://github.com/navinpai)
+* [Kanchan Gupta](https://github.com/kanchanGupta)
+* [Rajat Bansal](https://github.com/rajatbansal0905)
+* [Neetika Panwar](https://github.com/NeetikaPanwar)
+* [Ankit Sharma](https://github.com/ankitsharma051089)
