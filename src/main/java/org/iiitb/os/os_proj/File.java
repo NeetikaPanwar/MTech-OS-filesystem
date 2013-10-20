@@ -7,11 +7,11 @@ public class File {
 	private long id;
 	private String name;
 	private int filetypeId;
-	private String timestamp;
+	private Date timestamp;
 	private Date date_created;
 	private Date date_updated;
-	private String user_created;
-	private String user_updated;
+	private Date user_created;
+	private Date user_updated;
 	private String path;
 	private long file_size;
 
@@ -49,11 +49,11 @@ public class File {
 		this.filetypeId = filetypeId;
 	}
 
-	public String getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(String timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -73,19 +73,19 @@ public class File {
 		this.date_updated = date_updated;
 	}
 
-	public String getUser_created() {
+	public Date getUser_created() {
 		return user_created;
 	}
 
-	public void setUser_created(String user_created) {
+	public void setUser_created(Date user_created) {
 		this.user_created = user_created;
 	}
 
-	public String getUser_updated() {
+	public Date getUser_updated() {
 		return user_updated;
 	}
 
-	public void setUser_updated(String user_updated) {
+	public void setUser_updated(Date user_updated) {
 		this.user_updated = user_updated;
 	}
 
