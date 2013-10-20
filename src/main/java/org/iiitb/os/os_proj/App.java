@@ -1,5 +1,7 @@
 package org.iiitb.os.os_proj;
 
+import org.iiitb.os.os_proj.shell.Shell;
+
 /**
  * Hello world!
  *
@@ -8,7 +10,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
-        //System.out.println("Testing egit out");
+        Shell shell=new Shell();
+        shell.start();
     }
 }
