@@ -2,7 +2,7 @@ package org.iiitb.os.os_proj;
 
 import java.util.Date;
 
-public class File {
+public class UserFile {
 
 	private long id;
 	private String name;
