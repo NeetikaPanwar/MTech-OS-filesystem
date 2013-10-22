@@ -32,7 +32,7 @@ public class MongoConnectivity {
 
 		} catch (UnknownHostException e) {
 
-			success = false;
+			dbCollection = NULL;
 		}
 		return dbCollection;
 
