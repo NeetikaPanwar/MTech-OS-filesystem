@@ -114,16 +114,18 @@ public class MongoConnectivity {
 		}
 	}
 
-	public void delete(String db1, String collection1, String file_name) {
+	public void deleteFile(String file_name) {
 		DBCollection dbcollection = openConnection(COLLECTION);
 		if (dbcollection == NULL) {
 			System.out.println("connection failed");
 
 		}
-		System.out.println("connection established");
-		BasicDBObject deleteQuery = new BasicDBObject();
-		deleteQuery.put("name", file_name);
-		DBCursor cursor = dbcollection.find(deleteQuery);
+		
+		BasicDBObject basicObject = new BasicDBObject();
+		//BasicDBObject compareObject = new BasicDBObject("name", file_name);
+		basicObject.put("name", file_name);
+		DBCursor cursor = dbcollection.find(cursor.next(), get("o);
+		
 		while (cursor.hasNext()) {
 			DBObject item = cursor.next();
 			System.out.println("file deleted" + item);
