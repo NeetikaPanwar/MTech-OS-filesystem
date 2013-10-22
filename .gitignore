@@ -8,3 +8,6 @@
 #Temp files #
 *~
 /target
+.project
+*.iml
+/.idea
