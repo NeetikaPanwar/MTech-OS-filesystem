@@ -5,9 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
+import javax.swing.border.Border;
 
 public class Shell extends JFrame {
 
@@ -19,25 +18,39 @@ public class Shell extends JFrame {
 		shellPanel = new JPanel();
 		shellPanel.setBackground(new Color(0, 0, 0));
 
-		shellArea = new JTextArea(26, 44);
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
+
+        String oneline="LineMetrics does not what I want... I've looked into it a hundred times. Can I";
+        String twoline="LineMetrics does not what I want... I've looked into it a hundred times. Can I LineMetrics does not what I want... I've looked into it a hundred times. Can I";
+        String threeline="LineMetrics does not what I want... I've looked into it a hundred times. Can I LineMetrics does not what I want... I've looked into it a hundred times. Can I check";
+		shellArea = new JTextArea(26,43);
+        shellArea.setText(threeline);
+        shellArea.setVisible(true);
+        shellArea.setLineWrap(true);
+        shellArea.setWrapStyleWord(true);
+        shellArea.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(5, 10, 0, 10)));
 		shellArea.setEditable(false);
 		shellArea.setBackground(new Color(0, 0, 0));
 		shellArea.setForeground(new Color(255, 255, 255));
 
-		command = new JTextArea(5, 44);
+		command = new JTextArea(5, 43);
 		command.setForeground(new Color(255, 255, 255));
+        command.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(0, 10, 5, 10)));
 		command.setBackground(new Color(0, 0, 0));
 		command.requestFocus();
 
-		shellPanel.add(command);
 		shellPanel.add(shellArea);
+        shellPanel.add(command);
 
-		Font font = new Font("Arial",Font.PLAIN,12);
+        Font font = new Font("Arial",Font.PLAIN,12);
 		Canvas c = new Canvas();
 		FontMetrics fm = c.getFontMetrics(font);
-		System.out.println(fm.stringWidth("LineMetrics does not what I want... I've looked into it a hundred times. Can I"));
-		this.add(shellPanel);
-		shellArea.requestFocusInWindow();
-	}
+        int lines=fm.stringWidth(shellArea.getText())/407;
+        shellArea.setRows(lines);
+        revalidate();
+        this.add(shellPanel);
+    }
 
 }
