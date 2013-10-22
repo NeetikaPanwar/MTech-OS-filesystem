@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -20,8 +22,6 @@ public class Shell extends JFrame {
 
         Border border = BorderFactory.createLineBorder(Color.BLACK);
 
-        String oneline="LineMetrics does not what I want... I've looked into it a hundred times. Can I";
-        String twoline="LineMetrics does not what I want... I've looked into it a hundred times. Can I LineMetrics does not what I want... I've looked into it a hundred times. Can I";
         String threeline="LineMetrics does not what I want... I've looked into it a hundred times. Can I LineMetrics does not what I want... I've looked into it a hundred times. Can I check";
 		shellArea = new JTextArea(26,43);
         shellArea.setText(threeline);
@@ -48,8 +48,17 @@ public class Shell extends JFrame {
 		Canvas c = new Canvas();
 		FontMetrics fm = c.getFontMetrics(font);
         int lines=fm.stringWidth(shellArea.getText())/407;
+
         shellArea.setRows(lines);
         revalidate();
+
+        this.addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                command.requestFocusInWindow();
+            }
+        });
+
         this.add(shellPanel);
     }
 
