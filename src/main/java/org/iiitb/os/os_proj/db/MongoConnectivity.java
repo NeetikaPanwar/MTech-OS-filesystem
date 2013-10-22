@@ -124,12 +124,12 @@ public class MongoConnectivity {
 		BasicDBObject basicObject = new BasicDBObject();
 		//BasicDBObject compareObject = new BasicDBObject("name", file_name);
 		basicObject.put("name", file_name);
-		DBCursor cursor = dbcollection.find(cursor.next(), get("o);
+		DBCursor cursor = dbcollection.find();
 		
 		while (cursor.hasNext()) {
-			DBObject item = cursor.next();
+			String item = (String) cursor.next().get("_id");
 			System.out.println("file deleted" + item);
-			dbcollection.remove(item);
+			//dbcollection.remove(item);
 		}
 
 	}
