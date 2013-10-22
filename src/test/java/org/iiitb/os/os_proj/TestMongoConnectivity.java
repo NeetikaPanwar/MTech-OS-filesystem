@@ -30,14 +30,10 @@ public class TestMongoConnectivity {
     
 	@Test
 	public void testOpenConnection(){
-<<<<<<< HEAD
-		res= testMongo.openConnection(TESTCOLLECTION);
-    	assertNotNull(res);
-=======
+
     	MongoConnectivity testMongo = new MongoConnectivity();
     	//boolean res = testMongo.openConnection();
     	//assertTrue(res);
->>>>>>> branch 'master' of https://github.com/navinpai/OSMT2013.git
     }
 	
 	@Test
