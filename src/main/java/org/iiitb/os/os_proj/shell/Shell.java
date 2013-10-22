@@ -4,6 +4,7 @@ public class Shell {
 
 	public void start() {
 		// TODO Auto-generated method stub
+		System.out.println("I am a shell");
 		
 	}
 
