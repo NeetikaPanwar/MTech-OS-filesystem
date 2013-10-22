@@ -2,7 +2,7 @@ package org.iiitb.os.os_proj;
 
 import java.util.Date;
 
-public class File {
+public class UserFile {
 
 	private long id;
 	private String name;
@@ -10,8 +10,8 @@ public class File {
 	private Date timestamp;
 	private Date date_created;
 	private Date date_updated;
-	private Date user_created;
-	private Date user_updated;
+	private int user_created;
+	private int user_updated;
 	private String path;
 	private long file_size;
 
@@ -73,19 +73,19 @@ public class File {
 		this.date_updated = date_updated;
 	}
 
-	public Date getUser_created() {
+	public int getUser_created() {
 		return user_created;
 	}
 
-	public void setUser_created(Date user_created) {
+	public void setUser_created(int user_created) {
 		this.user_created = user_created;
 	}
 
-	public Date getUser_updated() {
+	public int getUser_updated() {
 		return user_updated;
 	}
 
-	public void setUser_updated(Date user_updated) {
+	public void setUser_updated(int user_updated) {
 		this.user_updated = user_updated;
 	}
 
