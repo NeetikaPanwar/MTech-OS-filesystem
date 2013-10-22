@@ -11,6 +11,8 @@ public class App
     public static void main( String[] args )
     {
         Shell shell=new Shell();
-        shell.start();
+        shell.setSize(500,500);
+		shell.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+		shell.setVisible(true);
     }
 }
