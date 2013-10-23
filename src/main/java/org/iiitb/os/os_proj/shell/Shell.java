@@ -1,9 +1,6 @@
 package org.iiitb.os.os_proj.shell;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -12,9 +9,13 @@ import javax.swing.border.Border;
 
 public class Shell extends JFrame {
 
-	JPanel shellPanel;
-	JTextArea shellArea;
-	JTextArea command;
+    public static final int WIDTH = 500;
+    public static final int HEIGHT = 500;
+
+    private JScrollPane scrollPane;
+	private JPanel shellPanel;
+	private JTextArea shellArea;
+	private JTextArea command;
 
 	public Shell() {
 		shellPanel = new JPanel();
@@ -22,9 +23,38 @@ public class Shell extends JFrame {
 
         Border border = BorderFactory.createLineBorder(Color.BLACK);
 
-        String threeline="LineMetrics does not what I want... I've looked into it a hundred times. Can I LineMetrics does not what I want... I've looked into it a hundred times. Can I check";
+        String multiline=" LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n" +
+                " LineMetrics does not what I want...\n I've looked into it a hundred times. Can I LineMetrics does not what I want... I've looked into it a hundred times. Can I check";
 		shellArea = new JTextArea(26,43);
-        shellArea.setText(threeline);
+        shellArea.setText(multiline);
         shellArea.setVisible(true);
         shellArea.setLineWrap(true);
         shellArea.setWrapStyleWord(true);
@@ -40,9 +70,14 @@ public class Shell extends JFrame {
                 BorderFactory.createEmptyBorder(0, 10, 5, 10)));
 		command.setBackground(new Color(0, 0, 0));
 		command.requestFocus();
+        command.setLineWrap(true);
+        command.setWrapStyleWord(true);
 
-		shellPanel.add(shellArea);
-        shellPanel.add(command);
+        shellPanel.setLayout(new BorderLayout());
+        shellPanel.add(shellArea,BorderLayout.NORTH);
+        shellPanel.add(command, BorderLayout.AFTER_LINE_ENDS);
+        shellPanel.setSize(WIDTH, HEIGHT);
+
 
         Font font = new Font("Arial",Font.PLAIN,12);
 		Canvas c = new Canvas();
@@ -58,8 +93,13 @@ public class Shell extends JFrame {
                 command.requestFocusInWindow();
             }
         });
+          scrollPane = new JScrollPane(shellPanel);
+          scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        this.add(shellPanel);
+          JScrollBar vertical = scrollPane.getVerticalScrollBar();
+          vertical.setValue( vertical.getMaximum() );
+
+        this.add(scrollPane);
     }
 
 }
