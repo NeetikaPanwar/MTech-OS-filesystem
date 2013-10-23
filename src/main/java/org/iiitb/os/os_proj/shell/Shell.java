@@ -1,16 +1,18 @@
 package org.iiitb.os.os_proj.shell;
 
+import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import javax.swing.*;
-import javax.swing.border.Border;
 
 public class Shell extends JFrame {
 
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
+    public static final int ROWS = 26;
+    public static final int COLUMNS = 43;
+    public static final int LINE_LENGTH = 407;
 
     private JScrollPane scrollPane;
 	private JPanel shellPanel;
@@ -53,7 +55,7 @@ public class Shell extends JFrame {
                 " LineMetrics does not what I want...\n" +
                 " LineMetrics does not what I want...\n" +
                 " LineMetrics does not what I want...\n I've looked into it a hundred times. Can I LineMetrics does not what I want... I've looked into it a hundred times. Can I check";
-		shellArea = new JTextArea(26,43);
+		shellArea = new JTextArea(ROWS, COLUMNS);
         shellArea.setText(multiline);
         shellArea.setVisible(true);
         shellArea.setLineWrap(true);
@@ -64,7 +66,7 @@ public class Shell extends JFrame {
 		shellArea.setBackground(new Color(0, 0, 0));
 		shellArea.setForeground(new Color(255, 255, 255));
 
-		command = new JTextArea(5, 43);
+		command = new JTextArea(COLUMNS-ROWS, COLUMNS);
 		command.setForeground(new Color(255, 255, 255));
         command.setBorder(BorderFactory.createCompoundBorder(border,
                 BorderFactory.createEmptyBorder(0, 10, 5, 10)));
@@ -82,7 +84,7 @@ public class Shell extends JFrame {
         Font font = new Font("Arial",Font.PLAIN,12);
 		Canvas c = new Canvas();
 		FontMetrics fm = c.getFontMetrics(font);
-        int lines=fm.stringWidth(shellArea.getText())/407;
+        int lines=fm.stringWidth(shellArea.getText())/ LINE_LENGTH;
 
         shellArea.setRows(lines);
         revalidate();
@@ -97,7 +99,7 @@ public class Shell extends JFrame {
           scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
           JScrollBar vertical = scrollPane.getVerticalScrollBar();
-          vertical.setValue( vertical.getMaximum() );
+          vertical.setValue(vertical.getMaximum());
 
         this.add(scrollPane);
     }
