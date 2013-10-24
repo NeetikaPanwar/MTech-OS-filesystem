@@ -49,9 +49,9 @@ public class MongoConnectivity {
 	   MongoConnectivity mainObject = new MongoConnectivity();
 	  
 	   //deleteFile.deleteFile("abc");
-	  UserFile u = mainObject.getTestFile();
-	     mainObject.updateCommon(u);
-	     mainObject.display();
+	  //UserFile u = mainObject.getTestFile();
+	 //    mainObject.updateCommon(u);
+	     mainObject.displayFile("file1");
 	 //  deleteFile.update("user", "nitika", "neha");
 	  } catch (Exception e) { 
 	  e.printStackTrace(); } }
@@ -118,6 +118,7 @@ public class MongoConnectivity {
 		dbObject.put("data", user_file.getData());
 		return dbObject;
 	}
+	//display all documents/files
 	public void display() {
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
@@ -128,6 +129,24 @@ public class MongoConnectivity {
 		cursor = dbcollection.find();
 		while (cursor.hasNext()) {
 			System.out.println(cursor.next());
+		}
+	}
+	//display a particular file 
+	public void displayFile(String file_name)
+	{
+		dbcollection = openConnection(COLLECTION);
+		if (dbcollection == null) {
+			System.out.println("connection failed");
+
+		}
+		BasicDBObject searchFile = new BasicDBObject();
+		DBObject fileToDisplay = new BasicDBObject();
+		searchFile.put("name", file_name);
+		DBCursor cursor = dbcollection.find(searchFile);
+		while(cursor.hasNext())
+		{
+			fileToDisplay = cursor.next();
+			System.out.println(fileToDisplay);
 		}
 	}
 
