@@ -1,6 +1,6 @@
 package org.iiitb.os.os_proj;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.Date;
 
@@ -9,7 +9,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import junit.framework.TestCase;
 
@@ -39,8 +43,9 @@ public class TestMongoConnectivity {
 	@Test
 	public void testAddFile(){
 		UserFile u= getTestFile();
-		testMongo.createFile(u);
-		}
+		WriteResult result=testMongo.createFile(u);
+		assertNull(result.getError());
+	}
 	
 	public UserFile getTestFile(){
 		Date date=new Date();
@@ -59,5 +64,41 @@ public class TestMongoConnectivity {
 		testFile.setUser_updated(2);
 		return testFile;
 	}
+//	@Test
+//	public void testDeletefile(){
+//		UserFile u= getTestFile();
+//		String fname=u.getName();
+//		DBObject result= testMongo.deleteFile(fname);
+//		String str=(String) result.get("name");
+//		System.out.println();                                                                                                                                                              
+//		assertEquals(str,fname);
+//		//assertTrue(str.equals(fname));
+//		}
 	
-}
+//		@Test
+//		public void testUpdatefile(){
+//			UserFile u= getTestFile();
+//			String fname=u.getName();
+//			String newfilename="kanchan";
+//			WriteResult result= testMongo.updateFile(fname,newfilename);
+//			
+//			assertNull(result.getError());
+//			
+//			
+//		}
+//		@Test
+//		public void testDisplayFile(){
+//			UserFile u=getTestFile();
+//			String file_name=u.getName();
+//			DBCursor cursor= testMongo.displayFile(file_name);
+//			BasicDBObject basicObject1 = (BasicDBObject) cursor.next();
+//			String str=(String) basicObject1.get("name");
+//			
+//			//assertTrue(str.equals(file_name));
+//			assertEquals(str,file_name);
+//			
+//		}
+	}
+	
+
+
