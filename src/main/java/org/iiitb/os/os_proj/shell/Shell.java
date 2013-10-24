@@ -50,7 +50,7 @@ public class Shell extends JFrame {
         int lines=fm.stringWidth(shellArea.getText())/407;
 
         shellArea.setRows(lines);
-        revalidate();
+        //revalidate();
 
         this.addWindowFocusListener(new WindowAdapter() {
             @Override

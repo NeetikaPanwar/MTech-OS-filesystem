@@ -1,6 +1,7 @@
 package org.iiitb.os.os_proj.db;
 
 import java.net.UnknownHostException;
+import java.util.Date;
 
 import org.bson.types.ObjectId;
 import org.iiitb.os.os_proj.UserFile;
@@ -20,6 +21,7 @@ public class MongoConnectivity {
 	private static String COLLECTION="newCollection";
 	
 	private BasicDBObject dbObject;
+	private BasicDBObject dbObject_update;
 	private MongoClient mongoClient;
 	private DB db;
 	private DBCollection dbCollection;
@@ -42,13 +44,18 @@ public class MongoConnectivity {
 	}
 
 	
-	  public static void main(String[] args) { 
+	/* public static void main(String[] args) { 
 		  try {
-	   MongoConnectivity deleteFile = new MongoConnectivity();
-	   deleteFile.deleteFile("abc");
-	  } catch (Exception e) { // TODO Auto-generated catch block
+	   MongoConnectivity mainObject = new MongoConnectivity();
+	  
+	   //deleteFile.deleteFile("abc");
+	  UserFile u = mainObject.getTestFile();
+	     mainObject.updateCommon(u);
+	     mainObject.display();
+	 //  deleteFile.update("user", "nitika", "neha");
+	  } catch (Exception e) { 
 	  e.printStackTrace(); } }
-	 
+	 */
 
 	public WriteResult createFile(UserFile u) {
 		dbObject = new BasicDBObject();
@@ -72,38 +79,46 @@ public class MongoConnectivity {
 			System.out.println("connection failed");
 		}
 		WriteResult result=dbcollection.insert(dbObject);
+		System.out.println(result);
 		return result;
 	}
 
-	public void update(String database, String collection1, String file_name,
-			String file_newname) {
+	public void updateCommon(UserFile user_file_info) {
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
 
 		}
-		System.out.println("collection" + dbcollection);
-		BasicDBObject toUpdate = new BasicDBObject();
-		toUpdate.put("name", file_newname);
-		BasicDBObject toOld = new BasicDBObject();
-		toOld.put("name", file_name);
-
-		DBCursor testItemsCursor = dbcollection.find(toOld);
-
-		if (testItemsCursor.hasNext()) {
-
-			DBObject testCodeItem = testItemsCursor.next();
-
-			dbcollection.update(toOld, toUpdate);
-
-		} else {
-			System.out.println("record not found");
+		BasicDBObject updated_object = updateFile(user_file_info);
+		BasicDBObject curr_object = new BasicDBObject();
+		curr_object.put("id", user_file_info.getId());
+		
+		DBCursor cursor = dbcollection.find(curr_object);
+		DBObject current_object = new BasicDBObject();
+		while(cursor.hasNext())
+		{
+			current_object = cursor.next();
 		}
-
+		
+		dbcollection.update(current_object, updated_object);
 	}
-
-	public void display(String database, String collection1,
-			String file_name) {
+	public BasicDBObject updateFile(UserFile user_file)
+	{
+		dbObject = new BasicDBObject();
+		dbObject.put("id", user_file.getId());
+		dbObject.put("name", user_file.getName());
+		dbObject.put("filetypeId", user_file.getFiletypeId());
+		dbObject.put("timestamp", user_file.getTimestamp());
+		dbObject.put("date_created", user_file.getDate_created());
+		dbObject.put("date_updated", user_file.getDate_updated());
+		dbObject.put("user_created", user_file.getUser_created());
+		dbObject.put("user_updated", user_file.getUser_updated());
+		dbObject.put("path", user_file.getPath());
+		dbObject.put("file_size", user_file.getFile_size());
+		dbObject.put("data", user_file.getData());
+		return dbObject;
+	}
+	public void display() {
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
@@ -148,4 +163,5 @@ public class MongoConnectivity {
 		}
 		DBObject dbo= dbcollection.findAndRemove(objectToDelete);
 	}
+	
 }
