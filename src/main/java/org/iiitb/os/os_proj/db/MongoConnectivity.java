@@ -83,7 +83,7 @@ public class MongoConnectivity {
 		return result;
 	}
 
-	public void updateCommon(UserFile user_file_info) {
+	public WriteResult updateCommon(UserFile user_file_info) {
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
@@ -100,7 +100,7 @@ public class MongoConnectivity {
 			current_object = cursor.next();
 		}
 		
-		dbcollection.update(current_object, updated_object);
+		return dbcollection.update(current_object, updated_object);
 	}
 	public BasicDBObject updateFile(UserFile user_file)
 	{
@@ -132,7 +132,7 @@ public class MongoConnectivity {
 		}
 	}
 	//display a particular file 
-	public void displayFile(String file_name)
+	public DBCursor displayFile(String file_name)
 	{
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
@@ -148,6 +148,7 @@ public class MongoConnectivity {
 			fileToDisplay = cursor.next();
 			System.out.println(fileToDisplay);
 		}
+		return cursor;
 	}
 
 	public  DBObject deleteFile(String file_name) {

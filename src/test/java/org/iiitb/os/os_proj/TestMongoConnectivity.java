@@ -2,6 +2,7 @@ package org.iiitb.os.os_proj;
 
 import static org.junit.Assert.*;
 
+
 import java.util.Date;
 
 import org.iiitb.os.os_proj.db.MongoConnectivity;
@@ -36,8 +37,8 @@ public class TestMongoConnectivity {
 	public void testOpenConnection(){
 
     	MongoConnectivity testMongo = new MongoConnectivity();
-    	//boolean res = testMongo.openConnection();
-    	//assertTrue(res);
+    	 res = testMongo.openConnection(TESTCOLLECTION);
+    	assertEquals(TESTCOLLECTION,res);
     }
 	
 	@Test
@@ -64,40 +65,39 @@ public class TestMongoConnectivity {
 		testFile.setUser_updated(2);
 		return testFile;
 	}
-//	@Test
-//	public void testDeletefile(){
-//		UserFile u= getTestFile();
-//		String fname=u.getName();
-//		DBObject result= testMongo.deleteFile(fname);
-//		String str=(String) result.get("name");
-//		System.out.println();                                                                                                                                                              
-//		assertEquals(str,fname);
-//		//assertTrue(str.equals(fname));
-//		}
+	@Test
+	public void testDeletefile(){
+		UserFile u= getTestFile();
+		String fname=u.getName();
+		DBObject result= testMongo.deleteFile(fname);
+		String str=(String) result.get("name");
+		System.out.println();                                                                                                                                                              
+		assertEquals(str,fname);
+		
+	}
 	
-//		@Test
-//		public void testUpdatefile(){
-//			UserFile u= getTestFile();
-//			String fname=u.getName();
-//			String newfilename="kanchan";
-//			WriteResult result= testMongo.updateFile(fname,newfilename);
-//			
-//			assertNull(result.getError());
-//			
-//			
-//		}
-//		@Test
-//		public void testDisplayFile(){
-//			UserFile u=getTestFile();
-//			String file_name=u.getName();
-//			DBCursor cursor= testMongo.displayFile(file_name);
-//			BasicDBObject basicObject1 = (BasicDBObject) cursor.next();
-//			String str=(String) basicObject1.get("name");
-//			
-//			//assertTrue(str.equals(file_name));
-//			assertEquals(str,file_name);
-//			
-//		}
+		@Test
+		public void testUpdatefile(){
+			UserFile u= getTestFile();
+			
+			WriteResult result= testMongo.updateCommon(u);
+			
+			assertNull(result.getError());
+			
+			
+		}
+		@Test
+		public void testDisplayFile(){
+			UserFile u=getTestFile();
+			String file_name=u.getName();
+			DBCursor  cursor= testMongo.displayFile(file_name);
+			BasicDBObject basicObject1 = (BasicDBObject) cursor.next();
+			String str=(String) basicObject1.get("name");
+			
+			//assertTrue(str.equals(file_name));
+			assertEquals(str,file_name);
+			
+		}
 	}
 	
 
