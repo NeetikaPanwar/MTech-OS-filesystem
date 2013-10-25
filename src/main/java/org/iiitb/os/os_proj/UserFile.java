@@ -13,7 +13,7 @@ public class UserFile {
 	private int user_created;
 	private int user_updated;
 	private String path;
-	private long file_size;
+	private double file_size;
 
 	private String data;
 
@@ -97,11 +97,11 @@ public class UserFile {
 		this.path = path;
 	}
 
-	public long getFile_size() {
+	public double getFile_size() {
 		return file_size;
 	}
 
-	public void setFile_size(long file_size) {
+	public void setFile_size(double file_size) {
 		this.file_size = file_size;
 	}
 

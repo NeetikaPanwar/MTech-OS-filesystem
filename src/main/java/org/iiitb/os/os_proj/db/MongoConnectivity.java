@@ -1,10 +1,14 @@
 package org.iiitb.os.os_proj.db;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bson.types.ObjectId;
 import org.iiitb.os.os_proj.UserFile;
+import org.iiitb.os.os_proj.shell.Shell;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -27,7 +31,7 @@ public class MongoConnectivity {
 	private DBCollection dbCollection;
 	private DBCollection dbcollection;
 	private DBCursor cursor;
-
+	
 	public DBCollection openConnection(String dbcollection) {
 		
 		try {
@@ -47,15 +51,16 @@ public class MongoConnectivity {
 	/* public static void main(String[] args) { 
 		  try {
 	   MongoConnectivity mainObject = new MongoConnectivity();
-	  
+	   Shell shell = new Shell();
+	   
 	   //deleteFile.deleteFile("abc");
 	  //UserFile u = mainObject.getTestFile();
 	 //    mainObject.updateCommon(u);
-	     mainObject.displayFile("file1");
+	   //  mainObject.displayFile("file1");
 	 //  deleteFile.update("user", "nitika", "neha");
 	  } catch (Exception e) { 
-	  e.printStackTrace(); } }
-	 */
+	  e.printStackTrace(); } }*/
+	 
 
 	public WriteResult createFile(UserFile u) {
 		dbObject = new BasicDBObject();
@@ -118,22 +123,10 @@ public class MongoConnectivity {
 		dbObject.put("data", user_file.getData());
 		return dbObject;
 	}
-	//display all documents/files
-	public void display() {
-		dbcollection = openConnection(COLLECTION);
-		if (dbcollection == null) {
-			System.out.println("connection failed");
-
-		}
-		System.out.println("database" + db);
-		cursor = dbcollection.find();
-		while (cursor.hasNext()) {
-			System.out.println(cursor.next());
-		}
-	}
-	//display a particular file 
-	public DBCursor displayFile(String file_name)
+		//display a particular file 
+	public ArrayList<UserFile> getFiles(Map<String,String> constraints)
 	{
+		ArrayList<UserFile> files = new ArrayList<UserFile>();
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
@@ -141,15 +134,35 @@ public class MongoConnectivity {
 		}
 		BasicDBObject searchFile = new BasicDBObject();
 		DBObject fileToDisplay = new BasicDBObject();
-		searchFile.put("name", file_name);
+		for (Entry<String, String> entry : constraints.entrySet()) {
+		    searchFile.put(entry.getKey(),entry.getValue());
+		}
+		
 		DBCursor cursor = dbcollection.find(searchFile);
 		while(cursor.hasNext())
-		{
-			fileToDisplay = cursor.next();
-			System.out.println(fileToDisplay);
+		{	
+			files.add(convertToUserFile(cursor.next()));
 		}
-		return cursor;
+		return files;
 	}
+
+	private UserFile convertToUserFile(DBObject dbo) {
+			UserFile u=new UserFile();
+			//u.setId((long) dbo.get("id"));
+			u.setName((String) dbo.get("name"));
+			u.setFiletypeId((Integer) dbo.get("filetypeId"));
+			u.setTimestamp((Date) dbo.get("timestamp"));
+			u.setDate_created((Date) dbo.get("date_created"));
+			u.setDate_updated((Date) dbo.get("date_updated"));
+			u.setUser_created((Integer) dbo.get("user_created"));
+			u.setUser_updated((Integer) dbo.get("user_updated"));
+			u.setPath((String) dbo.get("path"));
+			u.setFile_size((Double) dbo.get("file_size"));
+			u.setData((String) dbo.get("data"));
+			
+			return u;
+		}
+
 
 	public  DBObject deleteFile(String file_name) {
 		dbcollection = openConnection(COLLECTION);
@@ -167,21 +180,22 @@ public class MongoConnectivity {
 		basicObject1 = cursor.next();
 		basicObject1.get("_id");
 		}
+		return delete(basicObject1);
 		
-		return basicObject1;
 		/*while (cursor.hasNext()) {
 			ObjectId item = (ObjectId) cursor.next().get("_id");
 			System.out.println("file deleted" + item.toString());
 			//dbcollection.remove(basicObject);
 		}*/
 	}
-	public void delete(DBObject objectToDelete)
+	public DBObject delete(DBObject objectToDelete)
 	{
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
 		}
 		DBObject dbo= dbcollection.findAndRemove(objectToDelete);
+	return dbo;
 	}
 	
 }
