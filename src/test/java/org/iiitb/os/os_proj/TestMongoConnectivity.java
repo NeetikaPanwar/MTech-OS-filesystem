@@ -64,12 +64,12 @@ public class TestMongoConnectivity {
 		res.findAndRemove(dbo);
 	}
 
-	@Ignore
+	@Test
 	public void testOpenConnection() {
 
 		MongoConnectivity testMongo = new MongoConnectivity();
 		res = testMongo.openConnection(TESTCOLLECTION);
-		assertEquals(TESTCOLLECTION, res);
+		assertEquals(TESTCOLLECTION, res.getName());
 	}
 
 	@Test
@@ -129,9 +129,9 @@ public class TestMongoConnectivity {
 		constraints.put("name", "Kanchu17");
 		UserFile u = getTestFile();
 		String file_name = u.getName();
-		/*ArrayList<UserFile> files = testMongo.getFiles(constraints);
+		ArrayList<UserFile> files = testMongo.getFiles(constraints);
 		for (int i = 0; i < files.size(); i++) {
 			System.out.println(files.get(i).getName());
-		}*/
+		}
 			}
 }
