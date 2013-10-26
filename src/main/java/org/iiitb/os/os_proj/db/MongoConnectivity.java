@@ -3,6 +3,7 @@ package org.iiitb.os.os_proj.db;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -31,6 +32,7 @@ public class MongoConnectivity {
 	private DBCollection dbCollection;
 	private DBCollection dbcollection;
 	private DBCursor cursor;
+	private ArrayList <DBObject> listOfObjects = new ArrayList<DBObject>();
 	
 	public DBCollection openConnection(String dbcollection) {
 		
@@ -51,16 +53,17 @@ public class MongoConnectivity {
 	/* public static void main(String[] args) { 
 		  try {
 	   MongoConnectivity mainObject = new MongoConnectivity();
-	   Shell shell = new Shell();
-	   
-	   //deleteFile.deleteFile("abc");
+	   //Map<String, String> constraints = new HashMap<String, String>();
+		//constraints.put("name", "Kanchu17");
+	   //mainObject.getFiles(constraints);
+	   mainObject.deleteFile("file1");
 	  //UserFile u = mainObject.getTestFile();
 	 //    mainObject.updateCommon(u);
 	   //  mainObject.displayFile("file1");
 	 //  deleteFile.update("user", "nitika", "neha");
 	  } catch (Exception e) { 
-	  e.printStackTrace(); } }*/
-	 
+	  e.printStackTrace(); } }
+	 */
 
 	public WriteResult createFile(UserFile u) {
 		dbObject = new BasicDBObject();
@@ -143,8 +146,12 @@ public class MongoConnectivity {
 		{	
 			files.add(convertToUserFile(cursor.next()));
 		}
+		for(int i = 0;i<files.size(); i++)
+		{
+			System.out.println(files.get(i).getName());
+		}
 		return files;
-	}
+		}
 
 	private UserFile convertToUserFile(DBObject dbo) {
 			UserFile u=new UserFile();
@@ -164,7 +171,7 @@ public class MongoConnectivity {
 		}
 
 
-	public  DBObject deleteFile(String file_name) {
+	public void deleteFile(String file_name) {
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
@@ -176,11 +183,11 @@ public class MongoConnectivity {
 		DBCursor  cursor = dbcollection.find(basicObject); 
 		while(cursor.hasNext())
 		{
-			
-		basicObject1 = cursor.next();
-		basicObject1.get("_id");
+		
+		listOfObjects.add(cursor.next());
+		
 		}
-		return delete(basicObject1);
+		delete(listOfObjects);
 		
 		/*while (cursor.hasNext()) {
 			ObjectId item = (ObjectId) cursor.next().get("_id");
@@ -188,14 +195,19 @@ public class MongoConnectivity {
 			//dbcollection.remove(basicObject);
 		}*/
 	}
-	public DBObject delete(DBObject objectToDelete)
+	public void delete(ArrayList<DBObject> listOfObjects2)
 	{
+		int i = 0;
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
 		}
-		DBObject dbo= dbcollection.findAndRemove(objectToDelete);
-	return dbo;
+		while(i<listOfObjects.size())
+		{
+			dbcollection.findAndRemove(listOfObjects2.get(i));	
+		i++;
+		}
+
 	}
 	
 }
