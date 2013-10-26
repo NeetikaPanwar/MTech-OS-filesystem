@@ -33,7 +33,7 @@ public class TestMongoConnectivity {
 	public static void setupDB(){
 		testMongo = new MongoConnectivity();
 		res = testMongo.openConnection(TESTCOLLECTION);
-		res.drop();
+		//res.drop();
 	}
 	
 	@Before
