@@ -2,9 +2,14 @@ package org.iiitb.os.os_proj.controller;
 
 import java.util.ArrayList;
 
+import org.iiitb.os.os_proj.db.MongoConnectivity;
+
 public class CallCommand {
 	
 	public CallCommand(){
+		
+		MongoConnectivity mongoConnection = new MongoConnectivity();
+		//mongoConnection.openConnection(MongoConnectivity.COLLECTION);
 		
 	}
 	
@@ -29,19 +34,11 @@ public class CallCommand {
 		
 		ArrayList<String> file_list = new ArrayList<String>();
 		
-		//Search in db for this path.
-		String file_path = new String("Extract file path from db.");
-		//file_path = "/home/rajat";
+		//Search in db for this path and get the list of files
 		
 		
-		//if dir_path matches then add name of file to the list of files in that directory
-		if(file_path.matches(dir_path + "/(.)*")){
-			String splitted_filepath[] = file_path.split("/");
-			//System.out.println(splitted_filepath[splitted_filepath.length - 1]);
-			file_list.add(splitted_filepath[splitted_filepath.length - 1]);
-		}
 		
-		//return the list of files to the controller
+		//return to controller
 		return file_list;
 	}
 	
