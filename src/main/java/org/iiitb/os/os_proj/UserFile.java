@@ -15,6 +15,7 @@ public class UserFile {
 	private String path;
 	private double file_size;
 
+	private boolean isDirectory;
 	private String data;
 
 	public String getData() {
@@ -103,6 +104,14 @@ public class UserFile {
 
 	public void setFile_size(double file_size) {
 		this.file_size = file_size;
+	}
+
+	public boolean isDirectory() {
+		return isDirectory;
+	}
+
+	public void setDirectory(boolean isDirectory) {
+		this.isDirectory = isDirectory;
 	}
 
 }
