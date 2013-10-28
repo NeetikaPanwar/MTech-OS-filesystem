@@ -16,6 +16,7 @@ public class UserFile {
 	private double file_size;
 
 	private boolean isDirectory;
+
 	private String data;
 
 	public String getData() {

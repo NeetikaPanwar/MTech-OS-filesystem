@@ -7,10 +7,10 @@ public class Controller {
 	private String cmd_list[] = { "pwd", "cd", "ls", "mkdir", "rmdir",
 			"locate", "cat", "touch", "file", "filesize", "mv", "head", "tail" };
 
-	private String current_path = "";
+	public static String CURRENT_PATH = "";
 
 	public Controller(String path) {		
-		this.current_path = path;
+		this.CURRENT_PATH = path;
 	}
 
 	private void call(String cmd) {
@@ -27,24 +27,24 @@ public class Controller {
 		}
 
 		switch (cmd_val) {
-		case 0:	String path = CallCommand.pwd(current_path);
+		case 0:	String path = CallCommand.pwd(CURRENT_PATH);
 				System.out.println("pass path to shell through controller" + path);
 				break;
 				
-		case 1:	CallCommand.cd(current_path, cmd);
+		case 1:	CallCommand.cd(CURRENT_PATH, cmd);
 				System.out.println("String path = pwd(); cd(path,statement);");
 				break;
 				
-		case 2:	ArrayList<String> file_list = CallCommand.ls(current_path);
+		case 2:	ArrayList<String> file_list = CallCommand.ls(CURRENT_PATH);
 				System.out.println("Pass this list to shell to display." + file_list);
 				break;
 				
 		case 3:	String split_cmd1[] = cmd.split(" ");	
-				CallCommand.mkdir(current_path, split_cmd1[split_cmd1.length - 1]);
+				CallCommand.mkdir(CURRENT_PATH, split_cmd1[split_cmd1.length - 1]);
 				break;
 				
 		case 4:	String split_cmd2[] = cmd.split(" ");	
-				CallCommand.rmdir(current_path, split_cmd2[split_cmd2.length - 1]);
+				CallCommand.rmdir(CURRENT_PATH, split_cmd2[split_cmd2.length - 1]);
 				break;
 				
 		default:System.out.println("Command not found.");
