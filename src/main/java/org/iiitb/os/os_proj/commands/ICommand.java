@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public interface ICommand {
 
     DBCollection mongoCollection=new MongoConnectivity().openConnection(MongoConnectivity.DATABASE,MongoConnectivity.COLLECTION);
+    public static String SUCCESS="SUCCESS";
+    public static String FAILURE="FAILURE";
 
 	public ArrayList<String> runCommand(ArrayList<String> params);
 }
