@@ -11,16 +11,12 @@ import org.iiitb.os.os_proj.db.MongoConnectivity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
-import junit.framework.TestCase;
 
 public class TestMongoConnectivity {
 
@@ -54,6 +50,7 @@ public class TestMongoConnectivity {
 		testFile.setUser_updated(2);
 		
 		WriteResult result = testMongo.createFile(testFile);
+        assertNotNull(result);
 		
 	}
 	
@@ -78,14 +75,7 @@ public class TestMongoConnectivity {
 		WriteResult result = testMongo.createFile(u);
 		assertNull(result.getError());
 	}
-	
-	public void addTestFile() {
-		UserFile u = getTestFile();
-		WriteResult result = testMongo.createFile(u);
-		assertNull(result.getError());
-	}
-
-	public UserFile getTestFile() {
+    public UserFile getTestFile() {
 		Date date = new Date();
 		UserFile testFile = new UserFile();
 		testFile.setData("This is test data");
@@ -130,8 +120,8 @@ public class TestMongoConnectivity {
 		UserFile u = getTestFile();
 		String file_name = u.getName();
 		ArrayList<UserFile> files = testMongo.getFiles(constraints);
-		for (int i = 0; i < files.size(); i++) {
-			System.out.println(files.get(i).getName());
-		}
+        for (UserFile file : files) {
+            assertEquals(file_name,file.getName());
+        }
 			}
 }
