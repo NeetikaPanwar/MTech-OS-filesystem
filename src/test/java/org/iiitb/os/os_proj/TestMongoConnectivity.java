@@ -28,7 +28,7 @@ public class TestMongoConnectivity {
 	@BeforeClass
 	public static void setupDB(){
 		testMongo = new MongoConnectivity();
-		res = testMongo.openConnection(TESTCOLLECTION);
+		res = testMongo.openConnection(TESTDB,TESTCOLLECTION);
 		res.drop();
 	}
 	
@@ -65,7 +65,7 @@ public class TestMongoConnectivity {
 	public void testOpenConnection() {
 
 		MongoConnectivity testMongo = new MongoConnectivity();
-		res = testMongo.openConnection(TESTCOLLECTION);
+		res = testMongo.openConnection(TESTDB,TESTCOLLECTION);
 		assertEquals(TESTCOLLECTION, res.getName());
 	}
 
