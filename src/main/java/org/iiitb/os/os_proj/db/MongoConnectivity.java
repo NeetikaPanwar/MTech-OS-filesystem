@@ -3,13 +3,10 @@ package org.iiitb.os.os_proj.db;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.bson.types.ObjectId;
 import org.iiitb.os.os_proj.UserFile;
-import org.iiitb.os.os_proj.shell.Shell;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -20,18 +17,15 @@ import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
 public class MongoConnectivity {
-	
-	private static final DBCollection NULL = null;
+
 	private static String DATABASE="newDatabase";
 	private static String COLLECTION="newCollection";
 	
 	private BasicDBObject dbObject;
-	private BasicDBObject dbObject_update;
 	private MongoClient mongoClient;
 	private DB db;
 	private DBCollection dbCollection;
 	private DBCollection dbcollection;
-	private DBCursor cursor;
 	private ArrayList <DBObject> listOfObjects = new ArrayList<DBObject>();
 	
 	public DBCollection openConnection(String dbcollection) {
@@ -49,21 +43,6 @@ public class MongoConnectivity {
 
 	}
 
-	
-	/* public static void main(String[] args) { 
-		  try {
-	   MongoConnectivity mainObject = new MongoConnectivity();
-	   //Map<String, String> constraints = new HashMap<String, String>();
-		//constraints.put("name", "Kanchu17");
-	   //mainObject.getFiles(constraints);
-	   mainObject.deleteFile("file1");
-	  //UserFile u = mainObject.getTestFile();
-	 //    mainObject.updateCommon(u);
-	   //  mainObject.displayFile("file1");
-	 //  deleteFile.update("user", "nitika", "neha");
-	  } catch (Exception e) { 
-	  e.printStackTrace(); } }
-	 */
 
 	public WriteResult createFile(UserFile u) {
 		dbObject = new BasicDBObject();
@@ -86,8 +65,11 @@ public class MongoConnectivity {
 		if (dbcollection == null) {
 			System.out.println("connection failed");
 		}
-		WriteResult result=dbcollection.insert(dbObject);
-		System.out.println(result);
+        WriteResult result= null;
+        if (dbcollection != null) {
+            result = dbcollection.insert(dbObject);
+        }
+        System.out.println(result);
 		return result;
 	}
 
@@ -136,7 +118,6 @@ public class MongoConnectivity {
 
 		}
 		BasicDBObject searchFile = new BasicDBObject();
-		DBObject fileToDisplay = new BasicDBObject();
 		for (Entry<String, String> entry : constraints.entrySet()) {
 		    searchFile.put(entry.getKey(),entry.getValue());
 		}
@@ -146,16 +127,15 @@ public class MongoConnectivity {
 		{	
 			files.add(convertToUserFile(cursor.next()));
 		}
-		for(int i = 0;i<files.size(); i++)
-		{
-			System.out.println(files.get(i).getName());
-		}
+        for (UserFile file : files) {
+            System.out.println(file.getName());
+        }
 		return files;
 		}
 
 	private UserFile convertToUserFile(DBObject dbo) {
 			UserFile u=new UserFile();
-			//u.setId((long) dbo.get("id"));
+			u.setId(((Number) dbo.get("id")).longValue());
 			u.setName((String) dbo.get("name"));
 			u.setFiletypeId((Integer) dbo.get("filetypeId"));
 			u.setTimestamp((Date) dbo.get("timestamp"));
@@ -164,7 +144,7 @@ public class MongoConnectivity {
 			u.setUser_created((Integer) dbo.get("user_created"));
 			u.setUser_updated((Integer) dbo.get("user_updated"));
 			u.setPath((String) dbo.get("path"));
-			u.setFile_size((Double) dbo.get("file_size"));
+			u.setFile_size(((Number) dbo.get("file_size")).longValue());
 			u.setData((String) dbo.get("data"));
 			
 			return u;
@@ -178,7 +158,6 @@ public class MongoConnectivity {
 		}
 		
 		BasicDBObject basicObject = new BasicDBObject();
-		DBObject basicObject1 = new BasicDBObject(); 
 		basicObject.put("name", file_name);
 		DBCursor  cursor = dbcollection.find(basicObject); 
 		while(cursor.hasNext())

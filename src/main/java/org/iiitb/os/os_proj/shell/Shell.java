@@ -5,6 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class Shell extends JFrame {
 
@@ -13,6 +14,7 @@ public class Shell extends JFrame {
     public static final int ROWS = 26;
     public static final int COLUMNS = 43;
     public static final int LINE_LENGTH = 407;
+    public static String userString="";
 
     private JScrollPane scrollPane;
 	private JPanel shellPanel;
@@ -103,5 +105,17 @@ public class Shell extends JFrame {
 
         this.add(scrollPane);
     }
-	
+
+    public ArrayList<String> login(String username,String password){
+        //check username/pass and login
+
+        return null;
+    }
+
+    public ArrayList<String> logout(){
+        //check username/pass and login
+
+        return null;
+    }
+
 }
