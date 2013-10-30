@@ -18,8 +18,8 @@ import com.mongodb.WriteResult;
 
 public class MongoConnectivity {
 
-    public static String DATABASE;
-    public static String COLLECTION;
+    public static String DATABASE="newDatabase";
+    public static String COLLECTION="newCollection";
 
     private BasicDBObject dbObject;
     private MongoClient mongoClient;
