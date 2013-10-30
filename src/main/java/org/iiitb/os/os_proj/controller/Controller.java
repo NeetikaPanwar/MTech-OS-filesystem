@@ -1,6 +1,9 @@
 package org.iiitb.os.os_proj.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.iiitb.os.os_proj.commands.Cat;
 import org.iiitb.os.os_proj.commands.Cd;
@@ -20,6 +23,10 @@ public class Controller {
 
 	private String cmd_list[] = { "cat", "cd", "file", "filesize", "head", "locate", "ls", "mkdir", "mv", 
 			"pwd", "rmdir", "tail", "touch"};
+	
+	private enum commands {
+		cat, cd, file, filesize, head, locate, ls, mkdir, mv, pwd, rmdir, tail, touch
+	}
 
 	public static String CURRENT_PATH = "";
 
@@ -28,86 +35,77 @@ public class Controller {
 	}
 
 	private void call(String cmd) {
-
-		int cmd_val = -1;
-
-		for (int i = 0; i < cmd_list.length; i++) {
-
-			if (cmd.matches(cmd_list[i] + "(.)*")) {
-
-				cmd_val = i;
-				break;
-			}
-		}
 		
-		String split_cmd[] = cmd.split(" ");
+		cmd = cmd.trim();
+		List<String> params = new LinkedList<String>(Arrays.asList(cmd.split(" ")));
+		String split_cmd = params.remove(0);
 		
-		ArrayList<String> params = new ArrayList<String>();
+		//ArrayList<String> params = ;
 		ArrayList<String> result = new ArrayList<String>();
 
-		switch (cmd_val) {
-		case 0:	Cat cat = new Cat();
+		switch (commands.valueOf(split_cmd)) {
+		case cat:	Cat cat = new Cat();
 				result = cat.runCommand(params);
 				System.out.println(result);
 				break;
 				
-		case 1:	Cd cd = new Cd();
+		case cd:	Cd cd = new Cd();
 				params.add(split_cmd[1]);
 				result = cd.runCommand(params);
 				System.out.println(result);
 				break;
 				
-		case 2:	File file = new File();
+		case file:	File file = new File();
 				result = file.runCommand(params);
 				System.out.println(result);
 				break;
 				
-		case 3:	Filesize fs = new Filesize();
+		case filesize:	Filesize fs = new Filesize();
 				result = fs.runCommand(params);
 				System.out.println(result);
 				break;
 				
-		case 4:	Head head = new Head();
+		case head:	Head head = new Head();
 				result = head.runCommand(params);
 				System.out.println(result);
 				break;
 				
-		case 5:	Locate locate = new Locate();
+		case locate:	Locate locate = new Locate();
 				result = locate.runCommand(params);
 				System.out.println(result);
 				break;
 		
-		case 6:	Ls ls = new Ls();
+		case ls:	Ls ls = new Ls();
 				result = ls.runCommand(params);
 				System.out.println(result);
 				break;
 		
-		case 7:	Mkdir mkdir = new Mkdir();
+		case mkdir:	Mkdir mkdir = new Mkdir();
 				result = mkdir.runCommand(params);
 				System.out.println(result);
 				break;
 				
-		case 8:	Mv mv = new Mv();
+		case mv:	Mv mv = new Mv();
 				result = mv.runCommand(params);
 				System.out.println(result);
 				break;
 		
-		case 9:	Pwd pwd = new Pwd();
+		case pwd:	Pwd pwd = new Pwd();
 				result = pwd.runCommand(params);
 				System.out.println(result);
 				break;
 		
-		case 10:Rmdir rmdir = new Rmdir();
+		case rmdir:Rmdir rmdir = new Rmdir();
 				result = rmdir.runCommand(params);
 				System.out.println(result);
 				break;
 		
-		case 11:Tail tail = new Tail();
+		case tail:Tail tail = new Tail();
 				result = tail.runCommand(params);
 				System.out.println(result);
 				break;
 				
-		case 12:Touch touch = new Touch();
+		case touch:Touch touch = new Touch();
 				result = touch.runCommand(params);
 				System.out.println(result);
 				break;
@@ -119,8 +117,7 @@ public class Controller {
 
 	public static void main(String args[]) {
 
-		new Controller("ls cde re");
-
+		new Controller("").call("cat desktop rajat");
 	}
 
 }
