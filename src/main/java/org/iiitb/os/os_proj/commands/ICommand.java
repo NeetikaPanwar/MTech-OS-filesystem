@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 public interface ICommand {
 
-    DBCollection mongoCollection=new MongoConnectivity(MongoConnectivity.DATABASE).openConnection(MongoConnectivity.COLLECTION);
+	MongoConnectivity mongoConnect = new MongoConnectivity(MongoConnectivity.DATABASE);
+    DBCollection mongoCollection = mongoConnect.openConnection(MongoConnectivity.COLLECTION);
     public static String SUCCESS="SUCCESS";
     public static String FAILURE="FAILURE";
 

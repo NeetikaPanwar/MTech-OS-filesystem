@@ -10,25 +10,24 @@ import org.iiitb.os.os_proj.db.MongoConnectivity;
 public class Filesize implements ICommand {
 
 	public ArrayList<String> runCommand(ArrayList<String> params) {
-		int i = 0;
-		int receivedFileSize;
+		long receivedFileSize;
 		ArrayList<String> result=new ArrayList<String>();
 		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
-		MongoConnectivity fileSearch = new MongoConnectivity();
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", params.get(0));
-		receivedFile = fileSearch.getFiles(constraints);
+		receivedFile = mongoConnect.getFiles(constraints);
 		
-		while(i<receivedFile.size())
-		{
-			receivedFileSize = receivedFile.get(i).getFile_size();
-			i++;
-		}
 		if(receivedFile.size()==0)
 		{
-			result.add("failure");
-			result.add("file does not exist");
+			result.add(ICommand.FAILURE);
+			result.add("File cannot be found");
 			
+		}
+		else{ 
+		{	result.add(ICommand.SUCCESS);
+			result.add(String.valueOf(receivedFile.get(0).getFile_size()));
+			
+		}
 		}
 		//search in db for file
 		//if exists, return success and filesize
