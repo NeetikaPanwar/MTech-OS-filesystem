@@ -8,7 +8,7 @@ public class CallCommand {
 	
 	public CallCommand(){
 		
-		MongoConnectivity mongoConnection = new MongoConnectivity();
+		MongoConnectivity mongoConnection = new MongoConnectivity(MongoConnectivity.DATABASE);
 		//mongoConnection.openConnection(MongoConnectivity.COLLECTION);
 		
 	}

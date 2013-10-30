@@ -30,7 +30,7 @@ public class Shell extends JFrame {
         String multiline=" LineMetrics does not what I want...\n" +
                 " LineMetrics does not what I want...\n" +
                 " LineMetrics does not what I want...\n" +
-                " LineMetrics does not what I want...\n" +
+                " LineMetrics does n    ot what I want...\n" +
                 " LineMetrics does not what I want...\n" +
                 " LineMetrics does not what I want...\n" +
                 " LineMetrics does not what I want...\n" +

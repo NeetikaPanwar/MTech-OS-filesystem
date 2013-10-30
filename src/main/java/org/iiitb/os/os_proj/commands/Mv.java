@@ -18,7 +18,7 @@ public class Mv implements ICommand {
 		int i=0;
 		String source=params.get(0);
 		String destination=params.get(1);
-		MongoConnectivity testMongo=new MongoConnectivity();
+		MongoConnectivity testMongo=new MongoConnectivity(MongoConnectivity.DATABASE);
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", source);
 		Map<String, String> constraints1 = new HashMap<String, String>();
