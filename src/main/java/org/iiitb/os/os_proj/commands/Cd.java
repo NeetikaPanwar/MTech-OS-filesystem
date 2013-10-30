@@ -6,11 +6,6 @@ import java.util.Map;
 
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.controller.Controller;
-import org.iiitb.os.os_proj.db.MongoConnectivity;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 public class Cd implements ICommand {
 
@@ -33,7 +28,7 @@ public class Cd implements ICommand {
 		constraints.put("path", searchPath);
 		constraints.put("name", params.get(0));
 		constraints.put("isDirectory", "TRUE");
-		ArrayList<UserFile> resFiles = mongoCollection.getFiles(constraints);
+		ArrayList<UserFile> resFiles = mongoConnect.getFiles(constraints);
 		
 		if(resFiles != null)
 		{

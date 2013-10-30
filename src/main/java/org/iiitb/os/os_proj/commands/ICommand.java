@@ -1,13 +1,12 @@
 package org.iiitb.os.os_proj.commands;
 
-import com.mongodb.DBCollection;
 import org.iiitb.os.os_proj.db.MongoConnectivity;
 
 import java.util.ArrayList;
 
 public interface ICommand {
 
-    MongoConnectivity mongoCollection=new MongoConnectivity(MongoConnectivity.DATABASE);
+	MongoConnectivity mongoConnect = new MongoConnectivity(MongoConnectivity.DATABASE);
     public static String SUCCESS="SUCCESS";
     public static String FAILURE="FAILURE";
 
