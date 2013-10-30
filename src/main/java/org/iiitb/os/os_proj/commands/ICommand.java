@@ -26,9 +26,4 @@ public interface ICommand {
 //        Rmdir
 //        Mv
 //
-//
-//        Pwd
-//
-//        Long-Double conversion in Mongo
-//        Ls regex
 //        Login Logout
