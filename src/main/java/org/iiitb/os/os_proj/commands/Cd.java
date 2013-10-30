@@ -1,8 +1,12 @@
 package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.controller.Controller;
+import org.iiitb.os.os_proj.db.MongoConnectivity;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
@@ -25,27 +29,22 @@ public class Cd implements ICommand {
 			searchPath = searchPath.concat("/" + params.get(0));		
 
 		//Do Mongo Search Here
-		BasicDBObject searchObject = new BasicDBObject();
-		searchObject.put("path", searchPath);
-		DBCursor cursor = mongoCollection.find(searchObject);
+		Map<String, String> constraints = new HashMap<String, String>();
+		constraints.put("path", searchPath);
+		constraints.put("name", params.get(0));
+		constraints.put("isDirectory", "TRUE");
+		ArrayList<UserFile> resFiles = mongoCollection.getFiles(constraints);
 		
-		if (cursor != null) {
-			DBObject resObject = cursor.next();
-			if(resObject.get("isDirectory").equals("TRUE"))
-			{
-				result.add(ICommand.SUCCESS);
-	            result.add(searchPath);
-			}
-			else
-			{
-				result.add(ICommand.FAILURE);
-	            result.add("Not a directory.");
-			}            
-            
-        } else {
-            result.add(ICommand.FAILURE);
-            result.add("No such file or directory.");
-        }		
+		if(resFiles != null)
+		{
+			result.add(ICommand.SUCCESS);
+			result.add(searchPath + "/" + params.get(0));
+		}
+		else
+		{
+			result.add(ICommand.FAILURE);
+			result.add("No such file or directory.");
+		}	
 
 		//First index = success or failure
 		return result;
