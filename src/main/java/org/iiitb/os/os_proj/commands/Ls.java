@@ -21,8 +21,8 @@ public class Ls implements ICommand {
 		}
 
 		while(resFiles != null){
-			for(int i=0; i < (resFiles.size()-1); i++)				
-				result.add(resFiles.get(i).getName());
+			for(UserFile u: resFiles)
+				result.add(u.getName());
 		}
 		return result;
 	}
