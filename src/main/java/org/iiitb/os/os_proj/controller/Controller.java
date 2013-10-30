@@ -50,7 +50,6 @@ public class Controller {
 				break;
 				
 		case cd:	Cd cd = new Cd();
-				params.add(split_cmd[1]);
 				result = cd.runCommand(params);
 				System.out.println(result);
 				break;
