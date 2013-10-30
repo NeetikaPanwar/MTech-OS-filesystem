@@ -13,7 +13,7 @@ public class Locate implements ICommand {
 		ArrayList<String> result=new ArrayList<String>();
 		int i = 0;
 		//Search db by name
-		MongoConnectivity testMongo=new MongoConnectivity();
+		MongoConnectivity testMongo=new MongoConnectivity(MongoConnectivity.DATABASE);
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", params.get(1));
 		ArrayList<UserFile> files = testMongo.getFiles(constraints);

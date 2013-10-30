@@ -18,8 +18,8 @@ import com.mongodb.WriteResult;
 
 public class MongoConnectivity {
 
-    public static String DATABASE = "newDatabase";
-    public static String COLLECTION = "newCollection";
+    public static String DATABASE;
+    public static String COLLECTION;
 
     private BasicDBObject dbObject;
     private MongoClient mongoClient;
@@ -28,12 +28,17 @@ public class MongoConnectivity {
     private DBCollection dbcollection;
     private ArrayList<DBObject> listOfObjects = new ArrayList<DBObject>();
 
-    public DBCollection openConnection(String database, String dbcollection) {
+    public MongoConnectivity(String database){
+        DATABASE=database;
+    }
+
+    public DBCollection openConnection(String collection) {
+        COLLECTION=collection;
 
         try {
             mongoClient = new MongoClient("localhost", 27017);
-            db = mongoClient.getDB(database);
-            dbCollection = db.getCollection(dbcollection);
+            db = mongoClient.getDB(DATABASE);
+            dbCollection = db.getCollection(COLLECTION);
 
         } catch (UnknownHostException e) {
 
@@ -61,7 +66,7 @@ public class MongoConnectivity {
     }
 
     public WriteResult create(BasicDBObject dbObject) {
-        dbcollection = openConnection(DATABASE, COLLECTION);
+        dbcollection = openConnection(COLLECTION);
         if (dbcollection == null) {
             System.out.println("connection failed");
         }
@@ -74,7 +79,7 @@ public class MongoConnectivity {
     }
 
     public WriteResult updateCommon(UserFile user_file_info) {
-        dbcollection = openConnection(DATABASE, COLLECTION);
+        dbcollection = openConnection(COLLECTION);
         if (dbcollection == null) {
             System.out.println("connection failed");
 
@@ -111,7 +116,7 @@ public class MongoConnectivity {
     //display a particular file
     public ArrayList<UserFile> getFiles(Map<String, String> constraints) {
         ArrayList<UserFile> files = new ArrayList<UserFile>();
-        dbcollection = openConnection(DATABASE, COLLECTION);
+        dbcollection = openConnection(COLLECTION);
         if (dbcollection == null) {
             System.out.println("connection failed");
 
@@ -150,7 +155,7 @@ public class MongoConnectivity {
 
 
     public void deleteFile(String file_name) {
-        dbcollection = openConnection(DATABASE, COLLECTION);
+        dbcollection = openConnection(COLLECTION);
         if (dbcollection == null) {
             System.out.println("connection failed");
         }
@@ -174,7 +179,7 @@ public class MongoConnectivity {
 
     public void delete(ArrayList<DBObject> listOfObjects2) {
         int i = 0;
-        dbcollection = openConnection(DATABASE, COLLECTION);
+        dbcollection = openConnection(COLLECTION);
         if (dbcollection == null) {
             System.out.println("connection failed");
         } else {
