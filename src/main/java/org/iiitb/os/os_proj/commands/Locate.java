@@ -1,15 +1,13 @@
 package org.iiitb.os.os_proj.commands;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.db.MongoConnectivity;
 
 public class Locate implements ICommand {
 
-	public ArrayList<String> runCommand(ArrayList<String> params) {
+	public ArrayList<String> runCommand(List<String> params) {
 		ArrayList<String> result=new ArrayList<String>();
 		int i = 0;
 		//Search db by name

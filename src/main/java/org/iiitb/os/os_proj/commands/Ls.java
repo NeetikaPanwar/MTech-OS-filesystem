@@ -2,13 +2,14 @@ package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.iiitb.os.os_proj.UserFile;
 
 public class Ls implements ICommand {
 
-	public ArrayList<String> runCommand(ArrayList<String> params) {
+	public ArrayList<String> runCommand(List<String> params) {
 		ArrayList<String> result = new ArrayList<String>();
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("path", params.get(0));

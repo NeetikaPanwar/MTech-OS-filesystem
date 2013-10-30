@@ -2,6 +2,7 @@ package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.iiitb.os.os_proj.UserFile;
@@ -12,7 +13,7 @@ import com.mongodb.WriteResult;
 
 public class Mv implements ICommand {
 
-	public ArrayList<String> runCommand(ArrayList<String> params) {
+	public ArrayList<String> runCommand(List<String> params) {
 		ArrayList<String> result=new ArrayList<String>();
 		//get 1st and 2nd parameter
 		int i=0;
