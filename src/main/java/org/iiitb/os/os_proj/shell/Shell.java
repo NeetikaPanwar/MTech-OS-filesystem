@@ -18,7 +18,7 @@ public class Shell extends JFrame {
     public static final int ROWS = 26;
     public static final int COLUMNS = 43;
     public static final int LINE_LENGTH = 407;
-    public static String userString = "";
+    public static String userString = "/Navin:";
 
     private JScrollPane scrollPane;
     private JPanel shellPanel;
@@ -120,7 +120,6 @@ public class Shell extends JFrame {
                     } else {
                         controller.call(command.getText());
                     }
-                    command.setText("");
                 }
             }
 
@@ -142,8 +141,8 @@ public class Shell extends JFrame {
 
     private void refresh(){
         shellArea.setText(shellText);
-
-        command.setText("/navin:");
+        command.append(userString);
+        command.setCaretPosition(command.getText().length());
         repaint();
     }
 
