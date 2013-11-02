@@ -1,11 +1,18 @@
 package org.iiitb.os.os_proj.commands;
 
+import org.iiitb.os.os_proj.db.MongoConnectivity;
+
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 public interface ICommand {
 
-	public ArrayList<String> runCommand(ArrayList<String> params);
+	MongoConnectivity mongoConnect = new MongoConnectivity(MongoConnectivity.DATABASE);
+    public static String SUCCESS="SUCCESS";
+    public static String FAILURE="FAILURE";
+
+	public ArrayList<String> runCommand(List<String> params);
 }
 
 //
@@ -20,9 +27,4 @@ public interface ICommand {
 //        Rmdir
 //        Mv
 //
-//
-//        Pwd
-//
-//        Long-Double conversion in Mongo
-//        Ls regex
 //        Login Logout

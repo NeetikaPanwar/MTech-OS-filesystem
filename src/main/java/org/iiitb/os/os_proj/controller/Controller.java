@@ -1,60 +1,133 @@
 package org.iiitb.os.os_proj.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.iiitb.os.os_proj.commands.Cat;
+import org.iiitb.os.os_proj.commands.Cd;
+import org.iiitb.os.os_proj.commands.File;
+import org.iiitb.os.os_proj.commands.Filesize;
+import org.iiitb.os.os_proj.commands.Head;
+import org.iiitb.os.os_proj.commands.Locate;
+import org.iiitb.os.os_proj.commands.Ls;
+import org.iiitb.os.os_proj.commands.Mkdir;
+import org.iiitb.os.os_proj.commands.Mv;
+import org.iiitb.os.os_proj.commands.Pwd;
+import org.iiitb.os.os_proj.commands.Rmdir;
+import org.iiitb.os.os_proj.commands.Tail;
+import org.iiitb.os.os_proj.commands.Touch;
 
 public class Controller {
 
-	private String cmd_list[] = { "pwd", "cd", "ls", "mkdir", "rmdir",
-			"locate", "cat", "touch", "file", "filesize", "mv", "head", "tail" };
+    private enum commands {
+        cat, cd, file, filesize, head, locate, ls, mkdir, mv, pwd, rmdir, tail, touch
+    }
 
-	public static String CURRENT_PATH = "";
+    public static String CURRENT_PATH = "";
 
-	public Controller(String path) {		
-		this.CURRENT_PATH = path;
-	}
+    public Controller(String path) {
+        this.CURRENT_PATH = path;
+    }
 
-	private void call(String cmd) {
+    public void call(String cmd) {
 
-		int cmd_val = -1;
+        cmd = cmd.trim();
+        List<String> params = new LinkedList<String>(Arrays.asList(cmd.split(" ")));
+        String split_cmd = params.remove(0);
 
-		for (int i = 0; i < cmd_list.length; i++) {
+        //ArrayList<String> params = ;
+        ArrayList<String> result = new ArrayList<String>();
 
-			if (cmd.matches(cmd_list[i] + "(.)*")) {
+        switch (commands.valueOf(split_cmd)) {
+            case cat:
+                Cat cat = new Cat();
+                result = cat.runCommand(params);
+                System.out.println(result);
+                break;
 
-				cmd_val = i;
-				break;
-			}
-		}
+            case cd:
+                Cd cd = new Cd();
+                result = cd.runCommand(params);
+                System.out.println(result);
+                break;
 
-		switch (cmd_val) {
-		case 0:	String path = CallCommand.pwd(CURRENT_PATH);
-				System.out.println("pass path to shell through controller" + path);
-				break;
-				
-		case 1:	CallCommand.cd(CURRENT_PATH, cmd);
-				System.out.println("String path = pwd(); cd(path,statement);");
-				break;
-				
-		case 2:	ArrayList<String> file_list = CallCommand.ls(CURRENT_PATH);
-				System.out.println("Pass this list to shell to display." + file_list);
-				break;
-				
-		case 3:	String split_cmd1[] = cmd.split(" ");	
-				CallCommand.mkdir(CURRENT_PATH, split_cmd1[split_cmd1.length - 1]);
-				break;
-				
-		case 4:	String split_cmd2[] = cmd.split(" ");	
-				CallCommand.rmdir(CURRENT_PATH, split_cmd2[split_cmd2.length - 1]);
-				break;
-				
-		default:System.out.println("Command not found.");
-		}
+            case file:
+                File file = new File();
+                result = file.runCommand(params);
+                System.out.println(result);
+                break;
 
-	}
+            case filesize:
+                Filesize fs = new Filesize();
+                result = fs.runCommand(params);
+                System.out.println(result);
+                break;
 
-	public static void main(String args[]) {
+            case head:
+                Head head = new Head();
+                result = head.runCommand(params);
+                System.out.println(result);
+                break;
 
-		new Controller("ls cde re");
-	}
+            case locate:
+                Locate locate = new Locate();
+                result = locate.runCommand(params);
+                System.out.println(result);
+                break;
+
+            case ls:
+                Ls ls = new Ls();
+                result = ls.runCommand(params);
+                System.out.println(result);
+                break;
+
+            case mkdir:
+                Mkdir mkdir = new Mkdir();
+                result = mkdir.runCommand(params);
+                System.out.println(result);
+                break;
+
+            case mv:
+                Mv mv = new Mv();
+                result = mv.runCommand(params);
+                System.out.println(result);
+                break;
+
+            case pwd:
+                Pwd pwd = new Pwd();
+                result = pwd.runCommand(params);
+                System.out.println(result);
+                break;
+
+            case rmdir:
+                Rmdir rmdir = new Rmdir();
+                result = rmdir.runCommand(params);
+                System.out.println(result);
+                break;
+
+            case tail:
+                Tail tail = new Tail();
+                result = tail.runCommand(params);
+                System.out.println(result);
+                break;
+
+            case touch:
+                Touch touch = new Touch();
+                result = touch.runCommand(params);
+                System.out.println(result);
+                break;
+
+            default:
+                System.out.println("Command not found.");
+        }
+
+    }
+
+    public static void main(String args[]) {
+
+        new Controller("").call("cat desktop rajat");
+    }
 
 }

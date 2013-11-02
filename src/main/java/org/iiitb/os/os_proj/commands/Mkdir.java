@@ -14,12 +14,15 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
+import java.util.List;
+
 public class Mkdir implements ICommand {
 
-	public ArrayList<String> runCommand(ArrayList<String> params) {
+	public ArrayList<String> runCommand(List<String> params) {
 		String error = null;
 		DBCollection dbcollection;
-		MongoConnectivity connect = new MongoConnectivity();
+		MongoConnectivity connect = new MongoConnectivity(MongoConnectivity.DATABASE);
+	
 		ArrayList<String> result=new ArrayList<String>();
 		BasicDBObject searchDir = new BasicDBObject();
 		DBObject NewDirectory = new BasicDBObject();
@@ -68,5 +71,5 @@ public class Mkdir implements ICommand {
 		testFile.setUser_updated(2);
 		return testFile;
 	}
-
+	
 }
