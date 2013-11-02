@@ -11,7 +11,7 @@ import org.iiitb.os.os_proj.db.MongoConnectivity;
 public class Filesize implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {
-		long receivedFileSize;
+		
 		ArrayList<String> result=new ArrayList<String>();
 		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
 		Map<String, String> constraints = new HashMap<String, String>();
