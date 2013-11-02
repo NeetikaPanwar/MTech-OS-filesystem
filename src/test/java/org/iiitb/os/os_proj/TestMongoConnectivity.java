@@ -33,7 +33,7 @@ public class TestMongoConnectivity {
 	public static void setupDB(){
 		testMongo = new MongoConnectivity();
 		res = testMongo.openConnection(TESTCOLLECTION);
-		//res.drop();
+//		res.dropIndexes();
 	}
 	
 	@Before
@@ -60,8 +60,9 @@ public class TestMongoConnectivity {
 	@After
 	public void clearDatabase(){
 		BasicDBObject dbo=new BasicDBObject();
-		//dbo.put("name","Kanchu17");
-		res.findAndRemove(dbo);
+		dbo.put("name","Kanchu17");
+	//	res.findAndRemove(dbo);
+		//res.drop();
 	}
 
 	@Test
@@ -127,8 +128,8 @@ public class TestMongoConnectivity {
 	public void testDisplayFile() {
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", "Kanchu17");
-		UserFile u = getTestFile();
-		String file_name = u.getName();
+		//UserFile u = getTestFile();
+		//String file_name = u.getName();
 		ArrayList<UserFile> files = testMongo.getFiles(constraints);
 		for (int i = 0; i < files.size(); i++) {
 			System.out.println(files.get(i).getName());

@@ -22,8 +22,8 @@ import com.mongodb.WriteResult;
 public class MongoConnectivity {
 	
 	private static final DBCollection NULL = null;
-	private static String DATABASE="newDatabase";
-	private static String COLLECTION="newCollection";
+	public static String DATABASE="newDatabase";
+	public static String COLLECTION="newCollection";
 	
 	private BasicDBObject dbObject;
 	private BasicDBObject dbObject_update;
