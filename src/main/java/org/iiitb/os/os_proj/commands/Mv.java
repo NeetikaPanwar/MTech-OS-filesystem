@@ -1,6 +1,7 @@
 package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import java.util.Map;
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.db.MongoConnectivity;
 
-import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 public class Mv implements ICommand {
@@ -26,12 +26,17 @@ public class Mv implements ICommand {
 		constraints.put("name", destination);
 		ArrayList<UserFile> files = testMongo.getFiles(constraints);
 		ArrayList<UserFile> files1 = testMongo.getFiles(constraints1);
+		//String SourcePath=files.get(0).getPath();
+		//String DestinationPath=files1.get(0).getPath();
 		if(files.size()>0&&files1.size()>0){
 			while(i<files.size()){
 				String sourceData=files.get(i).getData();
 				String destinationData=sourceData;
-
-				//updateCommon(files1);
+				
+for(int j=0;j<files1.size();j++){
+	files1.get(j).setData(destinationData);
+				testMongo.updateCommon(files1.get(j));
+	}
 			result.add("success");	
 			}
 		}
@@ -54,12 +59,12 @@ public class Mv implements ICommand {
 			if(wr.getError().equals(null))
 				
 			
-				result.add("success");
+				result.add(ICommand.SUCCESS);
 				}
 			}
 		
 		else{
-			result.add("failure");
+			result.add(ICommand.FAILURE);
 		result.add("file does not located");
 			
 		}
@@ -69,6 +74,7 @@ public class Mv implements ICommand {
 		//If even one doesn't exist, return error
 		//else
 		//Update paths with regex, and change parent paths (3:28 PM idea)
+		
 		return result;
 	}
 
