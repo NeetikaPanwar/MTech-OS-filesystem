@@ -19,6 +19,7 @@ public class Locate implements ICommand {
 		while(i<files.size())
 		{result.add(ICommand.SUCCESS);
 		result.add(files.get(i).getPath());
+		i++;
 		}
 		}
 		else{
