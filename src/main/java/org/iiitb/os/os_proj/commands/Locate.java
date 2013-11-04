@@ -9,18 +9,19 @@ public class Locate implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {
 		ArrayList<String> result=new ArrayList<String>();
-		int i = 0;
+		int j= 0;
 		//Search db by name
 		MongoConnectivity testMongo=new MongoConnectivity(MongoConnectivity.DATABASE);
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", params.get(0));
 		ArrayList<UserFile> files = testMongo.getFiles(constraints);
 		if(files.size()>0){
-		while(i<files.size())
+		while(j<files.size())
 		{result.add(ICommand.SUCCESS);
-		result.add(files.get(i).getPath());
-		i++;
+		result.add(files.get(j).getPath());
+		j++;
 		}
+		
 		}
 		else{
 		result.add(ICommand.FAILURE);
