@@ -11,30 +11,28 @@ import org.iiitb.os.os_proj.UserFile;
 public class Cat implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {
-		
-		//search file exists in db
-		//if exists, return file data
-		
-		
-		ArrayList<String> result=new ArrayList<String>();
+
+		// search file exists in db
+		// if exists, return file data
+
+		ArrayList<String> result = new ArrayList<String>();
 		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", params.get(0));
 		receivedFile = mongoConnect.getFiles(constraints);
-		
-		if(receivedFile.size()==0)
-		{
+
+		if (receivedFile.size() == 0) {
 			result.add(ICommand.FAILURE);
 			result.add("File cannot be found");
-			
+
+		} else {
+			{
+				result.add(ICommand.SUCCESS);
+				result.add(String.valueOf(receivedFile.get(0).getData()));
+
+			}
 		}
-		else{ 
-		{	result.add(ICommand.SUCCESS);
-			result.add(String.valueOf(receivedFile.get(0).getData()));
-			
-		}
-		}
-		
+
 		return result;
 	}
 

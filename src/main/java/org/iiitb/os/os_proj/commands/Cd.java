@@ -2,7 +2,6 @@ package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +16,22 @@ public class Cd implements ICommand {
 
 		//Handle Cases .././null/directory
 		if(params.get(0).equals(null))
+		{
+			result.add(ICommand.SUCCESS);
 			System.out.println("Controller.CURRENT_PATH = User.getHome()");
+			
+		}
 		else if(params.get(0).equals(".."))
+		{
 			System.out.println("go to parent directory.");
+			String split_path[] = searchPath.split("/");
+			String path = "";
+			for(int i = 0; i < split_path.length - 1; i++)
+				path = path + "/" + split_path[i];			
+			result.add(ICommand.SUCCESS);
+			Controller.CURRENT_PATH = path;
+		}
+
 		else
 		{
 			//Do Mongo Search Here
@@ -32,7 +44,7 @@ public class Cd implements ICommand {
 			if(resFiles != null)
 			{
 				result.add(ICommand.SUCCESS);
-				result.add(searchPath + "/" + params.get(0));
+				Controller.CURRENT_PATH += "/" + params.get(0);
 			}
 			else
 			{
