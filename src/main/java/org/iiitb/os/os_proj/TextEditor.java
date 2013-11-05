@@ -9,9 +9,7 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import org.iiitb.os.os_proj.commands.ICommand;
-
-public class TextEditor extends JFrame implements ActionListener, ICommand
+public class TextEditor extends JFrame implements ActionListener
 {
 private JTextArea textArea;
 
@@ -126,8 +124,5 @@ public void actionPerformed(ActionEvent e)
 	String file_path = "/home/kanchan";
     new TextEditor();
 }*/
-public ArrayList<String> runCommand(List<String> params) {
-	// TODO Auto-generated method stub
-	return null;
-}
+
 }

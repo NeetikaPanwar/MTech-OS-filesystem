@@ -25,7 +25,7 @@ public class File implements ICommand {
 		}
 		if(receivedFile.size()==0)
 		{
-			result.add("failure");
+			result.add(ICommand.FAILURE);
 			result.add("file does not exist");
 			
 		}

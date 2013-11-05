@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.iiitb.os.os_proj.TestMongoConnectivity;
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.commands.ICommand;
 

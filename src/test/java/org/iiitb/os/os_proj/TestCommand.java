@@ -17,6 +17,7 @@ import org.iiitb.os.os_proj.commands.Pwd;
 import org.iiitb.os.os_proj.commands.Rmdir;
 import org.iiitb.os.os_proj.commands.Tail;
 import org.iiitb.os.os_proj.commands.Touch;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestCommand {
@@ -37,6 +38,8 @@ public class TestCommand {
 			assertEquals(ICommand.FAILURE,result.get(0));	
 		
 	}
+	
+	@Ignore
 	@Test
 	public void testMv(){
 		Mv m=new Mv();
@@ -122,7 +125,7 @@ public class TestCommand {
 		
 		
 	}
-	
+	@Ignore
 	@Test 
 	public void testHead(){
 		Head h=new Head();
@@ -137,6 +140,7 @@ public class TestCommand {
 		
 		
 	}
+	@Ignore
 	@Test 
 	public void testTail(){
 		Tail t=new Tail();
@@ -151,6 +155,7 @@ public class TestCommand {
 		
 		
 	}
+	@Ignore
 	@Test 
 	public void testPwd(){
 		Pwd p=new Pwd();
@@ -166,6 +171,7 @@ public class TestCommand {
 		
 	}
 	
+	@Ignore
 	@Test 
 	public void testTouch(){
 		Touch t=new Touch();
