@@ -162,7 +162,7 @@ public class ImagePane extends JPanel {
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			BufferedImage img = getImageToRender();
-			System.out.println(img);
+			//System.out.println(img);
 			if (img != null) {
 				Graphics2D g2d = (Graphics2D) g.create();
 				int width = getWidth();
