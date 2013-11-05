@@ -12,7 +12,6 @@ public class Cd implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {
 		ArrayList<String> result=new ArrayList<String>();
-		String searchPath = Controller.CURRENT_PATH;
 
 		//Handle Cases .././null/directory
 		if(params.get(0).equals(null))
@@ -24,7 +23,7 @@ public class Cd implements ICommand {
 		else if(params.get(0).equals(".."))
 		{
 			System.out.println("go to parent directory.");
-			String split_path[] = searchPath.split("/");
+			String split_path[] = Controller.CURRENT_PATH.split("/");
 			String path = "";
 			for(int i = 0; i < split_path.length - 1; i++)
 				path = path + "/" + split_path[i];			
@@ -36,12 +35,12 @@ public class Cd implements ICommand {
 		{
 			//Do Mongo Search Here
 			Map<String, String> constraints = new HashMap<String, String>();
-			constraints.put("path", searchPath);
+			constraints.put("path", Controller.CURRENT_PATH);
 			constraints.put("name", params.get(0));
-			constraints.put("isDirectory", "TRUE");
+			constraints.put("isDirectory", "true");
 			ArrayList<UserFile> resFiles = mongoConnect.getFiles(constraints);
 
-			if(resFiles != null)
+			if(resFiles != null)	//Path exists
 			{
 				result.add(ICommand.SUCCESS);
 				Controller.CURRENT_PATH += "/" + params.get(0);
