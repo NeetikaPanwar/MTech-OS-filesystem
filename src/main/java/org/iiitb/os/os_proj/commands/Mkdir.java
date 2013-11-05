@@ -20,7 +20,7 @@ public class Mkdir implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {
 		String error = null;
-		DBCollection dbcollection;
+		
 		MongoConnectivity connect = new MongoConnectivity(MongoConnectivity.DATABASE);
 	
 		ArrayList<String> result=new ArrayList<String>();
@@ -30,7 +30,8 @@ public class Mkdir implements ICommand {
 		DBCursor cursor = connect.openConnection(MongoConnectivity.COLLECTION).find(searchDir);
 		if(cursor.hasNext())
 		{
-			//result.add(ICommand.FAILURE);
+			result.add(ICommand.FAILURE);
+			result.add(" file already exists");
 		}
 		else
 		{
