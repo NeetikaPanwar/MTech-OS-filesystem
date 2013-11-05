@@ -2,14 +2,11 @@ package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.db.MongoConnectivity;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;

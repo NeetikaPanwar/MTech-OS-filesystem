@@ -7,13 +7,14 @@ public class UserFile {
 	private long id;
 	private String name;
 	private int filetypeId;
+	private String path;
+	private long file_size;
 	private Date timestamp;
 	private Date date_created;
 	private Date date_updated;
 	private int user_created;
 	private int user_updated;
-	private String path;
-	private long file_size;
+	
 
 	private boolean isDirectory;
 
