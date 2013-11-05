@@ -37,14 +37,12 @@ public class Mkdir implements ICommand {
 		{
 			UserFile MakeFile = new UserFile();
 			UserFile MadeFile =	 makeUserFile(MakeFile);
-				WriteResult result1 = connect.createFile(MadeFile);
-				error = result1.getError();
+			
+				connect.createFile(MadeFile);
+			
+				result.add(ICommand.SUCCESS);
 		}
-		if(error.equals(null))
-		{
-			result.add("failure");
-		    result.add("could not create a new directory");
-		}
+		
 		//Search if dir with same name already exists
 		//if No:
 		//Create new userFile with isDirectory=true... Convert to DBObj... Add to DB

@@ -3,10 +3,13 @@ package org.iiitb.os.os_proj.db;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.iiitb.os.os_proj.TestMongoConnectivity;
 import org.iiitb.os.os_proj.UserFile;
+import org.iiitb.os.os_proj.commands.ICommand;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -16,7 +19,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
-public class MongoConnectivity {
+public class MongoConnectivity implements ICommand{
     public static String DATABASE="newDatabase";
     public static String COLLECTION="newCollection";
 
@@ -111,6 +114,31 @@ public class MongoConnectivity {
         dbObject.put("data", user_file.getData());
         return dbObject;
     }
+    public static void main(String args[])
+    {
+    	
+    	UserFile u = mongoConnect.getTestFile();
+    	mongoConnect.createFile(u);
+    	
+    	//mongoConnect.updateCommon(u);
+    }
+    public UserFile getTestFile() {
+		Date date = new Date();
+		UserFile testFile = new UserFile();
+		testFile.setData("This is test data today");
+		testFile.setDate_created(date);
+		testFile.setDate_updated(date);
+		testFile.setFile_size(1234);
+		testFile.setId(1234);
+		testFile.setFiletypeId(1);
+		testFile.setId(1234);
+		testFile.setName("Nitikatoday");
+		testFile.setPath("/home/nitikatoday");
+		testFile.setTimestamp(date);
+		testFile.setUser_created(1);
+		testFile.setUser_updated(2);
+		return testFile;
+	}
 
     //display a particular file
     public ArrayList<UserFile> getFiles(Map<String, String> constraints) {
@@ -189,5 +217,10 @@ public class MongoConnectivity {
         }
 
     }
+
+	public ArrayList<String> runCommand(List<String> params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -25,7 +25,7 @@ public class Rmdir implements ICommand {
 		}
 		else
 		{
-			result.add("failure");
+			result.add(ICommand.FAILURE);
 			result.add("directory does not exist");
 		}
 		//search if dir exists

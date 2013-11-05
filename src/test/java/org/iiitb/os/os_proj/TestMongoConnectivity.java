@@ -80,7 +80,7 @@ public class TestMongoConnectivity {
     public UserFile getTestFile() {
 		Date date = new Date();
 		UserFile testFile = new UserFile();
-		testFile.setData("This is test data");
+		testFile.setData("This is test data today");
 		testFile.setDate_created(date);
 		testFile.setDate_updated(date);
 		testFile.setFile_size(1234);

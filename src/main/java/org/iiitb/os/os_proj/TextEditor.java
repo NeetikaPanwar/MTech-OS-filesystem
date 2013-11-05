@@ -2,11 +2,18 @@ package org.iiitb.os.os_proj;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.swing.*;
 
-public class TextEditor extends JFrame implements ActionListener
+import org.iiitb.os.os_proj.commands.ICommand;
+
+public class TextEditor extends JFrame implements ActionListener, ICommand
 {
-private JTextArea ta;
+private JTextArea textArea;
 
 private JMenuBar menuBar;
 private JMenu fileM,editM,viewM;
@@ -14,9 +21,15 @@ private JScrollPane scpane;
 private JMenuItem exitI,cutI,copyI,pasteI,selectI,saveI;
 private String content;
 private JToolBar toolBar;
-public TextEditor()
+private String dataToSave;
+private ArrayList<UserFile> files;
+private UserFile user_file;
+public TextEditor(UserFile u, boolean readOnly)
 {
-    super("TextEditor");
+	 super("TextEditor");
+	
+   String dataFromFile = u.getData();
+    user_file = returnUserFile(u);
     setSize(600, 600);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,12 +38,13 @@ public TextEditor()
 
     
     content = " ";
-    ta = new JTextArea(); //textarea
+    textArea = new JTextArea();
+    textArea.setText(dataFromFile);           //textarea
     menuBar = new JMenuBar(); //menubar
     fileM = new JMenu("File"); //file menu
     editM = new JMenu("Edit"); //edit menu
  
-    scpane = new JScrollPane(ta); //scrollpane  and add textarea to scrollpane
+    scpane = new JScrollPane(textArea); //scrollpane  and add textarea to scrollpane
     exitI = new JMenuItem("Exit");
     cutI = new JMenuItem("Cut");
     copyI = new JMenuItem("Copy");
@@ -41,8 +55,8 @@ public TextEditor()
    
     toolBar = new JToolBar();
 
-    ta.setLineWrap(true);
-    ta.setWrapStyleWord(true);
+    textArea.setLineWrap(true);
+    textArea.setWrapStyleWord(true);
 
     setJMenuBar(menuBar);
     menuBar.add(fileM);
@@ -75,31 +89,45 @@ public TextEditor()
     selectI.addActionListener(this);
    
     setVisible(true);
+    
+}
+public UserFile returnUserFile(UserFile u)
+{
+	return u;
 }
 public void actionPerformed(ActionEvent e) 
 {
+	
     JMenuItem choice = (JMenuItem) e.getSource();
     if (choice == saveI)
     {
+      dataToSave = textArea.getText();
+      user_file.setData(dataToSave);
       
     }
     else if (choice == exitI)
         System.exit(0);
     else if (choice == cutI)
     {
-        content = ta.getSelectedText();
-        ta.replaceRange("", ta.getSelectionStart(), ta.getSelectionEnd());
+        content = textArea.getSelectedText();
+        textArea.replaceRange("", textArea.getSelectionStart(), textArea.getSelectionEnd());
     }
     else if (choice == copyI)
-        content = ta.getSelectedText();
+        content = textArea.getSelectedText();
     else if (choice == pasteI)
-        ta.insert(content, ta.getCaretPosition());
+        textArea.insert(content, textArea.getCaretPosition());
     else if (choice == selectI)
-        ta.selectAll();
+        textArea.selectAll();
    
 }
-public static void main(String[] args) 
+/*public static void main(String[] args) 
 {
+	String file_name = "Kanchu17";
+	String file_path = "/home/kanchan";
     new TextEditor();
+}*/
+public ArrayList<String> runCommand(List<String> params) {
+	// TODO Auto-generated method stub
+	return null;
 }
 }
