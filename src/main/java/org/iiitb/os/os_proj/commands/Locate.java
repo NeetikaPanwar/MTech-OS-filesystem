@@ -16,12 +16,10 @@ public class Locate implements ICommand {
 		constraints.put("name", params.get(0));
 		ArrayList<UserFile> files = testMongo.getFiles(constraints);
 		if(files.size()>0){
-		while(j<files.size())
-		{result.add(ICommand.SUCCESS);
-		result.add(files.get(j).getPath());
-		j++;
-		}
 		
+		result.add(ICommand.SUCCESS);
+		result.add(files.get(0).getPath());
+
 		}
 		else{
 		result.add(ICommand.FAILURE);
