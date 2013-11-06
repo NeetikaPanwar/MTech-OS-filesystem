@@ -48,7 +48,7 @@ public class Cd implements ICommand {
 			else
 			{
 				result.add(ICommand.FAILURE);
-				result.add("No such directory.");
+				result.add("cd: " + params.get(0) + ": no such file or directory");
 			}
 		}	
 
