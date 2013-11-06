@@ -8,7 +8,6 @@ import java.util.Map;
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.controller.Controller;
 
-// Not the billi walla cat... Please note.
 public class Cat implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {

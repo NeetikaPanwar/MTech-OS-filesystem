@@ -44,10 +44,17 @@ public class Controller {
 
 		switch (commands.valueOf(split_cmd)) {
 		case cat: // ??are we implementing multiple file names for cat to display
-			Cat cat = new Cat();
-			result = cat.runCommand(params);
-			//??there is no need to check for failure or success(in cat) as result has the failure msg also
-			System.out.println("Pass this to shell: " + result.get(1));
+			if(params.size() == 1)
+			{
+				Cat cat = new Cat();
+				result = cat.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+					System.out.println("Pass this to shell: " + result.get(1));
+			}
+			else
+				System.out.println("cat: Incorrect no of arguments.");
 			break;
 
 		case cd: // in cd only first parameter is used, others are ignored

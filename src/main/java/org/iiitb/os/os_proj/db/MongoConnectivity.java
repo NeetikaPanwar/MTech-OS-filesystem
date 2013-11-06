@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.iiitb.os.os_proj.User;
 import org.iiitb.os.os_proj.UserFile;
+import org.iiitb.os.os_proj.commands.ICommand;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -62,6 +63,7 @@ public class MongoConnectivity{
 		dbObject.put("path", u.getPath());
 		dbObject.put("file_size", u.getFile_size());
 		dbObject.put("data", u.getData());
+		dbObject.put("isDirectory",u.isDirectory());
 		return create(dbObject);
 	}
 
@@ -77,7 +79,7 @@ public class MongoConnectivity{
 		return create(dbObject);
 	}
 
-	public WriteResult create(BasicDBObject dbObject) {
+	private WriteResult create(BasicDBObject dbObject) {
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
@@ -122,16 +124,17 @@ public class MongoConnectivity{
 		dbObject.put("path", user_file.getPath());
 		dbObject.put("file_size", user_file.getFile_size());
 		dbObject.put("data", user_file.getData());
+		dbObject.put("isDirectory", user_file.isDirectory());
 		return dbObject;
 	}
-	//    public static void main(String args[])
-	//    {
-	//    	
-	//    	UserFile u = mongoConnect.getTestFile();
-	//    	mongoConnect.createFile(u);
-	//    	
-	//    	//mongoConnect.updateCommon(u);
-	//    }
+	    public static void main(String args[])
+	    {
+	    	
+	    	UserFile u = ICommand.mongoConnect.getTestFile();
+	    	ICommand.mongoConnect.createFile(u);
+	    	
+	    	//mongoConnect.updateCommon(u);
+	    }
 	public UserFile getTestFile() {
 		Date date = new Date();
 		UserFile testFile = new UserFile();
@@ -142,11 +145,12 @@ public class MongoConnectivity{
 		testFile.setId(1234);
 		testFile.setFiletypeId(1);
 		testFile.setId(1234);
-		testFile.setName("Nitikatoday");
-		testFile.setPath("/home/nitikatoday");
+		testFile.setName("ruchita");
+		testFile.setPath("/home/kanchan");
 		testFile.setTimestamp(date);
 		testFile.setUser_created(1);
 		testFile.setUser_updated(2);
+		testFile.setDirectory(false);
 		return testFile;
 	}
 
@@ -164,6 +168,7 @@ public class MongoConnectivity{
 		}
 
 		DBCursor cursor = dbcollection.find(searchFile);
+		System.out.println();
 		while (cursor.hasNext()) {
 			files.add(convertToUserFile(cursor.next()));
 		}
@@ -220,6 +225,7 @@ public class MongoConnectivity{
 		u.setPath((String) dbo.get("path"));
 		u.setFile_size(((Number) dbo.get("file_size")).longValue());
 		u.setData((String) dbo.get("data"));
+		u.setDirectory((Boolean)dbo.get("isDirectory"));
 
 		return u;
 	}
@@ -248,7 +254,7 @@ public class MongoConnectivity{
 		}*/
 	}
 
-	public void delete(ArrayList<DBObject> listOfObjects2) {
+	private void delete(ArrayList<DBObject> listOfObjects2) {
 		int i = 0;
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {

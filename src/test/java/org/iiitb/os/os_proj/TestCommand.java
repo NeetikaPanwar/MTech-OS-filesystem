@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.iiitb.os.os_proj.commands.Cat;
@@ -28,21 +27,23 @@ public class TestCommand{
 
 	@Test
 	public void testLocate(){
-		Locate l=new Locate();
-		ArrayList<String> al=new ArrayList<String>();
+		Locate locate=new Locate();
+		ArrayList<String> searchPath=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
-		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("name", "navin");
-		constraints.put("path", "/home/kanchan");
-		constraints.put("isDirectory", "false");
-		receivedFile = ICommand.mongoConnect.getFiles(constraints);
-		al.add("navin");
-		result=l.runCommand(al);
+		
+		UserFile u=new UserFile();
+		u.setName("abcdefgh");
+		u.setPath("iiitb");
+		u.setDirectory(true);
+		
+		ICommand.mongoConnect.createFile(u);
+		searchPath.add("abcdefgh");
+		result=locate.runCommand(searchPath);
 		
 		if(result.get(0)==ICommand.SUCCESS){
 		assertEquals(ICommand.SUCCESS,result.get(0));
-		assertEquals(receivedFile.get(0).getPath(),result.get(1));}        
+		assertEquals(u.getPath(),result.get(1));
+		}        
 		else
 			
 			assertEquals(ICommand.FAILURE,result.get(0));	
