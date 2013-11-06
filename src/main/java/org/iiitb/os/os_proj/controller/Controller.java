@@ -27,9 +27,11 @@ public class Controller {
 	}
 
 	public static String CURRENT_PATH = "";
+	public static String CURRENT_USER = "";
 
-	public Controller(String path) {
+	public Controller(String path, String user) {
 		this.CURRENT_PATH = path;
+		this.CURRENT_USER = user;
 	}
 
 	public void call(String cmd) {
@@ -142,7 +144,7 @@ public class Controller {
 
 	public static void main(String args[]) {
 
-		new Controller("").call("cat desktop rajat");
+		//new Controller("").call("cat desktop rajat");
 	}
 
 }

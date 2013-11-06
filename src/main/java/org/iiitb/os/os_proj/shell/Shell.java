@@ -30,7 +30,7 @@ public class Shell extends JFrame {
 
     public Shell() {
 
-        controller = new Controller("");
+        controller = new Controller("","");
 
         shellPanel = new JPanel();
         shellPanel.setBackground(new Color(0, 0, 0));
