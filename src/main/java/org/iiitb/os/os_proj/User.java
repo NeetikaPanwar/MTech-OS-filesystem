@@ -7,7 +7,7 @@ package org.iiitb.os.os_proj;
  * Time: 6:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class User {
+public class User{
     private int userid;
     private String username;
     private String passwordHash;

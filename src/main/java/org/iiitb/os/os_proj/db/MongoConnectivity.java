@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.iiitb.os.os_proj.User;
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.commands.ICommand;
 
@@ -18,7 +19,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
-public class MongoConnectivity implements ICommand{
+public class MongoConnectivity{
     public static String DATABASE="newDatabase";
     public static String COLLECTION="newCollection";
 
@@ -63,6 +64,18 @@ public class MongoConnectivity implements ICommand{
         dbObject.put("path", u.getPath());
         dbObject.put("file_size", u.getFile_size());
         dbObject.put("data", u.getData());
+        return create(dbObject);
+    }
+    
+    public WriteResult createUser(User u) {
+        dbObject = new BasicDBObject();
+        
+        dbObject.put("userid", u.getUserid());
+        dbObject.put("username", u.getUsername());
+        dbObject.put("passwordhash", u.getPasswordHash());
+        dbObject.put("salt", u.getSalt());
+        dbObject.put("home", u.getHome());
+        dbObject.put("isroot", u.getRoot());
         return create(dbObject);
     }
 
@@ -113,14 +126,14 @@ public class MongoConnectivity implements ICommand{
         dbObject.put("data", user_file.getData());
         return dbObject;
     }
-    public static void main(String args[])
-    {
-    	
-    	UserFile u = mongoConnect.getTestFile();
-    	mongoConnect.createFile(u);
-    	
-    	//mongoConnect.updateCommon(u);
-    }
+//    public static void main(String args[])
+//    {
+//    	
+//    	UserFile u = mongoConnect.getTestFile();
+//    	mongoConnect.createFile(u);
+//    	
+//    	//mongoConnect.updateCommon(u);
+//    }
     public UserFile getTestFile() {
 		Date date = new Date();
 		UserFile testFile = new UserFile();
@@ -161,8 +174,42 @@ public class MongoConnectivity implements ICommand{
         }
         return files;
     }
+    
+    //Get List of Users
+    public ArrayList<User> getUsers(Map<String, String> constraints) {
+        ArrayList<User> files = new ArrayList<User>();
+        dbcollection = openConnection(COLLECTION);
+        if (dbcollection == null) {
+            System.out.println("connection failed");
 
-    private UserFile convertToUserFile(DBObject dbo) {
+        }
+        BasicDBObject searchUser = new BasicDBObject();
+        for (Entry<String, String> entry : constraints.entrySet()) {
+            searchUser.put(entry.getKey(), entry.getValue());
+        }
+
+        DBCursor cursor = dbcollection.find(searchUser);
+        while (cursor.hasNext()) {
+            files.add(convertToUser(cursor.next()));
+        }
+        for (User file : files) {
+            System.out.println(file.getUsername());
+        }
+        return files;
+    }
+
+    private User convertToUser(DBObject dbo) {
+    	 User u = new User();
+         u.setUserid(((Integer) dbo.get("userid")));
+         u.setUsername((String) dbo.get("username"));
+         u.setPasswordHash((String) dbo.get("passwordhash"));
+         u.setSalt((String)dbo.get("salt"));
+         u.setHome((String)dbo.get("home"));
+         u.setRoot((Boolean) dbo.get("isroot"));
+         return u;
+	}
+
+	private UserFile convertToUserFile(DBObject dbo) {
         UserFile u = new UserFile();
         u.setId(((Number) dbo.get("id")).longValue());
         u.setName((String) dbo.get("name"));
@@ -217,9 +264,5 @@ public class MongoConnectivity implements ICommand{
 
     }
 
-	public ArrayList<String> runCommand(List<String> params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
