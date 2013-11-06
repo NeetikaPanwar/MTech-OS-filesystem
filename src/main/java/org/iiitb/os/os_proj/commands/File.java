@@ -16,6 +16,7 @@ public class File implements ICommand {
 		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", params.get(0));
+		constraints.put("isDirectory", "false");
 		receivedFile = mongoConnect.getFiles(constraints);
 		
 		while(i<receivedFile.size())

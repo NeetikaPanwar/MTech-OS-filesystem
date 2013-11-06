@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ICommand {
 
-	MongoConnectivity mongoConnect = new MongoConnectivity(MongoConnectivity.DATABASE);
+	public static MongoConnectivity mongoConnect = new MongoConnectivity(MongoConnectivity.DATABASE);
     public static String SUCCESS="SUCCESS";
     public static String FAILURE="FAILURE";
 

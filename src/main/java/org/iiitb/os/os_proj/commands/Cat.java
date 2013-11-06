@@ -19,6 +19,8 @@ public class Cat implements ICommand {
 		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", params.get(0));
+		constraints.put("isDirectory", "false");
+		constraints.put("path", "/home/kanchan");
 		receivedFile = mongoConnect.getFiles(constraints);
 
 		if (receivedFile.size() == 0) {
@@ -28,7 +30,7 @@ public class Cat implements ICommand {
 		} else {
 			{
 				result.add(ICommand.SUCCESS);
-				result.add(String.valueOf(receivedFile.get(0).getData()));
+				result.add(receivedFile.get(0).getData());
 
 			}
 		}
