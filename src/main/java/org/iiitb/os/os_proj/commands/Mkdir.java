@@ -2,13 +2,11 @@ package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.iiitb.os.os_proj.UserFile;
-import org.iiitb.os.os_proj.db.MongoConnectivity;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import org.iiitb.os.os_proj.utils.GetPath;
 import com.mongodb.WriteResult;
 
 import java.util.List;
@@ -16,56 +14,51 @@ import java.util.List;
 public class Mkdir implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {
-		String error = null;
 		
-		MongoConnectivity connect = new MongoConnectivity(MongoConnectivity.DATABASE);
-	
+		ArrayList<String> path = GetPath.getSearchPath(params.get(0));
 		ArrayList<String> result=new ArrayList<String>();
-		BasicDBObject searchDir = new BasicDBObject();
-		DBObject NewDirectory = new BasicDBObject();
-		searchDir.put("name", params.get(0));
-		DBCursor cursor = connect.openConnection(MongoConnectivity.COLLECTION).find(searchDir);
-		if(cursor.hasNext())
-		{
-			result.add(ICommand.FAILURE);
-			result.add(" file already exists");
-		}
-		else
-		{
-			UserFile MakeFile = new UserFile();
-			UserFile MadeFile =	 makeUserFile(MakeFile);
-			
-				connect.createFile(MadeFile);
-			
-				result.add(ICommand.SUCCESS);
-		}
 		
 		//Search if dir with same name already exists
-		//if No:
-		//Create new userFile with isDirectory=true... Convert to DBObj... Add to DB
+		Map<String, String> constraints = new HashMap<String, String>();
+		constraints.put("name", path.get(0));		
+		constraints.put("path", path.get(1));
+		constraints.put("isDirectory", "true");
+		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 		
+		if (receivedFile.size() == 0) {
+			//Create new userFile with isDirectory=true... Convert to DBObj... Add to DB
+			UserFile usr = new UserFile();
+			Date date = new Date();
+			
+			usr.setId(1234);
+			usr.setName(path.get(0));
+			usr.setFiletypeId(0);
+			usr.setPath(path.get(1));
+			usr.setFile_size(1234);
+			usr.setTimestamp(date);
+			usr.setDate_created(date);
+			usr.setDate_updated(date);
+			usr.setUser_created(1);
+			usr.setUser_updated(1);
+			usr.setDirectory(true);
+			usr.setData(null);
+			
+			WriteResult ws = mongoConnect.createFile(usr);
+			if(ws.getError() == null)
+				result.add(ICommand.SUCCESS);
+			else
+			{
+				result.add(ICommand.FAILURE);
+				result.add("mkdir: cannot create directory '" + path.get(0) + "'");
+			}
+
+		} else {
+			result.add(ICommand.FAILURE);
+			result.add("mkdir: cannot create directory '" + path.get(0) + "': File exists");
+		}
+				
 		//return success or failure depending on result
-		return result;
-		
-	}
-	public UserFile makeUserFile(UserFile testFile)
-	{
-		Date date = new Date();
-		
-		testFile.setData("This is a new directory");
-		testFile.setDate_created(date);
-		testFile.setDate_updated(date);
-		testFile.setFile_size(1234);
-		testFile.setId(1234);
-		testFile.setFiletypeId(1);
-		testFile.setId(1234);
-		testFile.setName("Neetika");
-		testFile.setPath("/home/neetika");
-		testFile.setTimestamp(date);
-		testFile.setDirectory(true);
-		testFile.setUser_created(1);
-		testFile.setUser_updated(2);
-		return testFile;
+		return result;		
 	}
 	
 }

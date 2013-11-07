@@ -17,9 +17,11 @@ public class App
         shell.setSize(500,500);
 		shell.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
 		shell.setVisible(true);
+		Locate l=new Locate();
 		ArrayList<String> al=new ArrayList();
 		al.add("Locate");
 		al.add("kanchu17");
+		l.runCommand(al);
 		
     }
 }

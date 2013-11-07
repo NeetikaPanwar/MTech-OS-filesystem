@@ -1,37 +1,48 @@
 package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.iiitb.os.os_proj.db.MongoConnectivity;
+import org.iiitb.os.os_proj.UserFile;
+import org.iiitb.os.os_proj.utils.GetPath;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 
 public class Rmdir implements ICommand {
 	
 	public ArrayList<String> runCommand(List<String> params) {
+		
+		ArrayList<String> path = GetPath.getSearchPath(params.get(0));
 		ArrayList<String> result=new ArrayList<String>();
-		MongoConnectivity connect = new MongoConnectivity(MongoConnectivity.DATABASE);
-		DBCollection dbcollection;
-		BasicDBObject searchDir = new BasicDBObject();
-		searchDir.put("name", params.get(0));
-		dbcollection = connect.openConnection(MongoConnectivity.COLLECTION);
-		DBCursor cursor = dbcollection.find(searchDir);
-		if(cursor.hasNext())
-		{
-			dbcollection.findAndRemove(cursor.next());
+		
+		//search if dir exists
+		Map<String, String> constraints = new HashMap<String, String>();
+		constraints.put("name", path.get(0));		
+		constraints.put("path", path.get(1));
+		constraints.put("isDirectory", "true");
+		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
+		
+		//if exists, remove from db
+		//remove all directories and files in that dir recursively and then delete it
+		if(receivedFile.size() == 0){
+			result.add(ICommand.FAILURE);
+			result.add("rmdir: failed to remove'" + path.get(0) + "': No such file or directory");
 		}
 		else
 		{
-			result.add(ICommand.FAILURE);
-			result.add("directory does not exist");
+			if(receivedFile.get(0).isDirectory())
+			{
+				//recursively call deletefile
+				result.add(ICommand.SUCCESS);
+			}
+			else
+			{
+				result.add(ICommand.FAILURE);
+				result.add("rmdir: failed to remove'" + path.get(0) + "': Not a directory");
+			}			
 		}
-		//search if dir exists
 		
-		//if exists, remove from db
-		//return success or failure message
 		return result;
 	}
 

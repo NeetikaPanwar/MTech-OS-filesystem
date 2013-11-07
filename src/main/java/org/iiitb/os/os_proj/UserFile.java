@@ -2,7 +2,7 @@ package org.iiitb.os.os_proj;
 
 import java.util.Date;
 
-public class UserFile{
+public class UserFile {
 
 	private long id;
 	private String name;
@@ -13,8 +13,7 @@ public class UserFile{
 	private Date date_created;
 	private Date date_updated;
 	private int user_created;
-	private int user_updated;
-	
+	private int user_updated;	
 
 	private boolean isDirectory;
 

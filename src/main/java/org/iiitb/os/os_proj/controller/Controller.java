@@ -45,7 +45,7 @@ public class Controller {
 		ArrayList<String> result = new ArrayList<String>();
 
 		switch (commands.valueOf(split_cmd)) {
-		case cat: // ??are we implementing multiple file names for cat to display
+		case cat: 
 			if(params.size() == 1)
 			{
 				Cat cat = new Cat();
@@ -56,7 +56,7 @@ public class Controller {
 					System.out.println("Pass this to shell: " + result.get(1));
 			}
 			else
-				System.out.println("cat: Incorrect no of arguments.");
+				System.out.println("Pass this to shell: cat: Incorrect no of arguments.");
 			break;
 
 		case cd: // in cd only first parameter is used, others are ignored
@@ -68,60 +68,134 @@ public class Controller {
 				System.out.println("Pass this to shell: " + result.get(1));
 			break;
 
-		case file:	//??we need filetype name instead of ID - to display the type when called
-					//and again the problem of multiple parameters same as cat
-					//and success failure not required here also
-			File file = new File();
-			result = file.runCommand(params);
-			System.out.println("Pass this to shell: " + result.get(1));
+		case file:	
+			if(params.size() == 1)
+			{
+				File file = new File();
+				result = file.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+					System.out.println("Pass this to shell: " + result.get(1));
+			}
+			else
+				System.out.println("Pass this to shell: file: Incorrect no of arguments.");
 			break;
 
-		case filesize:	//??same problems as file
-			Filesize fs = new Filesize();
-			result = fs.runCommand(params);
-			System.out.println(result);
+		case filesize:
+			if(params.size() == 1)
+			{
+				Filesize fs = new Filesize();
+				result = fs.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+					System.out.println("Pass this to shell: " + result.get(1));
+			}
+			else
+				System.out.println("Pass this to shell: filesize: Incorrect no of arguments.");
 			break;
 
 		case head:
-			Head head = new Head();
-			result = head.runCommand(params);
-			System.out.println(result);
+			if(params.size() == 1)
+			{
+				Head head = new Head();
+				result = head.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+					System.out.println("Pass this to shell: " + result.get(1));
+			}
+			else
+				System.out.println("Pass this to shell: head: Incorrect no of arguments.");
 			break;
 
 		case locate:
-			Locate locate = new Locate();
-			result = locate.runCommand(params);
-			System.out.println(result);
+			if(params.size() == 1)
+			{
+				Locate locate = new Locate();
+				result = locate.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+				{
+					result.remove(0);
+					System.out.println("Pass this to shell: " + result);					
+				}
+
+			}
+			else
+				System.out.println("Pass this to shell: locate: Incorrect no of arguments.");
 			break;
 
 		case ls:
-			Ls ls = new Ls();
-			result = ls.runCommand(params);
-			System.out.println(result);
+			if(params.size() == 0)
+			{
+				Ls ls = new Ls();
+				result = ls.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: null");
+				else
+				{
+					result.remove(0);
+					System.out.println("Pass this to shell: " + result);					
+				}
+			}
+			else
+				System.out.println("Pass this to shell: ls: Incorrect no of arguments.");
 			break;
 
 		case mkdir:
-			Mkdir mkdir = new Mkdir();
-			result = mkdir.runCommand(params);
-			System.out.println(result);
+			if(params.size() == 1)
+			{
+				Mkdir mkdir = new Mkdir();
+				result = mkdir.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+					System.out.println("Pass this to shell: null");	
+			}
+			else
+				System.out.println("Pass this to shell: mkdir: Incorrect no of arguments.");
 			break;
 
+
 		case mv:
-			Mv mv = new Mv();
-			result = mv.runCommand(params);
-			System.out.println(result);
+			if(params.size() == 2)
+			{
+				Mv mv = new Mv();
+				result = mv.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+					System.out.println("Pass this to shell: null");	
+			}
+			else
+				System.out.println("Pass this to shell: mkdir: Incorrect no of arguments.");
 			break;
 
 		case pwd:
-			Pwd pwd = new Pwd();
-			result = pwd.runCommand(params);
-			System.out.println(result);
+			if(params.size() == 0){
+				Pwd pwd = new Pwd();
+				result = pwd.runCommand(params);
+				System.out.println("Pass this to shell: " + result.get(1));
+			}
+			else			
+				System.out.println("Pass this to shell: pwd: Incorrect no of arguments.");
 			break;
 
 		case rmdir:
-			Rmdir rmdir = new Rmdir();
-			result = rmdir.runCommand(params);
-			System.out.println(result);
+			if(params.size() == 1)
+			{
+				Rmdir rmdir = new Rmdir();
+				result = rmdir.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+					System.out.println("Pass this to shell: null");	
+			}
+			else
+				System.out.println("Pass this to shell: mkdir: Incorrect no of arguments.");
 			break;
 
 		case tail:
