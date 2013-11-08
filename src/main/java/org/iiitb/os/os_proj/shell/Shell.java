@@ -1,15 +1,20 @@
 package org.iiitb.os.os_proj.shell;
 
+import org.iiitb.os.os_proj.User;
+import org.iiitb.os.os_proj.commands.ICommand;
 import org.iiitb.os.os_proj.controller.Controller;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Shell extends JFrame {
 
@@ -147,13 +152,23 @@ public class Shell extends JFrame {
     }
 
     public ArrayList<String> login(String username, String password) {
-        //check username/pass and login
-
+    	String userName, path; 
+    	ArrayList<User> userDetails = new ArrayList<User>();
+    	Map<String, String> constraints = new HashMap<String, String>();
+		constraints.put("name", username);
+		constraints.put("name", password);
+		userDetails = ICommand.mongoConnect.getUsers(constraints);
+	
+		if(userDetails.size()!=0)
+		{Controller controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0).getHome());
+		}
         return null;
     }
 
     public ArrayList<String> logout() {
-        //check username/pass and login
+    	Controller.CURRENT_PATH	= "";
+		Controller.CURRENT_USER = "";
+    	//check username/pass and login
 
         return null;
     }
