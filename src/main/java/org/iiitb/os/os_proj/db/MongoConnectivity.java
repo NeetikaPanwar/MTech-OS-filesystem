@@ -233,14 +233,14 @@ public class MongoConnectivity{
 	}
 
 
-	public void deleteFile(String file_name) {
+	public void deleteFile(String file_path) {
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
 		}
 
 		BasicDBObject basicObject = new BasicDBObject();
-		basicObject.put("name", file_name);
+		basicObject.put("path", file_path);
 		DBCursor cursor = dbcollection.find(basicObject);
 		while (cursor.hasNext()) {
 
