@@ -23,13 +23,19 @@ public class Shell extends JFrame {
     public static final int ROWS = 26;
     public static final int COLUMNS = 43;
     public static final int LINE_LENGTH = 407;
-    public static String userString = "/Navin:";
+    public static String userString = "";
+    private static String SHELLTEXT="\t              Welcome to KanchuFS Shell \nEnter Username:";
+    private boolean isLoginUserName=true;
+    private boolean isLoginPassword=false;
+
+    private String username;
+    private String password;
 
     private JScrollPane scrollPane;
     private JPanel shellPanel;
     private JTextArea shellArea;
     private JTextArea command;
-    private String shellText;
+
 
     private Controller controller;
 
@@ -42,38 +48,8 @@ public class Shell extends JFrame {
 
         Border border = BorderFactory.createLineBorder(Color.BLACK);
 
-        shellText = " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does n    ot what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-//                " LineMetrics does not what I want...\n" +
-                " LineMetrics does not what I want...\n" +
-                " LineMetrics does not what I want...\n" +
-                " LineMetrics does not what I want...\n I've looked into it a hundred times. Can I LineMetrics does not what I want... I've looked into it a hundred times. Can I check";
         shellArea = new JTextArea(ROWS, COLUMNS);
-        shellArea.setText(shellText);
+        shellArea.setText(SHELLTEXT);
         shellArea.setVisible(true);
         shellArea.setLineWrap(true);
         shellArea.setWrapStyleWord(true);
@@ -117,14 +93,38 @@ public class Shell extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
+
+                if(isLoginPassword){
+                    command.setForeground(new Color(0,0,0));
+                    command.setCaretPosition(0);
+                }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (command.getText().equals("login")) {
-                        login_routine();
-                    } else if (command.getText().equals("logout")) {
+                    if (command.getText().equals("logout")) {
                         logout();
                     } else {
+                        if(isLoginUserName){
+                           username=command.getText();
+                            command.setText("");
+                            shellArea.append("\n"+username);
+                            shellArea.append("\nEnter Password:");
+                            isLoginUserName=false;
+                            isLoginPassword=true;
+                        }
+                        else if(isLoginPassword){
+                            password=command.getText();
+                            command.setText("");
+                            isLoginPassword=false;
+                            isLoginUserName=false;
+                            login(username,password);
+                            command.setForeground(new Color(255, 255, 255));
+                        }
+                        else{
                         controller.call(command.getText());
+                        }
                     }
+
+                    command.setCaretPosition(0);
+
                 }
             }
 
@@ -139,20 +139,18 @@ public class Shell extends JFrame {
         this.add(scrollPane);
     }
 
-    private void login_routine() {
-        shellText = shellText.concat("\nEnter Username:");
-        refresh();
-    }
 
     private void refresh(){
-        shellArea.setText(shellText);
+        shellArea.setText(SHELLTEXT);
         command.append(userString);
         command.setCaretPosition(command.getText().length());
         repaint();
     }
 
     public ArrayList<String> login(String username, String password) {
-    	String userName, path; 
+
+        System.out.println(username+ "Hello" +password);
+        String userName, path;
     	ArrayList<User> userDetails = new ArrayList<User>();
     	Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", username);
