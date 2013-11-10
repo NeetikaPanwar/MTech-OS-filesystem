@@ -127,14 +127,16 @@ public class MongoConnectivity{
 		dbObject.put("isDirectory", user_file.isDirectory());
 		return dbObject;
 	}
-	    public static void main(String args[])
-	    {
-	    	
-	    	UserFile u = ICommand.mongoConnect.getTestFile();
-	    	ICommand.mongoConnect.createFile(u);
-	    	
-	    	//mongoConnect.updateCommon(u);
-	    }
+
+	public static void main(String args[])
+	{
+
+		UserFile u = ICommand.mongoConnect.getTestFile();
+		ICommand.mongoConnect.createFile(u);
+
+		//mongoConnect.updateCommon(u);
+	}
+	
 	public UserFile getTestFile() {
 		Date date = new Date();
 		UserFile testFile = new UserFile();
@@ -201,7 +203,7 @@ public class MongoConnectivity{
 		return files;
 	}
 
-	private User convertToUser(DBObject dbo) {
+		private User convertToUser(DBObject dbo) {
 		User u = new User();
 		u.setUserid(((Integer) dbo.get("userid")));
 		u.setUsername((String) dbo.get("username"));

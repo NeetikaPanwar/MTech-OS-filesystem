@@ -7,42 +7,45 @@ import java.util.List;
 import java.util.Map;
 
 import org.iiitb.os.os_proj.UserFile;
-import org.iiitb.os.os_proj.controller.Controller;
+import org.iiitb.os.os_proj.utils.GetPath;
 
 import com.mongodb.WriteResult;
 
 public class Touch implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {
+		ArrayList<String> path = GetPath.getSearchPath(params.get(0));
 		ArrayList<String> result=new ArrayList<String>();
 		
 		//Search if file exists
 		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("path", Controller.CURRENT_PATH);
-		constraints.put("name", params.get(0));
+		constraints.put("name", path.get(0));		
+		constraints.put("path", path.get(1));
 		constraints.put("isDirectory", "false");
-		ArrayList<UserFile> resFiles = mongoConnect.getFiles(constraints);
+		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 		
-		if(resFiles != null)	//File exists.. change the timestamp
+		if(receivedFile != null)	//File exists.. change the timestamp
 		{
-			resFiles.get(0).setTimestamp(new Date());
+			receivedFile.get(0).setTimestamp(new Date());
 			result.add(ICommand.SUCCESS);
 		}
 		else	//create new userfile and add it to db
 		{
 			UserFile file = new UserFile();
+			Date date = new Date();
+			
 			file.setId(12345);
-			file.setName(params.get(0));
-			file.setFiletypeId(123);
-			file.setPath(Controller.CURRENT_PATH);
+			file.setName(path.get(0));
+			file.setFiletypeId(1);
+			file.setPath(path.get(1));
 			file.setFile_size(1234);
-			file.setTimestamp(new Date());
-			file.setDate_created(new Date());
-			//file.setDate_updated(null);
+			file.setTimestamp(date);
+			file.setDate_created(date);
+			file.setDate_updated(date);
 			file.setUser_created(1); //get userid
-			//file.setUser_updated(null);
+			file.setUser_updated(1);
 			file.setDirectory(false);
-			//file.setData("");
+			file.setData(null);
 			
 			WriteResult createResult = mongoConnect.createFile(file);
 			String error = createResult.getError();
@@ -51,11 +54,9 @@ public class Touch implements ICommand {
 			else
 			{
 				result.add(ICommand.FAILURE);
-				result.add("Unable to create new file.");
+				result.add("touch: Unable to create new file.");
 			}			
-		}
-	
+		}	
 		return result;
 	}
-
 }

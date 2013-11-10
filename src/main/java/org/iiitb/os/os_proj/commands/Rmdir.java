@@ -20,7 +20,6 @@ public class Rmdir implements ICommand {
 		Map<String, String> constraints = new HashMap<String, String>();
 		constraints.put("name", path.get(0));		
 		constraints.put("path", path.get(1));
-		constraints.put("isDirectory", "true");
 		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 		
 		//if exists, remove from db
@@ -45,5 +44,5 @@ public class Rmdir implements ICommand {
 		
 		return result;
 	}
-
+	
 }

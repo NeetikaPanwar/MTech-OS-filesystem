@@ -30,8 +30,8 @@ public class Controller {
 	public static String CURRENT_USER = "";
 
 	public Controller(String path, String user) {
-		this.CURRENT_PATH = path;
-		this.CURRENT_USER = user;
+		Controller.CURRENT_PATH = path;
+		Controller.CURRENT_USER = user;
 	}
 
 	public void call(String cmd) {
@@ -39,6 +39,17 @@ public class Controller {
 		cmd = cmd.trim();
 		List<String> params = new LinkedList<String>(Arrays.asList(cmd
 				.split(" ")));
+		if(params.get(0).equals("sudo")){
+			System.out.println("To shell: [sudo] password for " + Controller.CURRENT_USER);
+			String password = ""; //password received from shell
+			while(!password.equals("password of current_user"))
+			{
+				System.out.println("Sorry, try again.");
+				System.out.println("To shell: [sudo] password for " + Controller.CURRENT_USER);
+			}
+			
+			params.remove(0);//remove sudo
+		}
 		String split_cmd = params.remove(0);
 
 		// ArrayList<String> params = ;
@@ -195,13 +206,21 @@ public class Controller {
 					System.out.println("Pass this to shell: null");	
 			}
 			else
-				System.out.println("Pass this to shell: mkdir: Incorrect no of arguments.");
+				System.out.println("Pass this to shell: rmdir: Incorrect no of arguments.");
 			break;
 
 		case tail:
-			Tail tail = new Tail();
-			result = tail.runCommand(params);
-			System.out.println(result);
+			if(params.size() == 1)
+			{
+				Tail tail = new Tail();
+				result = tail.runCommand(params);
+				if(result.get(0).equals(ICommand.FAILURE))
+					System.out.println("Pass this to shell: " + result.get(1));
+				else
+					System.out.println("Pass this to shell: " + result.get(1));
+			}
+			else
+				System.out.println("Pass this to shell: tail: Incorrect no of arguments.");
 			break;
 
 		case touch:
@@ -211,7 +230,7 @@ public class Controller {
 			break;
 
 		default:
-			System.out.println("Command not found.");
+			System.out.println(cmd + ": Command not found.");
 		}
 
 	}
