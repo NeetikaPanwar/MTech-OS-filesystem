@@ -21,11 +21,27 @@ import org.iiitb.os.os_proj.commands.Rmdir;
 import org.iiitb.os.os_proj.commands.Tail;
 import org.iiitb.os.os_proj.commands.Touch;
 import org.iiitb.os.os_proj.controller.Controller;
+import org.iiitb.os.os_proj.db.MongoConnectivity;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestCommand{
+import com.mongodb.DBCollection;
 
+public class TestCommand{
+	
+	public static String TESTDB = "testDB";
+	public static String TESTCOLLECTION = "testCollection";
+	public static MongoConnectivity testMongo;
+	public static DBCollection res;
+
+	@BeforeClass
+	public static void setupDB(){
+		testMongo = new MongoConnectivity(TESTDB);
+		res = testMongo.openConnection(TESTCOLLECTION);
+		res.drop();
+	}
+	
 	@Test
 	public void testLocate(){
 		Locate locate=new Locate();
@@ -37,7 +53,7 @@ public class TestCommand{
 		u.setPath("iiitb");
 		u.setDirectory(true);
 		
-		ICommand.mongoConnect.createFile(u);
+		testMongo.createFile(u);
 		searchPath.add("abcdefgh");
 		result=locate.runCommand(searchPath);
 		
@@ -81,7 +97,7 @@ public class TestCommand{
 		u.setPath("iiitb");
 		u.setDirectory(true);
 		
-		ICommand.mongoConnect.createFile(u);
+		testMongo.createFile(u);
 		searchPath.add("abcdefgh");
 		result=m.runCommand(searchPath);
 		
@@ -94,13 +110,16 @@ public class TestCommand{
 				assertEquals(ICommand.FAILURE,result.get(0));	
 			
 	}
-	@Ignore 
+	@Test 
 	public void testRmdir(){
 		Rmdir m=new Rmdir();
 		ArrayList<String> al=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
-		
-		
+		UserFile u=new UserFile();
+		u.setName("abcdefgh");
+		u.setPath("iiitb");
+		u.setDirectory(true);
+		testMongo.createFile(u);
 		al.add("abcdefgh");
 		result=m.runCommand(al);
 		
@@ -121,7 +140,7 @@ public class TestCommand{
 		u.setPath("iiitb");
 		u.setDirectory(true);
 		u.setData("this is hello");
-		ICommand.mongoConnect.createFile(u);
+		testMongo.createFile(u);
 		searchPath.add("abcdefgh");
 		result=c.runCommand(searchPath);
          
@@ -147,7 +166,7 @@ public class TestCommand{
 		u.setName("abcdefgh");
 		u.setPath("iiitb");
 		u.setFiletypeId(1);
-		ICommand.mongoConnect.createFile(u);
+		testMongo.createFile(u);
 		searchPath.add("abcdefgh");
 		result=f.runCommand(searchPath);
 		
@@ -170,14 +189,14 @@ public class TestCommand{
 		u.setName("abcdefgh");
 		u.setPath("iiitb");
 		u.setDirectory(false);
-		u.setFile_size(12);
-		ICommand.mongoConnect.createFile(u);
+		u.setFile_size(1234);
+		testMongo.createFile(u);
 		searchPath.add("abcdefgh");
 		result=f.runCommand(searchPath);
 	
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-			assertEquals("12",result.get(1));}
+			assertEquals("1234",result.get(1));}
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
 		
@@ -196,7 +215,7 @@ public class TestCommand{
 		u.setPath("iiitb");
 		u.setDirectory(false);
 		u.setData("hiiiiiiiiiiiiiiiii");
-		ICommand.mongoConnect.createFile(u);
+		testMongo.createFile(u);
 		searchPath.add("abcdefgh");
 		result=h.runCommand(searchPath);
 		
@@ -233,7 +252,7 @@ public class TestCommand{
 		u.setPath("iiitb");
 		u.setDirectory(false);
 		u.setData("this is hello");
-		ICommand.mongoConnect.createFile(u);
+		testMongo.createFile(u);
 		searchPath.add("abcdefgh");
 		result=t.runCommand(searchPath);
 	
@@ -298,24 +317,25 @@ public class TestCommand{
 		
 		
 	}
-	@Test 
+	@Ignore 
 	public void testLs(){
 		Ls l=new Ls();
 		ArrayList<String> al = new ArrayList<String>();
 		ArrayList<String> result = new ArrayList<String>();
 		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("path", Controller.CURRENT_PATH);
-		ArrayList<UserFile> resFiles = ICommand.mongoConnect.getFiles(constraints);
+		constraints.put("path", "/home/neetika");
+		ArrayList<UserFile> resFiles = testMongo.getFiles(constraints);
 		ArrayList<String> actual = new ArrayList<String>();
 		
 		while(resFiles != null){
 			for(UserFile u: resFiles)
 				actual.add(u.getName());
 		}
+		System.out.println(actual);
 		result=l.runCommand(al);
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-			assertEquals(actual,result);
+			assertEquals(actual,result.get(1));
 		}
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
@@ -323,7 +343,6 @@ public class TestCommand{
 		
 		
 	}
-	
 	
 	
 	
