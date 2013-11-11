@@ -317,7 +317,7 @@ public class TestCommand {
 		result = l.runCommand(al);
 		if (result.get(0) == ICommand.SUCCESS) {
 			assertEquals(ICommand.SUCCESS, result.get(0));
-			assertEquals(actual, result.get(1));
+			assertEquals(actual.get(0), result.get(1));
 		} else
 			assertEquals(ICommand.FAILURE, result.get(0));
 
