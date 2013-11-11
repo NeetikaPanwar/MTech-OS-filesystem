@@ -33,12 +33,14 @@ public class Rmdir implements ICommand {
 			if(receivedFile.get(0).isDirectory())
 			{
 				//recursively call deletefile
-				Map<String, String> pathConstraint = new HashMap<String, String>();	
-				pathConstraint.put("path", "/" + path.get(1) + "/" + path.get(0) + ".*/");
-				ArrayList<UserFile> receivedFiles = mongoConnect.getFiles(constraints);
-				for(UserFile u: receivedFiles)
-					mongoConnect.deleteFile(u.getPath());
-				result.add(ICommand.SUCCESS);
+//				Map<String, String> pathConstraint = new HashMap<String, String>();	
+//				pathConstraint.put("path", "/" + path.get(1) + "/" + path.get(0) + ".*/");
+//				ArrayList<UserFile> receivedFiles = mongoConnect.getFiles(constraints);
+//				for(UserFile u: receivedFiles)
+//					mongoConnect.deleteFile(u.getPath());
+//				result.add(ICommand.SUCCESS);
+				
+				mongoConnect.deleteFile("/" + path.get(1) + "/" + path.get(0) + ".*/");
 			}
 			else
 			{
