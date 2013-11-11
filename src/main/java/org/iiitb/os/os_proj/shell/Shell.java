@@ -189,9 +189,9 @@ public class Shell extends JFrame {
         }
         robot.keyPress(KeyEvent.VK_BACK_SPACE);
         robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-       // command.setCaretPosition(command.getText().length());
+        // command.setCaretPosition(command.getText().length());
 
-           }
+    }
 
     public ArrayList<String> logout() {
         Controller.CURRENT_PATH = "";
