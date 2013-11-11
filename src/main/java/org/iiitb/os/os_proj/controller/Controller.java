@@ -28,6 +28,7 @@ public class Controller {
 
 	public static String CURRENT_PATH = "";
 	public static String CURRENT_USER = "";
+    private boolean validCommand=false;
 
 	public Controller(String path, String user) {
 		Controller.CURRENT_PATH = path;
@@ -54,6 +55,15 @@ public class Controller {
 
 		// ArrayList<String> params = ;
 		ArrayList<String> result = new ArrayList<String>();
+
+        for(commands c:commands.values()){
+            if (c.name().equals(split_cmd)) {
+                validCommand=true;
+            }
+        }
+
+        if(validCommand){
+
 
 		switch (commands.valueOf(split_cmd)) {
 		case cat: 
@@ -234,6 +244,12 @@ public class Controller {
 		}
 
 	}
+        else{
+            result.add(ICommand.FAILURE);
+            result.add("Invalid Command");
+        }
+
+    }
 
 	public static void main(String args[]) {
 

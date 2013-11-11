@@ -6,6 +6,7 @@ import org.iiitb.os.os_proj.controller.Controller;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.text.DefaultCaret;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -27,12 +28,15 @@ public class Shell extends JFrame {
     private static String SHELLTEXT = "\t              Welcome to KanchuFS Shell \nEnter Username:";
     private boolean isLoginUserName = true;
     private boolean isLoginPassword = false;
+    private boolean firstcommand=false;
 
     private String username;
     private String password;
 
     private JTextArea shellArea;
     private JTextArea command;
+
+    private Border border;
 
 
     private Controller controller;
@@ -44,7 +48,7 @@ public class Shell extends JFrame {
         JPanel shellPanel = new JPanel();
         shellPanel.setBackground(new Color(0, 0, 0));
 
-        Border border = BorderFactory.createLineBorder(Color.BLACK);
+        border = BorderFactory.createLineBorder(Color.BLACK);
 
         shellArea = new JTextArea(ROWS, COLUMNS);
         shellArea.setText(SHELLTEXT);
@@ -62,6 +66,7 @@ public class Shell extends JFrame {
         command.setBorder(BorderFactory.createCompoundBorder(border,
                 BorderFactory.createEmptyBorder(0, 10, 5, 10)));
         command.setBackground(new Color(0, 0, 0));
+        command.setCaretColor(new Color(255,255,255));
         command.requestFocus();
         command.setLineWrap(true);
         command.setWrapStyleWord(true);
@@ -104,20 +109,26 @@ public class Shell extends JFrame {
                         command.setText("");
                         shellArea.append("\n" + username);
                         shellArea.append("\nEnter Password:");
+                        command.setCaretColor(new Color(0,0,0));
                         isLoginUserName = false;
                         isLoginPassword = true;
                     } else if (isLoginPassword) {
                         password = command.getText();
                         command.setText("");
+                        command.setCaretColor(new Color(255,255,255));
                         isLoginPassword = false;
                         isLoginUserName = false;
                         login(username, password);
                         command.setForeground(new Color(255, 255, 255));
                     } else {
+                        if(firstcommand){
+                            shellArea.setVisible(true);
+                            firstcommand=false;
+                        }
                         controller.call(command.getText());
                     }
 
-                    command.setCaretPosition(0);
+                    command.setCaretPosition(userString.length());
 
                 }
             }
@@ -141,7 +152,7 @@ public class Shell extends JFrame {
 //        repaint();
 //    }
 
-    public ArrayList<String> login(String username, String password) {
+    public void login(String username, String password) {
 
         ArrayList<User> userDetails;
         Map<String, String> constraints = new HashMap<String,String>();
@@ -149,11 +160,38 @@ public class Shell extends JFrame {
         constraints.put("password", password);
         userDetails = ICommand.mongoConnect.getUsers(constraints);
 
-        if (userDetails.size() != 0) {
-            controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0).getHome());
-        }
-        return null;
+//       if (userDetails.size() != 0) {
+//            controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0).getHome());
+//            userString=userDetails.get(0).getUsername()+" $:";
+//            Controller.CURRENT_PATH=userDetails.get(0).getHome();
+//        }
+
+        userString="abcd $:" ;
+        Controller.CURRENT_PATH="Home";
+
+        shellArea.setText("");
+        firstcommand=true;
+        //shellArea.setVisible(false);
+        command.setText("");
+
+        showUserString();
+
     }
+
+    private void showUserString() {
+        shellArea.append("Logged in successfully");
+        command.append(userString);
+        Robot robot= null;
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        robot.keyPress(KeyEvent.VK_BACK_SPACE);
+        robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+       // command.setCaretPosition(command.getText().length());
+
+           }
 
     public ArrayList<String> logout() {
         Controller.CURRENT_PATH = "";
