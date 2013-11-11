@@ -27,8 +27,7 @@ public class MongoConnectivity{
 	private DB db;
 	private DBCollection dbCollection;
 	private DBCollection dbcollection;
-	private ArrayList<DBObject> listOfObjects = new ArrayList<DBObject>();
-
+	
 	public MongoConnectivity(String database){
 		DATABASE=database;
 	}
@@ -234,6 +233,8 @@ public class MongoConnectivity{
 
 
 	public void deleteFile(String file_path) {
+		ArrayList<DBObject> listOfObjects = new ArrayList<DBObject>();
+
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
@@ -256,18 +257,15 @@ public class MongoConnectivity{
 		}*/
 	}
 
-	private void delete(ArrayList<DBObject> listOfObjects2) {
-		int i = 0;
+	private void delete(ArrayList<DBObject> listOfObjects) {
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
 			System.out.println("connection failed");
 		} 
 		else 
 		{
-			while (i < listOfObjects.size()) {
-				dbcollection.findAndRemove(listOfObjects2.get(i));
-				i++;
-			}
+			for(DBObject obj:listOfObjects)
+				dbcollection.findAndRemove(obj);
 		}
 
 	}

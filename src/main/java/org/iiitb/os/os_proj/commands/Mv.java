@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.iiitb.os.os_proj.UserFile;
-import org.iiitb.os.os_proj.controller.Controller;
-import org.iiitb.os.os_proj.db.MongoConnectivity;
+import org.iiitb.os.os_proj.utils.GetPath;
 
 import com.mongodb.WriteResult;
 
@@ -16,63 +15,81 @@ public class Mv implements ICommand {
 
 	public ArrayList<String> runCommand(List<String> params) {
 		ArrayList<String> result=new ArrayList<String>();
-		//get 1st and 2nd parameter
-		int i=0;
-		String source=params.get(0);
-		String destination=params.get(1);
-		MongoConnectivity testMongo=new MongoConnectivity(MongoConnectivity.DATABASE);
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("name", source);
-		constraints.put("path",Controller.CURRENT_PATH);
-		Map<String, String> constraints1 = new HashMap<String, String>();
-		constraints.put("name", destination);
-		constraints.put("path",Controller.CURRENT_PATH);
-		ArrayList<UserFile> files = testMongo.getFiles(constraints);
-		ArrayList<UserFile> files1 = testMongo.getFiles(constraints1);
-		if((files.get(0).isDirectory()==false)&&(files1.get(0).isDirectory()==true)){
+		
+		//get src and dest
+		ArrayList<String> srcPath = GetPath.getSearchPath(params.get(0));
+		Map<String, String> srcConstraints = new HashMap<String, String>();
+		srcConstraints.put("name", srcPath.get(0));
+		srcConstraints.put("path", srcPath.get(1));
+		ArrayList<UserFile> srcFiles = mongoConnect.getFiles(srcConstraints);		
+		
+		ArrayList<String> destPath = GetPath.getSearchPath(params.get(1));
+		Map<String, String> destConstraints = new HashMap<String, String>();
+		destConstraints.put("name", destPath.get(0));
+		destConstraints.put("path", destPath.get(1));
+		ArrayList<UserFile> destFiles = mongoConnect.getFiles(destConstraints);
+		
+		if(srcFiles.size() != 0){
+			result.add(ICommand.FAILURE);
+			result.add("mv: cannot stat '" + srcPath.get(0) +"': No such file or directory"  );
+		}
+		else
+		{
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		if((srcFiles.get(0).isDirectory()==false)&&(destFiles.get(0).isDirectory()==true)){
 
-			files.get(0).setPath(files1.get(0).getPath()+files1.get(0).getName());
+			srcFiles.get(0).setPath(destFiles.get(0).getPath()+destFiles.get(0).getName());
 			Date date = new Date();
-			files.get(0).setDate_created(date);
-			files.get(0).setDate_updated(date);
+			srcFiles.get(0).setDate_created(date);
+			srcFiles.get(0).setDate_updated(date);
 
-			files.get(0).setTimestamp(date);
-			files.get(0).setUser_created(1);
-			files.get(0).setUser_updated(2);
+			srcFiles.get(0).setTimestamp(date);
+			srcFiles.get(0).setUser_created(1);
+			srcFiles.get(0).setUser_updated(2);
 
-			mongoConnect.updateCommon(files.get(0));
+			mongoConnect.updateCommon(srcFiles.get(0));
 
 			result.add(ICommand.SUCCESS);
 
 		}
 
-		else if((files.get(0).isDirectory()==true)&&(files1.get(0).isDirectory()==false)){
+		else if((srcFiles.get(0).isDirectory()==true)&&(destFiles.get(0).isDirectory()==false)){
 
 			result.add(ICommand.FAILURE);
 			result.add("folder can't be move to file");
 
 
 		}
-		else if((files.get(0).isDirectory()==false)&&(files1.get(0).isDirectory()==false)){
+		else if((srcFiles.get(0).isDirectory()==false)&&(destFiles.get(0).isDirectory()==false)){
 
 			//String SourcePath=files.get(0).getPath();
 			//String DestinationPath=files1.get(0).getPath();
 
-			String sourceData=files.get(0).getData();
+			String sourceData=srcFiles.get(0).getData();
 			String destinationData=sourceData;
 
 
-			files1.get(0).setData(destinationData);
-			files1.get(0).setPath(files1.get(0).getPath());
-			mongoConnect.updateCommon(files1.get(0));
+			destFiles.get(0).setData(destinationData);
+			destFiles.get(0).setPath(destFiles.get(0).getPath());
+			mongoConnect.updateCommon(destFiles.get(0));
 
 			result.add(ICommand.SUCCESS);	
 
 		}
 
-			else if(files.size()>0&&files1.size()<0)
+			else if(srcFiles.size()>0&&destFiles.size()<0)
 			{
-				String sourceData=files.get(0).getData();
+				String sourceData=srcFiles.get(0).getData();
 				String destinationData=sourceData;
 				UserFile u=new UserFile();
 				u.setName("destination");
@@ -102,9 +119,9 @@ public class Mv implements ICommand {
 		
 
 
-		else if((files.get(0).isDirectory()==true)&&(files1.get(0).isDirectory()==true)){
+		else if((srcFiles.get(0).isDirectory()==true)&&(destFiles.get(0).isDirectory()==true)){
 
-         String sourcepath=files.get(0).getPath();
+         String sourcepath=srcFiles.get(0).getPath();
          
 
 		}
