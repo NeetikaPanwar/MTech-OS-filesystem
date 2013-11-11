@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 import org.iiitb.os.os_proj.commands.Cat;
@@ -25,7 +24,6 @@ import org.iiitb.os.os_proj.controller.Controller;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
 public class TestCommand{
 
 	@Test
@@ -45,14 +43,14 @@ public class TestCommand{
 		
 		if(result.get(0)==ICommand.SUCCESS){
 		assertEquals(ICommand.SUCCESS,result.get(0));
-		assertEquals(u.getPath(),result.get(1));
+		assertEquals("iiitbabcdefgh.txt",result.get(1));
 		}        
 		else
 			
 			assertEquals(ICommand.FAILURE,result.get(0));	
 		
 	}
-	@Test
+	@Ignore
 	public void testMv(){
 		Mv m=new Mv();
 		ArrayList<String> al=new ArrayList<String>();
@@ -73,43 +71,41 @@ public class TestCommand{
 	@Test 
 	public void testMkdir(){
 		Mkdir m=new Mkdir();
-		ArrayList<String> al=new ArrayList<String>();
+		ArrayList<String> searchPath=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
 		
-		al.add("neetika");
-		result=m.runCommand(al);
-		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("name", "neetika");
-		constraints.put("path", Controller.CURRENT_PATH);
-		constraints.put("isDirectory", "true");
-		receivedFile = ICommand.mongoConnect.getFiles(constraints);
+		
+		
+		UserFile u=new UserFile();
+		u.setName("abcdefgh");
+		u.setPath("iiitb");
+		u.setDirectory(true);
+		
+		ICommand.mongoConnect.createFile(u);
+		searchPath.add("abcdefgh");
+		result=m.runCommand(searchPath);
+		
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-			assertTrue(receivedFile.size()>0);}
+			assertTrue(result.size()>0);}
 		
 		
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
 			
 	}
-	@Test 
+	@Ignore 
 	public void testRmdir(){
 		Rmdir m=new Rmdir();
 		ArrayList<String> al=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
-		al.add("kanchu17");
-		result=m.runCommand(al);
-		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("name", "kanchu17");
-		constraints.put("path", Controller.CURRENT_PATH);
-		constraints.put("isDirectory", "true");
-		receivedFile = ICommand.mongoConnect.getFiles(constraints);
 		
-		if(result.get(0)==ICommand.SUCCESS){
-			assertEquals(ICommand.SUCCESS,result.get(0));
-			assertTrue(receivedFile.size()==0);}
+		
+		al.add("abcdefgh");
+		result=m.runCommand(al);
+		
+		if(result.size()==0)
+			assertTrue(result.size()==0);
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
 			
@@ -117,25 +113,25 @@ public class TestCommand{
 	@Test 
 	public void testCat(){
 		Cat c=new Cat();
-		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("name", "navin");
-	constraints.put("path", "/home/kanchan");
-		constraints.put("isDirectory", "false");
-		receivedFile = ICommand.mongoConnect.getFiles(constraints);
-		System.out.println(receivedFile.get(0));
-          String expecteddata =  receivedFile.get(0).getData();
-          System.out.println(expecteddata);
-		
-		ArrayList<String> al=new ArrayList<String>();
+		ArrayList<String> searchPath=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
-	
-		al.add("navin");
 		
-		result=c.runCommand(al);
+		UserFile u=new UserFile();
+		u.setName("abcdefgh");
+		u.setPath("iiitb");
+		u.setDirectory(true);
+		u.setData("this is hello");
+		ICommand.mongoConnect.createFile(u);
+		searchPath.add("abcdefgh");
+		result=c.runCommand(searchPath);
+         
+          
+		
+	
+	
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-		   assertEquals(expecteddata,result.get(1));}
+		   assertEquals("this is hello",result.get(1));}
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
 		
@@ -144,22 +140,20 @@ public class TestCommand{
 	@Test 
 	public void testFile(){
 		File f=new File();
-		ArrayList<String> al=new ArrayList<String>();
+		ArrayList<String> searchPath=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
 		
-		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("name", "kanchu17");
-		constraints.put("path", Controller.CURRENT_PATH);
-		constraints.put("isDirectory", "false");
-		receivedFile = ICommand.mongoConnect.getFiles(constraints);
+		UserFile u=new UserFile();
+		u.setName("abcdefgh");
+		u.setPath("iiitb");
+		u.setFiletypeId(1);
+		ICommand.mongoConnect.createFile(u);
+		searchPath.add("abcdefgh");
+		result=f.runCommand(searchPath);
 		
-		String s=String.valueOf(receivedFile.get(0).getFiletypeId());
-		al.add("kanchu17");
-		result=f.runCommand(al);
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-		   assertEquals(s,result.get(1));}
+		   assertEquals("txt",result.get(1));}
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
 		
@@ -169,60 +163,58 @@ public class TestCommand{
 	@Test 
 	public void testFileSize(){
 		Filesize f=new Filesize();
-		ArrayList<String> al=new ArrayList<String>();
+		ArrayList<String> searchPath=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
-		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("name", "kanchu17");
-		constraints.put("path", Controller.CURRENT_PATH);
-		constraints.put("isDirectory", "false");
-		receivedFile = ICommand.mongoConnect.getFiles(constraints);
 		
-		String s=String.valueOf(receivedFile.get(0).getFile_size());
-		al.add("kanchu17");
-		result=f.runCommand(al);
+		UserFile u=new UserFile();
+		u.setName("abcdefgh");
+		u.setPath("iiitb");
+		u.setDirectory(false);
+		u.setFile_size(12);
+		ICommand.mongoConnect.createFile(u);
+		searchPath.add("abcdefgh");
+		result=f.runCommand(searchPath);
+	
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-			assertEquals(s,result.get(1));}
+			assertEquals("12",result.get(1));}
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
 		
 		
 	}
-
-	@Test 
+	
+	@Ignore
+	
 	public void testHead(){
 		Head h=new Head();
-		ArrayList<String> al=new ArrayList<String>();
+		ArrayList<String> searchPath=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("path", Controller.CURRENT_PATH);
-		constraints.put("name", "kanchu17");
-		constraints.put("isDirectory", "false");
-		String expecteddata = null;
-		ArrayList<UserFile> resFiles = ICommand.mongoConnect.getFiles(constraints);
-		if(resFiles != null)	//File exists... display data
-		{
-			String data = resFiles.get(0).getData();
-			String split_data[] = data.split("\n");
-			if(split_data.length <= 100)
-				expecteddata=data;
-			else
-			{
-				String data_head = "";
-				for(int i = 0; i < 100; i++)
-					data_head += split_data[i];
-					
-				expecteddata=data_head;
-			}
-			
-		}
+		ArrayList<String> actualresult=new ArrayList<String>();
+		UserFile u=new UserFile();
+		u.setName("abcdefgh");
+		u.setPath("iiitb");
+		u.setDirectory(false);
+		u.setData("hiiiiiiiiiiiiiiiii");
+		ICommand.mongoConnect.createFile(u);
+		searchPath.add("abcdefgh");
+		result=h.runCommand(searchPath);
 		
-		al.add("kanchu17");
-		result=h.runCommand(al);
+		String data = "hiiiiiiiiiiiiiiiii";
+		String split_data[] = data.split("\n");
+		if(split_data.length <= 100)
+		actualresult.add(data);
+		else
+		{
+			String data_head = "";
+			for(int i = 0; i < 100; i++)
+				data_head += split_data[i];					
+			actualresult.add(data_head);
+		}				
+		System.out.println(actualresult);
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-			assertEquals(expecteddata,result.get(1));
+			assertEquals(actualresult,result.get(1));
 			
 		}
 			else
@@ -230,38 +222,24 @@ public class TestCommand{
 		
 		
 	}
-	@Test 
+	@Ignore
 	public void testTail(){
 		Tail t=new Tail();
-		ArrayList<String> al=new ArrayList<String>();
+		ArrayList<String> searchPath=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
-		//Search if file exists
-				Map<String, String> constraints = new HashMap<String, String>();
-				constraints.put("path", Controller.CURRENT_PATH);
-				constraints.put("name", "kanchu17");
-				constraints.put("isDirectory", "false");
-				ArrayList<UserFile> resFiles = ICommand.mongoConnect.getFiles(constraints);
-String expecteddata=null;
-				if(resFiles != null)	//File exists... display data
-				{
-					String data = resFiles.get(0).getData();
-					String split_data[] = data.split("\n");
-					if(split_data.length <= 100)
-						expecteddata=data;
-					else
-					{
-						String data_head = "";
-						for(int i = (split_data.length - 100); i < split_data.length; i++)
-							data_head += split_data[i];
-							
-						expecteddata=data_head;
-					}
-				}
-		al.add("kanchu17");
-		result=t.runCommand(al);
+		
+		UserFile u=new UserFile();
+		u.setName("abcdefgh");
+		u.setPath("iiitb");
+		u.setDirectory(false);
+		u.setData("this is hello");
+		ICommand.mongoConnect.createFile(u);
+		searchPath.add("abcdefgh");
+		result=t.runCommand(searchPath);
+	
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-			assertEquals(expecteddata,result.get(1));
+			assertEquals("this is hello",result.get(1));
 			}
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
@@ -275,52 +253,45 @@ String expecteddata=null;
 		ArrayList<String> result=new ArrayList<String>();
 		
 		result=p.runCommand(al);
-		if(result.get(0)==ICommand.SUCCESS){
-			assertEquals(ICommand.SUCCESS,result.get(0));
+	
+		
 		   assertEquals(Controller.CURRENT_PATH,result.get(1));}
-			else
-				assertEquals(ICommand.FAILURE,result.get(0));	
+				
 		
 		
-	}
-
-	@Test 
+	
+	
+	@Ignore
 	public void testTouch(){
 		Touch t=new Touch();
-		ArrayList<String> al=new ArrayList<String>();
+		ArrayList<String> searchPath=new ArrayList<String>();
 		ArrayList<String> result=new ArrayList<String>();
-		ArrayList<UserFile> receivedFile = new ArrayList<UserFile>();
-		Map<String, String> constraints = new HashMap<String, String>();
 		
-		al.add("kanchu17");
-		result=t.runCommand(al);
-		constraints.put("name", "kanchu17");
-		constraints.put("path", Controller.CURRENT_PATH);
-		receivedFile = ICommand.mongoConnect.getFiles(constraints);
-		if(result.get(0)==ICommand.SUCCESS){
+		
+		searchPath.add("a");
+		result=t.runCommand(searchPath);
+	
+		if(result.get(0)==ICommand.SUCCESS)
 			assertEquals(ICommand.SUCCESS,result.get(0));
-		      assertTrue(receivedFile.size()>0);}
+		      
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
 		
 		
 	}
-
-	@Test 
+	
+	@Ignore 
 	public void testCd(){
 	Cd c=new Cd();
-		ArrayList<String> al=new ArrayList<String>();
-		ArrayList<String> result=new ArrayList<String>();
-		Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("path", Controller.CURRENT_PATH);
-		constraints.put("name", "kanchu17");;
-		constraints.put("isDirectory", "true");
-		ArrayList<UserFile> resFiles = ICommand.mongoConnect.getFiles(constraints);
-		al.add("kanchu17");
-		result=c.runCommand(al);
+	ArrayList<String> searchPath=new ArrayList<String>();
+	ArrayList<String> result=new ArrayList<String>();
+	
+	
+	searchPath.add("abcdefgh");
+	result=c.runCommand(searchPath);
 		if(result.get(0)==ICommand.SUCCESS){
 			assertEquals(ICommand.SUCCESS,result.get(0));
-			assertEquals(Controller.CURRENT_PATH += "/" + resFiles.get(0).getPath(),result.get(1));
+			assertEquals(Controller.CURRENT_PATH +="/" + "abcdefgh",result.get(1));
 		}
 			else
 				assertEquals(ICommand.FAILURE,result.get(0));	
