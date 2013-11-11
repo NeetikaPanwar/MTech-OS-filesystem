@@ -24,7 +24,7 @@ public class Touch implements ICommand {
 		constraints.put("isDirectory", "false");
 		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 		
-		if(receivedFile != null)	//File exists.. change the timestamp
+		if(receivedFile.size()!=0)	//File exists.. change the timestamp
 		{
 			receivedFile.get(0).setTimestamp(new Date());
 			result.add(ICommand.SUCCESS);
@@ -48,8 +48,7 @@ public class Touch implements ICommand {
 			file.setData(null);
 			
 			WriteResult createResult = mongoConnect.createFile(file);
-			String error = createResult.getError();
-			if(error.equals(null))
+			if(createResult.getError()==null)
 				result.add(ICommand.SUCCESS);
 			else
 			{

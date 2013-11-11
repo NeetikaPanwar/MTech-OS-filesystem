@@ -35,18 +35,18 @@ public class Controller {
         Controller.CURRENT_USER = user;
     }
 
-    public void call(String cmd) {
+    public String call(String cmd) {
+        String returnString="";
 
         cmd = cmd.trim();
         List<String> params = new LinkedList<String>(Arrays.asList(cmd
                 .split(" ")));
         if(params.get(0).equals("sudo")){
-            System.out.println("To shell: [sudo] password for " + Controller.CURRENT_USER);
+            returnString="[sudo] password for " + Controller.CURRENT_USER;
             String password = ""; //password received from shell
             while(!password.equals("password of current_user"))
             {
-                System.out.println("Sorry, try again.");
-                System.out.println("To shell: [sudo] password for " + Controller.CURRENT_USER);
+                returnString="Sorry, try again\n [sudo] password for " + Controller.CURRENT_USER;
             }
 
             params.remove(0);//remove sudo
@@ -56,6 +56,7 @@ public class Controller {
         // ArrayList<String> params = ;
         ArrayList<String> result = new ArrayList<String>();
 
+        System.out.println(split_cmd+" in this");
         for(commands c:commands.values()){
             if (c.name().equals(split_cmd)) {
                 validCommand=true;
@@ -153,17 +154,23 @@ public class Controller {
                     if(params.size() == 0)
                     {
                         Ls ls = new Ls();
+                        System.out.println("First");
                         result = ls.runCommand(params);
-                        if(result.get(0).equals(ICommand.FAILURE))
-                            System.out.println("Pass this to shell: null");
-                        else
+                        if(result.get(0).equals(ICommand.SUCCESS))
                         {
+                            System.out.println("Second");
                             result.remove(0);
-                            System.out.println("Pass this to shell: " + result);
+                            for(String i:result)
+                            {
+                                returnString+="\n"+i;
+                            }
+
+
+                            System.out.println(returnString+ "in ls");
                         }
                     }
                     else
-                        System.out.println("Pass this to shell: ls: Incorrect no of arguments.");
+                        returnString="ls: Incorrect no of arguments.";
                     break;
 
                 case mkdir:
@@ -172,9 +179,8 @@ public class Controller {
                         Mkdir mkdir = new Mkdir();
                         result = mkdir.runCommand(params);
                         if(result.get(0).equals(ICommand.FAILURE))
-                            System.out.println("Pass this to shell: " + result.get(1));
-                        else
-                            System.out.println("Pass this to shell: null");
+                            returnString=result.get(1);
+                  //ELSE SUCCESS
                     }
                     else
                         System.out.println("Pass this to shell: mkdir: Incorrect no of arguments.");
@@ -199,7 +205,7 @@ public class Controller {
                     if(params.size() == 0){
                         Pwd pwd = new Pwd();
                         result = pwd.runCommand(params);
-                        System.out.println("Pass this to shell: " + result.get(1));
+                        returnString=result.get(1);
                     }
                     else
                         System.out.println("Pass this to shell: pwd: Incorrect no of arguments.");
@@ -236,7 +242,8 @@ public class Controller {
                 case touch:
                     Touch touch = new Touch();
                     result = touch.runCommand(params);
-                    System.out.println(result);
+                    if(result.get(0).equals(ICommand.FAILURE))
+                        returnString=result.get(0);
                     break;
 
                 default:
@@ -245,15 +252,11 @@ public class Controller {
 
         }
         else{
-            result.add(ICommand.FAILURE);
-            result.add("Invalid Command");
+            returnString="Invalid Command";
         }
 
-    }
+        return returnString;
 
-    public static void main(String args[]) {
-
-        //new Controller("").call("cat desktop rajat");
     }
 
 }

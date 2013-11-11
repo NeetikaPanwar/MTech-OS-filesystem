@@ -6,8 +6,6 @@ import org.iiitb.os.os_proj.controller.Controller;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.text.DefaultCaret;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -28,7 +26,9 @@ public class Shell extends JFrame {
     private static String SHELLTEXT = "\t              Welcome to KanchuFS Shell \nEnter Username:";
     private boolean isLoginUserName = true;
     private boolean isLoginPassword = false;
-    private boolean firstcommand=false;
+    private boolean firstcommand = false;
+
+    private String receivedString = null;
 
     private String username;
     private String password;
@@ -66,7 +66,7 @@ public class Shell extends JFrame {
         command.setBorder(BorderFactory.createCompoundBorder(border,
                 BorderFactory.createEmptyBorder(0, 10, 5, 10)));
         command.setBackground(new Color(0, 0, 0));
-        command.setCaretColor(new Color(255,255,255));
+        command.setCaretColor(new Color(255, 255, 255));
         command.requestFocus();
         command.setLineWrap(true);
         command.setWrapStyleWord(true);
@@ -101,7 +101,15 @@ public class Shell extends JFrame {
                     command.setForeground(new Color(0, 0, 0));
                     command.setCaretPosition(0);
                 }
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    if (command.getText().length() > userString.length()) {
+                        callRobotBackspace();
+                    } else {
+                        e.consume();
+                    }
+
+
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (command.getText().equals("logout")) {
                         logout();
                     } else if (isLoginUserName) {
@@ -109,23 +117,24 @@ public class Shell extends JFrame {
                         command.setText("");
                         shellArea.append("\n" + username);
                         shellArea.append("\nEnter Password:");
-                        command.setCaretColor(new Color(0,0,0));
+                        command.setCaretColor(new Color(0, 0, 0));
                         isLoginUserName = false;
                         isLoginPassword = true;
                     } else if (isLoginPassword) {
                         password = command.getText();
                         command.setText("");
-                        command.setCaretColor(new Color(255,255,255));
+                        command.setCaretColor(new Color(255, 255, 255));
                         isLoginPassword = false;
                         isLoginUserName = false;
                         login(username, password);
                         command.setForeground(new Color(255, 255, 255));
                     } else {
-                        if(firstcommand){
+                        if (firstcommand) {
                             shellArea.setVisible(true);
-                            firstcommand=false;
+                            firstcommand = false;
                         }
-                        controller.call(command.getText());
+                        receivedString = controller.call(command.getText().substring(userString.length()));
+                        updateShell(receivedString);
                     }
 
                     command.setCaretPosition(userString.length());
@@ -144,18 +153,28 @@ public class Shell extends JFrame {
         this.add(scrollPane);
     }
 
+    private void updateShell(String receivedString) {
+        shellArea.append("\n" + command.getText() + receivedString);
+        command.setText(userString);
+        callRobotBackspace();
 
-//    private void refresh() {
-//        shellArea.setText(SHELLTEXT);
-//        command.append(userString);
-//        command.setCaretPosition(command.getText().length());
-//        repaint();
-//    }
+    }
+
+    private void callRobotBackspace() {
+        Robot robot = null;
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        robot.keyPress(KeyEvent.VK_BACK_SPACE);
+        robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+    }
 
     public void login(String username, String password) {
 
         ArrayList<User> userDetails;
-        Map<String, String> constraints = new HashMap<String,String>();
+        Map<String, String> constraints = new HashMap<String, String>();
         constraints.put("name", username);
         constraints.put("password", password);
         userDetails = ICommand.mongoConnect.getUsers(constraints);
@@ -166,12 +185,11 @@ public class Shell extends JFrame {
 //            Controller.CURRENT_PATH=userDetails.get(0).getHome();
 //        }
 
-        userString="abcd $:" ;
-        Controller.CURRENT_PATH="Home";
+        userString = "navin $:";
+        Controller.CURRENT_PATH = "/home/navin";
 
         shellArea.setText("");
-        firstcommand=true;
-        //shellArea.setVisible(false);
+        firstcommand = true;
         command.setText("");
 
         showUserString();
@@ -181,16 +199,7 @@ public class Shell extends JFrame {
     private void showUserString() {
         shellArea.append("Logged in successfully");
         command.append(userString);
-        Robot robot= null;
-        try {
-            robot = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        robot.keyPress(KeyEvent.VK_BACK_SPACE);
-        robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-        // command.setCaretPosition(command.getText().length());
-
+        callRobotBackspace();
     }
 
     public ArrayList<String> logout() {
