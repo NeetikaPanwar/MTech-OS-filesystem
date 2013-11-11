@@ -232,7 +232,7 @@ public class MongoConnectivity{
 	}
 
 
-	public void deleteFile(String file_path) {
+	public void deleteFile(String file_name, String file_path) {
 		ArrayList<DBObject> listOfObjects = new ArrayList<DBObject>();
 
 		dbcollection = openConnection(COLLECTION);
@@ -241,6 +241,7 @@ public class MongoConnectivity{
 		}
 
 		BasicDBObject basicObject = new BasicDBObject();
+		basicObject.put("name", file_name);
 		basicObject.put("path", file_path);
 		DBCursor cursor = dbcollection.find(basicObject);
 		while (cursor.hasNext()) {

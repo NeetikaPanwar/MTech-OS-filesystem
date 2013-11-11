@@ -1,7 +1,6 @@
 package org.iiitb.os.os_proj.commands;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,104 +33,58 @@ public class Mv implements ICommand {
 			result.add("mv: cannot stat '" + srcPath.get(0)
 					+ "': No such file or directory");
 		} 
-		else if (destFiles.size() == 0) // dest does not exist
+		else if (srcFiles.get(0).isDirectory() == false) // src is file
 		{
-			if (srcFiles.get(0).isDirectory() == false) // src is a file
+			// move srcfile to destfile - rename filename and change path as
+			// dest path
+			if (destFiles.size() == 0) {
+				srcFiles.get(0).setName(destPath.get(0));
+				srcFiles.get(0).setPath(destPath.get(1));
+			} 
+			else if (!destFiles.get(0).isDirectory()) // move file to
+				// file(delete also)
 			{
-				// move srcfile to destfile
-				String sourceData = srcFiles.get(0).getData();
-				UserFile usr = new UserFile();
-				Date date = new Date();
-
-				usr.setId(1234);
-				usr.setName(destPath.get(0));
-				usr.setFiletypeId(0);
-				usr.setPath(destPath.get(1));
-				usr.setFile_size(1234);
-				usr.setTimestamp(date);
-				usr.setDate_created(date);
-				usr.setDate_updated(date);
-				usr.setUser_created(1);
-				usr.setUser_updated(1);
-				usr.setDirectory(false);
-				usr.setData(sourceData);
-
-				WriteResult wr = mongoConnect.createFile(usr);
-				if (wr.getError().equals(null))
-					result.add(ICommand.SUCCESS);
-				else {
-					result.add(ICommand.FAILURE);
-					result.add("file does not located");
-				}
+				mongoConnect.deleteFile(destPath.get(0), destPath.get(1));
+				srcFiles.get(0).setName(destPath.get(0));
+				srcFiles.get(0).setPath(destPath.get(1));
+			} 
+			else // move file to folder(update path of src)
+			{
+				srcFiles.get(0).setPath(destPath.get(1) + "/" + destPath.get(0));
 			}
-		
+
+			WriteResult wr = mongoConnect.updateCommon(destFiles.get(0));
+			if (wr.getError() == null)
+				result.add(ICommand.SUCCESS);
+			else
+				result.add(ICommand.FAILURE);
+
+		} 
+		else // src is a folder
+		{
+			// change the path of the src folder and all its contents
+			if (destFiles.size() == 0) // dest folder does not exist
+			{
+
+			} 
+			else if (destFiles.get(0).isDirectory()) // dest folder exist
+			{
+
+			} 
+			else // move folder to file - give error
+			{
+				result.add(ICommand.FAILURE);
+				result.add("mv: cannot overwrite non-directory '"
+						+ destPath.get(0) + "' with directory '"
+						+ srcPath.get(0) + "'");
+			}
 		}
-
-
-
-
-
-
-
-
-
-
-			//
-			//		// moving file to directory
-			//		if ((srcFiles.get(0).isDirectory() == false)
-			//				&& (destFiles.get(0).isDirectory() == true)) {
-			//
-			//			srcFiles.get(0).setPath(
-			//					destFiles.get(0).getPath() + destFiles.get(0).getName());
-			//			Date date = new Date();
-			//			srcFiles.get(0).setDate_created(date);
-			//			srcFiles.get(0).setDate_updated(date);
-			//
-			//			srcFiles.get(0).setTimestamp(date);
-			//			srcFiles.get(0).setUser_created(1);
-			//			srcFiles.get(0).setUser_updated(2);
-			//
-			//			mongoConnect.updateCommon(srcFiles.get(0));
-			//
-			//			result.add(ICommand.SUCCESS);
-			//
-			//		}
-			//		// moving folder to file- gives error
-			//		else if ((srcFiles.get(0).isDirectory() == true)
-			//				&& (destFiles.get(0).isDirectory() == false)) {
-			//
-			//			result.add(ICommand.FAILURE);
-			//			result.add("folder can't be move to file");
-			//
-			//		}
-			//		// moving file to file
-			//		else if ((srcFiles.get(0).isDirectory() == false)
-			//				&& (destFiles.get(0).isDirectory() == false)) {
-			//
-			//			// String SourcePath=files.get(0).getPath();
-			//			// String DestinationPath=files1.get(0).getPath();
-			//
-			//			String sourceData = srcFiles.get(0).getData();
-			//
-			//			destFiles.get(0).setData(sourceData);
-			//			destFiles.get(0).setPath(destFiles.get(0).getPath());
-			//			mongoConnect.updateCommon(destFiles.get(0));
-			//
-			//			result.add(ICommand.SUCCESS);
-			//
-			//		}
-			//
-			//		else if ((srcFiles.get(0).isDirectory() == true)&& (destFiles.get(0).isDirectory() == true)) {
-			//
-			//			String sourcepath = srcFiles.get(0).getPath();
-			//
-			//		}
-			return result;
-		}
+		return result;
 	}
+}
 
-	// move file to folder will update path
-	// move folder to file will give error
-	// move file to file will update path also
-	// move folder to folder path update
-	//
+// move file to folder will update path
+// move folder to file will give error
+// move file to file will update path also
+// move folder to folder path update
+//

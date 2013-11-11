@@ -40,7 +40,7 @@ public class Rmdir implements ICommand {
 //					mongoConnect.deleteFile(u.getPath());
 //				result.add(ICommand.SUCCESS);
 				
-				mongoConnect.deleteFile("/" + path.get(1) + "/" + path.get(0) + ".*/");
+				//mongoConnect.deleteFile("/" + path.get(1) + "/" + path.get(0) + ".*/");
 			}
 			else
 			{
