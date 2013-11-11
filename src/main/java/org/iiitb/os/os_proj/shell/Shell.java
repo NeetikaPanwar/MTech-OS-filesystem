@@ -24,15 +24,13 @@ public class Shell extends JFrame {
     public static final int COLUMNS = 43;
     public static final int LINE_LENGTH = 407;
     public static String userString = "";
-    private static String SHELLTEXT="\t              Welcome to KanchuFS Shell \nEnter Username:";
-    private boolean isLoginUserName=true;
-    private boolean isLoginPassword=false;
+    private static String SHELLTEXT = "\t              Welcome to KanchuFS Shell \nEnter Username:";
+    private boolean isLoginUserName = true;
+    private boolean isLoginPassword = false;
 
     private String username;
     private String password;
 
-    private JScrollPane scrollPane;
-    private JPanel shellPanel;
     private JTextArea shellArea;
     private JTextArea command;
 
@@ -41,9 +39,9 @@ public class Shell extends JFrame {
 
     public Shell() {
 
-        controller = new Controller("","");
+        controller = new Controller("", "");
 
-        shellPanel = new JPanel();
+        JPanel shellPanel = new JPanel();
         shellPanel.setBackground(new Color(0, 0, 0));
 
         Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -94,33 +92,29 @@ public class Shell extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
 
-                if(isLoginPassword){
-                    command.setForeground(new Color(0,0,0));
+                if (isLoginPassword) {
+                    command.setForeground(new Color(0, 0, 0));
                     command.setCaretPosition(0);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (command.getText().equals("logout")) {
                         logout();
+                    } else if (isLoginUserName) {
+                        username = command.getText();
+                        command.setText("");
+                        shellArea.append("\n" + username);
+                        shellArea.append("\nEnter Password:");
+                        isLoginUserName = false;
+                        isLoginPassword = true;
+                    } else if (isLoginPassword) {
+                        password = command.getText();
+                        command.setText("");
+                        isLoginPassword = false;
+                        isLoginUserName = false;
+                        login(username, password);
+                        command.setForeground(new Color(255, 255, 255));
                     } else {
-                        if(isLoginUserName){
-                           username=command.getText();
-                            command.setText("");
-                            shellArea.append("\n"+username);
-                            shellArea.append("\nEnter Password:");
-                            isLoginUserName=false;
-                            isLoginPassword=true;
-                        }
-                        else if(isLoginPassword){
-                            password=command.getText();
-                            command.setText("");
-                            isLoginPassword=false;
-                            isLoginUserName=false;
-                            login(username,password);
-                            command.setForeground(new Color(255, 255, 255));
-                        }
-                        else{
                         controller.call(command.getText());
-                        }
                     }
 
                     command.setCaretPosition(0);
@@ -130,7 +124,7 @@ public class Shell extends JFrame {
 
         });
 
-        scrollPane = new JScrollPane(shellPanel);
+        JScrollPane scrollPane = new JScrollPane(shellPanel);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         JScrollBar vertical = scrollPane.getVerticalScrollBar();
@@ -140,33 +134,31 @@ public class Shell extends JFrame {
     }
 
 
-    private void refresh(){
-        shellArea.setText(SHELLTEXT);
-        command.append(userString);
-        command.setCaretPosition(command.getText().length());
-        repaint();
-    }
+//    private void refresh() {
+//        shellArea.setText(SHELLTEXT);
+//        command.append(userString);
+//        command.setCaretPosition(command.getText().length());
+//        repaint();
+//    }
 
     public ArrayList<String> login(String username, String password) {
 
-        System.out.println(username+ "Hello" +password);
-        String userName, path;
-    	ArrayList<User> userDetails = new ArrayList<User>();
-    	Map<String, String> constraints = new HashMap<String, String>();
-		constraints.put("name", username);
-		constraints.put("name", password);
-		userDetails = ICommand.mongoConnect.getUsers(constraints);
-	
-		if(userDetails.size()!=0)
-		{Controller controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0).getHome());
-		}
+        ArrayList<User> userDetails;
+        Map<String, String> constraints = new HashMap<>();
+        constraints.put("name", username);
+        constraints.put("name", password);
+        userDetails = ICommand.mongoConnect.getUsers(constraints);
+
+        if (userDetails.size() != 0) {
+            controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0).getHome());
+        }
         return null;
     }
 
     public ArrayList<String> logout() {
-    	Controller.CURRENT_PATH	= "";
-		Controller.CURRENT_USER = "";
-    	//check username/pass and login
+        Controller.CURRENT_PATH = "";
+        Controller.CURRENT_USER = "";
+        //check username/pass and login
 
         return null;
     }
