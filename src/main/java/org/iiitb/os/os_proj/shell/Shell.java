@@ -144,9 +144,9 @@ public class Shell extends JFrame {
     public ArrayList<String> login(String username, String password) {
 
         ArrayList<User> userDetails;
-        Map<String, String> constraints = new HashMap<>();
+        Map<String, String> constraints = new HashMap<String,String>();
         constraints.put("name", username);
-        constraints.put("name", password);
+        constraints.put("password", password);
         userDetails = ICommand.mongoConnect.getUsers(constraints);
 
         if (userDetails.size() != 0) {
