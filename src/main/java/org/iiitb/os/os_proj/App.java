@@ -35,13 +35,36 @@ public class App
 
            MongoConnectivity m=new MongoConnectivity(MongoConnectivity.DATABASE);
            m.createUser(u);
-//            UserFile u=new UserFile();
-//            u.setId(1);
-//            u.setDate_created(date);
-//            u.setDate_updated(date);
-//            u.setPath("/home/navin");
-//            u.setName("folder1");
-//
+
+           UserFile u2=new UserFile();
+            u2.setId(1);
+            u2.setDate_created(date);
+            u2.setDate_updated(date);
+            u2.setPath("/home/navin");
+            u2.setDirectory(true);
+            u2.setName("folder1");
+           m.createFile(u2);
+
+           u2.setId(2);
+           u2.setDate_created(date);
+           u2.setDate_updated(date);
+           u2.setPath("/home/navin/folder1");
+           u2.setDirectory(false);
+           u2.setData("This abc.txt in folder1");
+           u2.setName("abc.txt");
+           m.createFile(u2);
+
+           u2.setId(3);
+           u2.setDate_created(date);
+           u2.setDate_updated(date);
+           u2.setPath("/home/navin");
+           u2.setDirectory(false);
+           u2.setData("This abc.txt in home");
+           u2.setName("abc.txt");
+           m.createFile(u2);
+
+
+
 //            Controller
       }
     }

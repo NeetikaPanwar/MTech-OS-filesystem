@@ -73,12 +73,12 @@ public class Controller {
                         Cat cat = new Cat();
                         result = cat.runCommand(params);
                         if(result.get(0).equals(ICommand.FAILURE))
-                            System.out.println("Pass this to shell: " + result.get(1));
+                            returnString="cat: File Not Found";
                         else
-                            System.out.println("Pass this to shell: " + result.get(1));
+                            returnString=result.get(1);
                     }
                     else
-                        System.out.println("Pass this to shell: cat: Incorrect no of arguments.");
+                        returnString="cat: Incorrect no of arguments";
                     break;
 
                 case cd: // in cd only first parameter is used, others are ignored
@@ -154,20 +154,17 @@ public class Controller {
                     if(params.size() == 0)
                     {
                         Ls ls = new Ls();
-                        System.out.println("First");
                         result = ls.runCommand(params);
                         if(result.get(0).equals(ICommand.SUCCESS))
                         {
-                            System.out.println("Second");
                             result.remove(0);
                             for(String i:result)
                             {
-                                returnString+="\n"+i;
+                                returnString+=i+"\n";
                             }
 
 
-                            System.out.println(returnString+ "in ls");
-                        }
+                           }
                     }
                     else
                         returnString="ls: Incorrect no of arguments.";
@@ -255,7 +252,7 @@ public class Controller {
             returnString="Invalid Command";
         }
 
-        return returnString;
+        return "\n"+returnString;
 
     }
 
