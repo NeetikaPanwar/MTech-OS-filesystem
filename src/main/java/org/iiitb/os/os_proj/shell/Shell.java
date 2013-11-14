@@ -44,7 +44,7 @@ public class Shell extends JFrame {
 
     public Shell() {
 
-        controller = new Controller("", "");
+        controller = new Controller("", new User());
 
         JPanel shellPanel = new JPanel();
         shellPanel.setBackground(new Color(0, 0, 0));
@@ -182,7 +182,7 @@ public class Shell extends JFrame {
         userDetails = ICommand.mongoConnect.getUsers(constraints);
 
         if (userDetails.size() != 0) {
-            controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0).getHome());
+            controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0));
             userString=userDetails.get(0).getUsername()+" $:";
             Controller.CURRENT_PATH=userDetails.get(0).getHome();
 
@@ -222,7 +222,7 @@ public class Shell extends JFrame {
 
     public ArrayList<String> logout() {
         Controller.CURRENT_PATH = "";
-        Controller.CURRENT_USER = "";
+        //Controller.CURRENT_USER = new User();
         //check username/pass and login
 
         return null;
