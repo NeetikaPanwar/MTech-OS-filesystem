@@ -23,7 +23,8 @@ public class Shell extends JFrame {
     public static final int COLUMNS = 43;
     public static final int LINE_LENGTH = 407;
     public static String userString = "";
-    private static String SHELLTEXT = "\t              Welcome to KanchuFS Shell \nEnter Username:";
+    private static String SHELLTEXT = "\t              Welcome to KanchuFS Shell \n\nEnter Username:";
+    private static String SHELLTEXTINCORRECTLOGIN = "\t              Welcome to KanchuFS Shell \n\nIncorrect Login...Try again \nEnter Username:";
     private boolean isLoginUserName = true;
     private boolean isLoginPassword = false;
     private boolean firstcommand = false;
@@ -125,7 +126,9 @@ public class Shell extends JFrame {
                         command.setText("");
                         command.setCaretColor(new Color(255, 255, 255));
                         isLoginPassword = false;
-                        isLoginUserName = false;login(username, password);
+                        isLoginUserName = false;
+                        password=new StringBuffer(password).reverse().deleteCharAt(0).toString();
+                        login(username, password);
                         command.setForeground(new Color(255, 255, 255));
                     } else {
                         if (firstcommand) {
@@ -174,24 +177,40 @@ public class Shell extends JFrame {
 
         ArrayList<User> userDetails;
         Map<String, String> constraints = new HashMap<String, String>();
-        constraints.put("name", username);
-        constraints.put("password", password);
+        constraints.put("username", username);
+        constraints.put("passwordhash", password);
         userDetails = ICommand.mongoConnect.getUsers(constraints);
 
-//       if (userDetails.size() != 0) {
-//            controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0).getHome());
-//            userString=userDetails.get(0).getUsername()+" $:";
-//            Controller.CURRENT_PATH=userDetails.get(0).getHome();
-//        }
+        if (userDetails.size() != 0) {
+            controller = new Controller(userDetails.get(0).getUsername(), userDetails.get(0).getHome());
+            userString=userDetails.get(0).getUsername()+" $:";
+            Controller.CURRENT_PATH=userDetails.get(0).getHome();
 
-        userString = "navin $:";
-        Controller.CURRENT_PATH = "/home/navin";
+            shellArea.setText("");
+            firstcommand = true;
+            command.setText("");
 
-        shellArea.setText("");
-        firstcommand = true;
-        command.setText("");
+            showUserString();
+            callRobotBackspace();
 
-        showUserString();
+        }
+        else{
+            shellArea.setText(SHELLTEXTINCORRECTLOGIN);
+            callRobotBackspace();
+
+            isLoginUserName = true;
+            isLoginPassword = false;
+
+        }
+
+//        userString = "navin $:";
+//        Controller.CURRENT_PATH = "/home/navin";
+//
+//        shellArea.setText("");
+//        firstcommand = true;
+//        command.setText("");
+//
+//        showUserString();
 
     }
 
