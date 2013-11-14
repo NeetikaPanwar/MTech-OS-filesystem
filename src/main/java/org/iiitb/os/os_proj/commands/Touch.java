@@ -18,10 +18,10 @@ public class Touch implements ICommand {
 		ArrayList<String> result=new ArrayList<String>();
 		
 		//Search if file exists
-		Map<String, String> constraints = new HashMap<String, String>();
+		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put("name", path.get(0));		
 		constraints.put("path", path.get(1));
-		constraints.put("isDirectory", "false");
+		constraints.put("isDirectory", false);
 		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 		
 		if(receivedFile.size()!=0)	//File exists.. change the timestamp

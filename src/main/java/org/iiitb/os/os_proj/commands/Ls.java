@@ -13,7 +13,7 @@ public class Ls implements ICommand {
 	public ArrayList<String> runCommand(List<String> params) {
 
 		ArrayList<String> result = new ArrayList<String>();
-		Map<String, String> constraints = new HashMap<String, String>();
+		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put("path", Controller.CURRENT_PATH);
 		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 

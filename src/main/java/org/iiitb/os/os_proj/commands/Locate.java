@@ -11,7 +11,7 @@ public class Locate implements ICommand {
 		ArrayList<String> result=new ArrayList<String>();
 
 		//Search db by name
-		Map<String, String> constraints = new HashMap<String, String>();
+		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put("name", params.get(0));
 		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 

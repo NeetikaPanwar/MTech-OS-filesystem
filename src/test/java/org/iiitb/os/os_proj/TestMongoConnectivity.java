@@ -117,7 +117,7 @@ public class TestMongoConnectivity {
 
 	@Test
 	public void testDisplayFile() {
-		Map<String, String> constraints = new HashMap<String, String>();
+		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put("name", "Kanchu17");
 		//UserFile u = getTestFile();
 		//String file_name = u.getName();

@@ -298,7 +298,7 @@ public class TestCommand {
 		Ls l = new Ls();
 		ArrayList<String> al = new ArrayList<String>();
 		ArrayList<String> result = new ArrayList<String>();
-		Map<String, String> constraints = new HashMap<String, String>();
+		Map<String, Object> constraints = new HashMap<String, Object>();
 		UserFile u = new UserFile();
 		u.setName("abcdefgh");
 		u.setPath("/home/neetika");

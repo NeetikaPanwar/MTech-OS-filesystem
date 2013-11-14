@@ -18,13 +18,13 @@ public class Mv implements ICommand {
 
 		// get src and dest
 		ArrayList<String> srcPath = GetPath.getSearchPath(params.get(0));
-		Map<String, String> srcConstraints = new HashMap<String, String>();
+		Map<String, Object> srcConstraints = new HashMap<String, Object>();
 		srcConstraints.put("name", srcPath.get(0));
 		srcConstraints.put("path", srcPath.get(1));
 		ArrayList<UserFile> srcFiles = mongoConnect.getFiles(srcConstraints);
 
 		ArrayList<String> destPath = GetPath.getSearchPath(params.get(1));
-		Map<String, String> destConstraints = new HashMap<String, String>();
+		Map<String, Object> destConstraints = new HashMap<String,Object>();
 		destConstraints.put("name", destPath.get(0));
 		destConstraints.put("path", destPath.get(1));
 		ArrayList<UserFile> destFiles = mongoConnect.getFiles(destConstraints);

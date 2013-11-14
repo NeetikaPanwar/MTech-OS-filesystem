@@ -18,7 +18,7 @@ public class Cat implements ICommand {
 		// search file exists in db
 		// if exists, return file data
 		
-		Map<String, String> constraints = new HashMap<String, String>();
+		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put("name", path.get(0));		
 		constraints.put("path", path.get(1));
 		constraints.put("isDirectory", "false");

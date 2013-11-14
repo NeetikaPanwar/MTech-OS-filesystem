@@ -17,7 +17,7 @@ public class Rmdir implements ICommand {
 		ArrayList<String> result=new ArrayList<String>();
 
 		//search if dir exists
-		Map<String, String> constraints = new HashMap<String, String>();
+		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put("name", path.get(0));		
 		constraints.put("path", path.get(1));
 		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);

@@ -22,10 +22,19 @@ public class App
 		shell.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
 		shell.setVisible(true);
 
-        boolean fillDatabase=true;
+        boolean fillDatabase=false;
 
-//        if(fillDatabase){
-//            Date date= Calendar.getInstance().getTime();
+       if(fillDatabase){
+            Date date= Calendar.getInstance().getTime();
+           User u=new User();
+           u.setUserid(1);
+           u.setUsername("navin");
+           u.setPasswordHash("navin");
+           u.setHome("/home/navin");
+           u.setRoot(false);
+
+           MongoConnectivity m=new MongoConnectivity(MongoConnectivity.DATABASE);
+           m.createUser(u);
 //            UserFile u=new UserFile();
 //            u.setId(1);
 //            u.setDate_created(date);
@@ -34,6 +43,6 @@ public class App
 //            u.setName("folder1");
 //
 //            Controller
-//        }
+      }
     }
 }

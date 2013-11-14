@@ -35,7 +35,7 @@ public class Cd implements ICommand {
 			ArrayList<String> path = GetPath.getSearchPath(params.get(0));		
 		
 			//Do Mongo Search Here
-			Map<String, String> constraints = new HashMap<String, String>();			
+			Map<String, Object> constraints = new HashMap<String, Object>();
 			constraints.put("name", path.get(0));
 			constraints.put("path", path.get(1));
 			constraints.put("isDirectory", "true");

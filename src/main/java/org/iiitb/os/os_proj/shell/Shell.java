@@ -125,8 +125,7 @@ public class Shell extends JFrame {
                         command.setText("");
                         command.setCaretColor(new Color(255, 255, 255));
                         isLoginPassword = false;
-                        isLoginUserName = false;
-                        login(username, password);
+                        isLoginUserName = false;login(username, password);
                         command.setForeground(new Color(255, 255, 255));
                     } else {
                         if (firstcommand) {

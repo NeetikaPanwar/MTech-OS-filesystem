@@ -156,7 +156,7 @@ public class MongoConnectivity{
 	}
 
 	//display a particular file
-	public ArrayList<UserFile> getFiles(Map<String, String> constraints) {
+	public ArrayList<UserFile> getFiles(Map<String, Object > constraints) {
 		ArrayList<UserFile> files = new ArrayList<UserFile>();
 		dbcollection = openConnection(COLLECTION);
 		if (dbcollection == null) {
@@ -164,7 +164,7 @@ public class MongoConnectivity{
 
 		}
 		BasicDBObject searchFile = new BasicDBObject();
-		for (Entry<String, String> entry : constraints.entrySet()) {
+		for (Entry<String, Object> entry : constraints.entrySet()) {
 			searchFile.put(entry.getKey(), entry.getValue());
 		}
 
