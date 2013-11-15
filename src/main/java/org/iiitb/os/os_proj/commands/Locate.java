@@ -19,7 +19,7 @@ public class Locate implements ICommand {
 
 			result.add(ICommand.SUCCESS);
 			for(UserFile u: receivedFile)
-				result.add(u.getPath() + u.getName() + "." + GetFileType.getFileExt(u.getFiletypeId()));
+				result.add(u.getPath() + u.getName());
 		}
 		else{
 			result.add(ICommand.FAILURE);
