@@ -216,7 +216,7 @@ public class Controller {
 						returnString=result.get(1);
 				}
 				else
-					returnString="rmdir: Incorrect no of arguments.";
+					returnString=" rmdir: Incorrect no of arguments.";
 				break;
 
 			case tail:

@@ -63,6 +63,7 @@ public class MongoConnectivity{
 		dbObject.put("file_size", u.getFile_size());
 		dbObject.put("data", u.getData());
 		dbObject.put("isDirectory",u.isDirectory());
+        dbObject.put("owner",u.getOwner());
 		return create(dbObject);
 	}
 
@@ -123,6 +124,7 @@ public class MongoConnectivity{
 		dbObject.put("path", user_file.getPath());
 		dbObject.put("file_size", user_file.getFile_size());
 		dbObject.put("data", user_file.getData());
+        dbObject.put("owner",user_file.getOwner());
 		dbObject.put("isDirectory", user_file.isDirectory());
 		return dbObject;
 	}
@@ -226,6 +228,7 @@ public class MongoConnectivity{
 		u.setPath((String) dbo.get("path"));
 		u.setFile_size(((Number) dbo.get("file_size")).longValue());
 		u.setData((String) dbo.get("data"));
+        u.setOwner((Integer)dbo.get("owner"));
 		u.setDirectory((Boolean)dbo.get("isDirectory"));
 
 		return u;

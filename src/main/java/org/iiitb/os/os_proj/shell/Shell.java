@@ -28,6 +28,10 @@ public class Shell extends JFrame {
     private boolean isLoginUserName = true;
     private boolean isLoginPassword = false;
     private boolean firstcommand = false;
+    private String sudopassword="";
+
+    private boolean isRoot=false;
+    private boolean sudoProcedureOngoing=false;
 
     private String receivedString = null;
 
@@ -38,6 +42,8 @@ public class Shell extends JFrame {
     private JTextArea command;
 
     private Border border;
+
+    private String sudocommand;
 
 
     private Controller controller;
@@ -111,7 +117,38 @@ public class Shell extends JFrame {
 
 
                 } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (command.getText().equals("logout")) {
+                    System.out.println(command.getText());
+                    if(command.getText().length()>userString.length()+4 && command.getText().substring(userString.length(),userString.length()+4).equals("sudo")){
+                        if(!isRoot){
+                          sudoProcedureOngoing=true;
+                          sudocommand=command.getText().substring(userString.length()+4);
+
+                          updateShell("\nEnter root password:");
+                          command.setText("");
+                          command.setCaretColor(new Color(0,0,0));
+                          command.setForeground(new Color(0,0,0));
+                        } else{
+                            receivedString = controller.call(sudocommand);
+                            updateShell(receivedString);
+                        }
+                    }
+                    else if(sudoProcedureOngoing){
+                        sudopassword = command.getText();
+                        if(sudopassword.substring(1, command.getText().length()).equals(Controller.CURRENT_USER.getPasswordHash())){
+                            command.setCaretColor(new Color(255,255,255));
+                            command.setForeground(new Color(255,255,255));
+                            command.setText("");
+                            sudoProcedureOngoing=false;
+                            receivedString = controller.call(sudocommand);
+                            updateShell(receivedString);
+
+                        }
+                        else{
+                            command.setText("");
+                            shellArea.append("\nIncorrect Password : Try Again\n");
+                        }
+                    }
+                    else if (command.getText().equals("logout")) {
                         logout();
                     } else if (isLoginUserName) {
                         username = command.getText();
@@ -138,8 +175,8 @@ public class Shell extends JFrame {
                         receivedString = controller.call(command.getText().substring(userString.length()));
                         updateShell(receivedString);
                     }
-
-                    command.setCaretPosition(userString.length());
+                    if(!sudoProcedureOngoing)
+                       command.setCaretPosition(userString.length());
 
                 }
             }
@@ -202,15 +239,6 @@ public class Shell extends JFrame {
             isLoginPassword = false;
 
         }
-
-//        userString = "navin $:";
-//        Controller.CURRENT_PATH = "/home/navin";
-//
-//        shellArea.setText("");
-//        firstcommand = true;
-//        command.setText("");
-//
-//        showUserString();
 
     }
 

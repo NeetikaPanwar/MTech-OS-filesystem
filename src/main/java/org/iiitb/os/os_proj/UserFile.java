@@ -13,7 +13,17 @@ public class UserFile {
 	private Date date_created;
 	private Date date_updated;
 	private int user_created;
-	private int user_updated;	
+	private int user_updated;
+
+    public int getOwner() {
+        return owner;
+    }
+
+    public void setOwner(int owner) {
+        this.owner = owner;
+    }
+
+    private int owner;
 
 	private boolean isDirectory;
 
