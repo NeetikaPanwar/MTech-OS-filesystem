@@ -30,7 +30,7 @@ public class App
            u.setUserid(1);
            u.setUsername("navin");
            u.setPasswordHash("navin");
-           u.setHome("/home/navin");
+           u.setHome("/home/navin/");
            u.setRoot(false);
 
            MongoConnectivity m=new MongoConnectivity(MongoConnectivity.DATABASE);
@@ -40,27 +40,44 @@ public class App
             u2.setId(1);
             u2.setDate_created(date);
             u2.setDate_updated(date);
-            u2.setPath("/home/navin");
+            u2.setPath("/home/navin/");
             u2.setDirectory(true);
             u2.setName("folder1");
+           u2.setUser_created(1);
+           u2.setUser_updated(1);
+           u2.setTimestamp(date);
+           u2.setFile_size(1234);
+           u2.setFiletypeId(1);
+
            m.createFile(u2);
 
            u2.setId(2);
            u2.setDate_created(date);
            u2.setDate_updated(date);
-           u2.setPath("/home/navin/folder1");
+           u2.setPath("/home/navin/folder1/");
            u2.setDirectory(false);
            u2.setData("This abc.txt in folder1");
            u2.setName("abc.txt");
+           u2.setUser_created(1);
+           u2.setUser_updated(1);
+           u2.setTimestamp(date);
+           u2.setFile_size(1234);
+           u2.setFiletypeId(0);
            m.createFile(u2);
 
            u2.setId(3);
            u2.setDate_created(date);
            u2.setDate_updated(date);
-           u2.setPath("/home/navin");
+           u2.setPath("/home/navin/");
            u2.setDirectory(false);
            u2.setData("This abc.txt in home");
            u2.setName("abc.txt");
+           u2.setUser_created(1);
+           u2.setUser_updated(1);
+           u2.setTimestamp(date);
+           u2.setFile_size(1234);
+           u2.setFiletypeId(0);
+
            m.createFile(u2);
 
 
