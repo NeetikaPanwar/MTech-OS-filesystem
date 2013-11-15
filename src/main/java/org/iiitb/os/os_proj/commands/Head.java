@@ -18,10 +18,10 @@ public class Head implements ICommand {
 		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put("name", path.get(0));
 		constraints.put("path", path.get(1));		
-		constraints.put("isDirectory", "false");
+		constraints.put("isDirectory", false);
 		ArrayList<UserFile> resFiles = mongoConnect.getFiles(constraints);
 		
-		if(resFiles != null)	//File exists... display data
+		if(resFiles.size() != 0)	//File exists... display data
 		{
 			result.add(ICommand.SUCCESS);
 			String data = resFiles.get(0).getData();

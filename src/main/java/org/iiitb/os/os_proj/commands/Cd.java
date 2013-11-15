@@ -42,10 +42,10 @@ public class Cd implements ICommand {
 			Map<String, Object> constraints = new HashMap<String, Object>();
 			constraints.put("name", path.get(0));
 			constraints.put("path", path.get(1));
-			constraints.put("isDirectory", "true");
+			constraints.put("isDirectory", true);
 			ArrayList<UserFile> receievedFile = mongoConnect.getFiles(constraints);
 
-			if(receievedFile != null)	//Path exists
+			if(receievedFile.size() != 0)	//Path exists
 			{
 				result.add(ICommand.SUCCESS);
 				Controller.CURRENT_PATH += path.get(0) + "/";

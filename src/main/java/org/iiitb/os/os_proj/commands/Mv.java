@@ -73,9 +73,7 @@ public class Mv implements ICommand {
                 for(UserFile u: receivedFiles)
                 {
                     String path = destPath.get(1) + destPath.get(0);
-                    System.out.println(path.length()+ " "+path+ " "+pathPattern +" "+u.getPath());
                     u.setPath(u.getPath().replace(pathPattern, path));
-                    //System.out.println(u.getPath());
                     mongoConnect.updateCommon(u);
                 }
                 srcFiles.get(0).setName(destPath.get(0));
@@ -95,13 +93,13 @@ public class Mv implements ICommand {
                 for(UserFile u: receivedFiles)
                 {
                     String path = destPath.get(1) + destPath.get(0);
-                    u.getPath().replace(pathPattern, path);
+                    u.setPath(u.getPath().replace(pathPattern, path));
                     mongoConnect.updateCommon(u);
                 }
-                srcFiles.get(0).setName(destPath.get(0));
-                srcFiles.get(0).setPath(destPath.get(1));
-                mongoConnect.updateCommon(srcFiles.get(0));
-                mongoConnect.deleteFile(destPath.get(0), destPath.get(1));
+                //srcFiles.get(0).setName(destPath.get(0));
+                //srcFiles.get(0).setPath(destPath.get(1));
+                //mongoConnect.updateCommon(srcFiles.get(0));
+                mongoConnect.deleteFile(srcPath.get(0), srcPath.get(1));
                 result.add(ICommand.SUCCESS);
 
             }

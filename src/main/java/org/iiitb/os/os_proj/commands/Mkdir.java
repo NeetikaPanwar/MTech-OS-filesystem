@@ -22,7 +22,7 @@ public class Mkdir implements ICommand {
 		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put("name", path.get(0));		
 		constraints.put("path", path.get(1));
-		constraints.put("isDirectory", "true");
+		constraints.put("isDirectory", true);
 		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 		
 		if (receivedFile.size() == 0) {
