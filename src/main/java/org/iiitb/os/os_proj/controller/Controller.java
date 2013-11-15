@@ -154,6 +154,7 @@ public class Controller {
                     if(params.size() == 0)
                     {
                         Ls ls = new Ls();
+                        params.add(Controller.CURRENT_PATH);
                         result = ls.runCommand(params);
                         if(result.get(0).equals(ICommand.SUCCESS))
                         {

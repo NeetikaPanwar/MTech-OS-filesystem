@@ -14,7 +14,7 @@ public class Ls implements ICommand {
 
 		ArrayList<String> result = new ArrayList<String>();
 		Map<String, Object> constraints = new HashMap<String, Object>();
-		constraints.put("path", Controller.CURRENT_PATH);
+		constraints.put("path", params.get(0));
 		ArrayList<UserFile> receivedFile = mongoConnect.getFiles(constraints);
 
 		if (receivedFile.size() != 0) {
