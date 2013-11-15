@@ -66,7 +66,6 @@ public class Controller {
 
 		if(validCommand){
 
-
 			switch (commands.valueOf(split_cmd)) {
 			case cat:
 				if(params.size() == 1)
