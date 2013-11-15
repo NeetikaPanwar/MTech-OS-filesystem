@@ -104,12 +104,10 @@ public class Controller {
 					File file = new File();
 					result = file.runCommand(params);
 					if(result.get(0).equals(ICommand.FAILURE))
-						System.out.println("Pass this to shell: " + result.get(1));
-					else
-						System.out.println("Pass this to shell: " + result.get(1));
+						returnString=result.get(1);
 				}
 				else
-					System.out.println("Pass this to shell: file: Incorrect no of arguments.");
+					returnString="file: Incorrect no of arguments.";
 				break;
 
 			case filesize:
@@ -117,13 +115,10 @@ public class Controller {
 				{
 					Filesize fs = new Filesize();
 					result = fs.runCommand(params);
-					if(result.get(0).equals(ICommand.FAILURE))
-						System.out.println("Pass this to shell: " + result.get(1));
-					else
-						System.out.println("Pass this to shell: " + result.get(1));
+                    returnString=result.get(1);
 				}
 				else
-					System.out.println("Pass this to shell: filesize: Incorrect no of arguments.");
+					returnString="filesize: Incorrect no of arguments.";
 				break;
 
 			case head:
@@ -131,13 +126,10 @@ public class Controller {
 				{
 					Head head = new Head();
 					result = head.runCommand(params);
-					if(result.get(0).equals(ICommand.FAILURE))
-						System.out.println("Pass this to shell: " + result.get(1));
-					else
-						System.out.println("Pass this to shell: " + result.get(1));
+                        returnString+=result.get(1);
 				}
 				else
-					System.out.println("Pass this to shell: head: Incorrect no of arguments.");
+					returnString="head: Incorrect no of arguments.";
 				break;
 
 			case locate:
@@ -146,16 +138,17 @@ public class Controller {
 					Locate locate = new Locate();
 					result = locate.runCommand(params);
 					if(result.get(0).equals(ICommand.FAILURE))
-						System.out.println("Pass this to shell: " + result.get(1));
+						returnString=result.get(1);
 					else
 					{
 						result.remove(0);
-						System.out.println("Pass this to shell: " + result);
+                        for(String location:result)
+						returnString+=location+"\n";
 					}
 
 				}
 				else
-					System.out.println("Pass this to shell: locate: Incorrect no of arguments.");
+					returnString="locate: Incorrect no of arguments.";
 				break;
 
 			case ls:
@@ -188,7 +181,7 @@ public class Controller {
 					//ELSE SUCCESS
 				}
 				else
-					System.out.println("Pass this to shell: mkdir: Incorrect no of arguments.");
+					returnString="mkdir: Incorrect no of arguments.";
 				break;
 
 
@@ -198,12 +191,10 @@ public class Controller {
 					Mv mv = new Mv();
 					result = mv.runCommand(params);
 					if(result.get(0).equals(ICommand.FAILURE))
-						System.out.println("Pass this to shell: " + result.get(1));
-					else
-						System.out.println("Pass this to shell: null");
+						returnString=result.get(1);
 				}
 				else
-					System.out.println("Pass this to shell: mkdir: Incorrect no of arguments.");
+					returnString="mkdir: Incorrect no of arguments.";
 				break;
 
 			case pwd:
@@ -213,7 +204,7 @@ public class Controller {
 					returnString=result.get(1);
 				}
 				else
-					System.out.println("Pass this to shell: pwd: Incorrect no of arguments.");
+					returnString="pwd: Incorrect no of arguments.";
 				break;
 
 			case rmdir:
@@ -222,12 +213,10 @@ public class Controller {
 					Rmdir rmdir = new Rmdir();
 					result = rmdir.runCommand(params);
 					if(result.get(0).equals(ICommand.FAILURE))
-						System.out.println("Pass this to shell: " + result.get(1));
-					else
-						System.out.println("Pass this to shell: null");
+						returnString=result.get(1);
 				}
 				else
-					System.out.println("Pass this to shell: rmdir: Incorrect no of arguments.");
+					returnString="rmdir: Incorrect no of arguments.";
 				break;
 
 			case tail:
@@ -236,12 +225,12 @@ public class Controller {
 					Tail tail = new Tail();
 					result = tail.runCommand(params);
 					if(result.get(0).equals(ICommand.FAILURE))
-						System.out.println("Pass this to shell: " + result.get(1));
+						returnString=result.get(1);
 					else
-						System.out.println("Pass this to shell: " + result.get(1));
+						returnString=result.get(1);
 				}
 				else
-					System.out.println("Pass this to shell: tail: Incorrect no of arguments.");
+					returnString="tail: Incorrect no of arguments.";
 				break;
 
 			case touch:
