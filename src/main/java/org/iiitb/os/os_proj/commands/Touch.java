@@ -1,10 +1,6 @@
 package org.iiitb.os.os_proj.commands;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.utils.GetPath;
@@ -33,8 +29,12 @@ public class Touch implements ICommand {
 		{
 			UserFile file = new UserFile();
 			Date date = new Date();
-			
-			file.setId(12345);
+
+            long range = 123456L;
+            Random r = new Random();
+            long number = (long)(r.nextDouble()*range);
+
+			file.setId(number);
 			file.setName(path.get(0));
 			file.setFiletypeId(1);
 			file.setPath(path.get(1));
@@ -58,4 +58,6 @@ public class Touch implements ICommand {
 		}	
 		return result;
 	}
+
+
 }

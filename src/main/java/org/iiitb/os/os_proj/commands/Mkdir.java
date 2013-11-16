@@ -1,15 +1,10 @@
 package org.iiitb.os.os_proj.commands;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.iiitb.os.os_proj.UserFile;
 import org.iiitb.os.os_proj.utils.GetPath;
 import com.mongodb.WriteResult;
-
-import java.util.List;
 
 public class Mkdir implements ICommand {
 
@@ -29,8 +24,12 @@ public class Mkdir implements ICommand {
 			//Create new userFile with isDirectory=true... Convert to DBObj... Add to DB
 			UserFile usr = new UserFile();
 			Date date = new Date();
-			
-			usr.setId(1234);
+
+            long range = 1234567L;
+            Random r = new Random();
+            long number = (long)(r.nextDouble()*range);
+
+            usr.setId(number);
 			usr.setName(path.get(0));
 			usr.setFiletypeId(0);
 			usr.setPath(path.get(1));
