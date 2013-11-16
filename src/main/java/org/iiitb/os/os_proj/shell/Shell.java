@@ -139,6 +139,7 @@ public class Shell extends JFrame {
                             command.setForeground(new Color(255,255,255));
                             command.setText("");
                             sudoProcedureOngoing=false;
+                            isRoot=true;
                             receivedString = controller.call(sudocommand);
                             updateShell(receivedString);
 
@@ -148,7 +149,7 @@ public class Shell extends JFrame {
                             shellArea.append("\nIncorrect Password : Try Again\n");
                         }
                     }
-                    else if (command.getText().equals("logout")) {
+                    else if (command.getText().substring(userString.length()).equals("logout")) {
                         logout();
                     } else if (isLoginUserName) {
                         username = command.getText();
@@ -175,7 +176,7 @@ public class Shell extends JFrame {
                         receivedString = controller.call(command.getText().substring(userString.length()));
                         updateShell(receivedString);
                     }
-                    if(!sudoProcedureOngoing)
+                    if(!sudoProcedureOngoing||!isLoginUserName)
                        command.setCaretPosition(userString.length());
 
                 }
@@ -250,6 +251,11 @@ public class Shell extends JFrame {
 
     public ArrayList<String> logout() {
         Controller.CURRENT_PATH = "";
+        shellArea.setText(SHELLTEXT);
+        command.setText("");
+        isLoginUserName=true;
+        isLoginPassword=false;
+        userString="";
         //Controller.CURRENT_USER = new User();
         //check username/pass and login
 
