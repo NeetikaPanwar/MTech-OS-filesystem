@@ -59,6 +59,7 @@ public class Controller {
 		ArrayList<String> result = new ArrayList<String>();
 
 		System.out.println(split_cmd+" in this");
+		validCommand=false;
 		for(commands c:commands.values()){
 			if (c.name().equals(split_cmd)) {
 				validCommand=true;
