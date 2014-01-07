@@ -11,6 +11,7 @@ public class Pwd implements ICommand {
 		ArrayList<String> result=new ArrayList<String>();
 		result.add(ICommand.SUCCESS);
 		result.add(Controller.CURRENT_PATH);
+		result.add("pwd is used to output the name of the current working directory.\n Upon login the working directory is set to your home directory.\n pwd workd by outputting the result of the lstat command which gets the current directory in the filesystem. ");
 		return result;
 	}
 

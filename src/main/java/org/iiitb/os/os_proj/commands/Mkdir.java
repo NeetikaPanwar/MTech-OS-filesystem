@@ -57,6 +57,7 @@ public class Mkdir implements ICommand {
 		}
 				
 		//return success or failure depending on result
+		result.add("The mkdir command is used to create directories. \n It creates an entry in the filesystem tree directory structure to initialize the empty folder. \n The folder has a descriptor that holds the name of the folder.");
 		return result;		
 	}
 	

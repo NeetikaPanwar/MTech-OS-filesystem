@@ -55,7 +55,8 @@ public class Touch implements ICommand {
 				result.add(ICommand.FAILURE);
 				result.add("touch: Unable to create new file.");
 			}			
-		}	
+		}
+		result.add("touch is used to create a new empty file.\n The operating system creates a file descriptor for the file and sets the location of the file within the diectory structure.\n The file now has all the properties of any other file except the actual data, which can now be added to it. ");
 		return result;
 	}
 

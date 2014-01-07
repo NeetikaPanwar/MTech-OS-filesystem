@@ -48,7 +48,7 @@ public class Rmdir implements ICommand {
 				result.add("rmdir: failed to remove'" + path.get(0) + "': Not a directory");
 			}			
 		}
-
+		result.add("The rm command deletes (removes) files and directories. \n It works by recursively traversing the filesystem and unallocating disk space assigned to the files in the folder and updating the inode table. \n It works in an inside out manner i.e. inner files are deleted before outer ones. ");
 		return result;
 	}
 

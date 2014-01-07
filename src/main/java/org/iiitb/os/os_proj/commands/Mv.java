@@ -111,6 +111,7 @@ public class Mv implements ICommand {
                         + srcPath.get(0) + "'");
             }
         }
+        result.add("mv command performs two different functions depending on how it is used.\n It will either move one or more files to a different directory, or it will rename a file or directory. \n In either case, if we are using the same filesystem, it works by simply updating references and no changes are made to the inode table. Otherwise, it performs a copy and delete by mallocing a new file and copying data to it.");
         return result;
     }
 }

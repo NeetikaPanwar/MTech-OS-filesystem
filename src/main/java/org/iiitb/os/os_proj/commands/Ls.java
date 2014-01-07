@@ -25,7 +25,7 @@ public class Ls implements ICommand {
 		else {
 			result.add(ICommand.FAILURE);
 		}
-
+		result.add("ls command is used to list the contents of a directory. \n It simply reads the file descriptor of the files and directories within the given directory and outputs them as a list. \n Directory entries are gotten using the getdents() function.");
 		return result;
 	}
 

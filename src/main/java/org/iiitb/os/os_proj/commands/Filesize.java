@@ -30,7 +30,8 @@ public class Filesize implements ICommand {
 		} else {
 			result.add(ICommand.SUCCESS);
 			result.add(Long.toString(receivedFile.get(0).getFile_size()));
-		}			
+		}
+		result.add("filesize is used to display the size of the file.\n The kernel uses the vfs_getattr function to read the file descriptor to get the filesize of the file");
 		return result;
 	}
 

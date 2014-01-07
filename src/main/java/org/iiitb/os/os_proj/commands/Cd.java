@@ -56,7 +56,7 @@ public class Cd implements ICommand {
 				result.add("cd: " + path.get(0) + ": no such file or directory");
 			}
 		}	
-
+			result.add("cd is used to change the working directory.\n cd can be used using absolute or relative paths.\n cd works by traversing the filsystem tree using the provided argument and updating the shell descriptor to the pointed directory. ");
 		return result;
 	}
 
