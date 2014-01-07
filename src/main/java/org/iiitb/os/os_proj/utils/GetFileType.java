@@ -6,7 +6,7 @@ public class GetFileType {
 	
 	public static String getFileExt(int id){
 		
-		return fileExt[id];
+		return fileExt[id-1];
 	}
 	
 	public static int getFileExtId(String ext){

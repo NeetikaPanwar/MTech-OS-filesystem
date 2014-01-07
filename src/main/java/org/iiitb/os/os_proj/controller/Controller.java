@@ -91,14 +91,15 @@ public class Controller {
 					CURRENT_PATH = CURRENT_USER.getHome();
 					returnString = CURRENT_PATH;
 				}
-				else
+				else if(params.size() == 1)
 				{
 					result = cd.runCommand(params);
 					if(result.get(0).equals(ICommand.SUCCESS))
 						returnString = CURRENT_PATH;
 					else	//pass msg failure
 						returnString = result.get(1);
-				}
+				}else
+					returnString="cd: Incorrect no of arguments.";
 				break;
 
 			case file:
@@ -162,9 +163,9 @@ public class Controller {
 					if(result.get(0).equals(ICommand.SUCCESS))
 					{
 						result.remove(0);
-						for(String i:result)
+						for(int i=0;i<result.size()-1;i++)
 						{
-							returnString+=i+"\n";
+							returnString+=result.get(i)+"\n";
 						}
 
 
@@ -197,7 +198,7 @@ public class Controller {
 						returnString=result.get(1);
 				}
 				else
-					returnString="mkdir: Incorrect no of arguments.";
+					returnString="mv: Incorrect no of arguments.";
 				break;
 
 			case pwd:
@@ -259,7 +260,7 @@ public class Controller {
 				else
 					returnString="kedit: Incorrect no of arguments.";
 				break;
-				
+
 			case kview:
 				if(params.size() == 1)
 				{
@@ -281,9 +282,8 @@ public class Controller {
 			returnString="Invalid Command";
 		}
 
-		//int size = result.size(); and add result.get(size-1) to return string
-
-		return "\n"+returnString;
+		int size = result.size();
+		return "\nOS Concept-- \n" + result.get(size-1) + "\n\nCommand Output--\n" + returnString;
 
 	}
 
