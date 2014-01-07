@@ -35,7 +35,7 @@ public class File implements ICommand {
 			else
 				result.add(path.get(0) + ": " + GetFileType.getFileExt(receivedFile.get(0).getFiletypeId()));
 		}	
-		result.add("file is used to display the filetype of the file.\n The kernel uses the vfs_getattr function to read the file descriptor to get the filetype of the file.\n Generally, this information is present in the header segment of the file as well.");
+		result.add("file is used to display the filetype of the file.\nThe kernel uses the vfs_getattr function to read the file descriptor to get the filetype of the file.\nGenerally, this information is present in the header segment of the file as well.");
 		return result;		
 	}
 

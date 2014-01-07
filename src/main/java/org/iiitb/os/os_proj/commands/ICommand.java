@@ -14,18 +14,3 @@ public interface ICommand {
 
 	public ArrayList<String> runCommand(List<String> params);
 }
-
-//
-//File FileSize Cat -> Ankit
-//Cd Touch
-//        Head
-//        Tail
-//        -Rajat
-
-//Ls -?
-//        Locate
-//        Mkdir
-//        Rmdir
-//        Mv
-//
-//        Login Logout

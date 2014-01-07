@@ -32,7 +32,7 @@ public class Cat implements ICommand {
 			result.add(ICommand.SUCCESS);
 			result.add(receivedFile.get(0).getData());
 		}
-		result.add("cat is used to create, combine or display a text file on the screen.\n It works by copying fileblocks of the given filename into buffer and then outputting the buffer contents.\n If file does not exist, cat returns a FileNotFound error");
+		result.add("cat is used to create, combine or display a text file on the screen.\nIt works by copying fileblocks of the given filename into buffer and then outputting the buffer contents.\nIf file does not exist, cat returns a FileNotFound error.");
 		return result;
 	}
 }

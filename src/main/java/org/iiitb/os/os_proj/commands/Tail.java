@@ -45,7 +45,7 @@ public class Tail implements ICommand {
 		}
 
 		//same as cat, but show only last 100 lines.If file is smaller, just show entire file
-		result.add("tail is used to display the ending of a file.\n The kernel opens the file descriptor and uses fstat to check changes in the mtime value to show updates in the end of the file. ");
+		result.add("tail is used to display the ending of a file.\nThe kernel opens the file descriptor and uses fstat to check changes in the mtime value to show updates in the end of the file.");
 		return result;	
 	}
 

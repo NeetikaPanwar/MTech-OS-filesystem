@@ -3,7 +3,6 @@ package org.iiitb.os.os_proj.commands;
 import java.util.*;
 
 import org.iiitb.os.os_proj.UserFile;
-import org.iiitb.os.os_proj.utils.GetFileType;
 
 public class Locate implements ICommand {
 
@@ -25,7 +24,7 @@ public class Locate implements ICommand {
 			result.add(ICommand.FAILURE);
 			result.add("locate: " + params.get(0) + ": cannot be located");
 		}
-		result.add("locate is used to find the location of a file.\n It works by recursively traversing the tree structure of the filesystem and checking file descriptors to check if filename matches the search term.");
+		result.add("locate is used to find the location of a file.\nIt works by recursively traversing the tree structure of the filesystem and checking file descriptors to check if filename matches the search term.");
 		return result;
 	}
 

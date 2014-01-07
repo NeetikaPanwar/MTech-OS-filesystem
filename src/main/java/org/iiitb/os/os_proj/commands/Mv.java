@@ -69,7 +69,6 @@ public class Mv implements ICommand {
                 String pathPattern = srcPath.get(1) + srcPath.get(0);
                 pathConstraint.put("path", java.util.regex.Pattern.compile(pathPattern));
                 ArrayList<UserFile> receivedFiles = mongoConnect.getFiles(pathConstraint);
-                //WriteResult wr;
                 for(UserFile u: receivedFiles)
                 {
                     String path = destPath.get(1) + destPath.get(0);
@@ -79,7 +78,6 @@ public class Mv implements ICommand {
                 srcFiles.get(0).setName(destPath.get(0));
                 srcFiles.get(0).setPath(destPath.get(1));
                 mongoConnect.updateCommon(srcFiles.get(0));
-                //mongoConnect.deleteFile(destPath.get(0), destPath.get(1));
                 result.add(ICommand.SUCCESS);
 
             }
@@ -89,16 +87,12 @@ public class Mv implements ICommand {
                 String pathPattern = srcPath.get(1) + srcPath.get(0);
                 pathConstraint.put("path", java.util.regex.Pattern.compile(pathPattern));
                 ArrayList<UserFile> receivedFiles = mongoConnect.getFiles(pathConstraint);
-                //WriteResult wr;
                 for(UserFile u: receivedFiles)
                 {
                     String path = destPath.get(1) + destPath.get(0);
                     u.setPath(u.getPath().replace(pathPattern, path));
                     mongoConnect.updateCommon(u);
                 }
-                //srcFiles.get(0).setName(destPath.get(0));
-                //srcFiles.get(0).setPath(destPath.get(1));
-                //mongoConnect.updateCommon(srcFiles.get(0));
                 mongoConnect.deleteFile(srcPath.get(0), srcPath.get(1));
                 result.add(ICommand.SUCCESS);
 
@@ -111,13 +105,7 @@ public class Mv implements ICommand {
                         + srcPath.get(0) + "'");
             }
         }
-        result.add("mv command performs two different functions depending on how it is used.\n It will either move one or more files to a different directory, or it will rename a file or directory. \n In either case, if we are using the same filesystem, it works by simply updating references and no changes are made to the inode table. Otherwise, it performs a copy and delete by mallocing a new file and copying data to it.");
+        result.add("mv command performs two different functions depending on how it is used.\nIt will either move one or more files to a different directory, or it will rename a file or directory.\nIn either case, if we are using the same filesystem, it works by simply updating references and no changes are made to the inode table.\nOtherwise, it performs a copy and delete by mallocing a new file and copying data to it.");
         return result;
     }
 }
-
-// move file to folder will update path
-// move folder to file will give error
-// move file to file will update path also
-// move folder to folder path update
-//

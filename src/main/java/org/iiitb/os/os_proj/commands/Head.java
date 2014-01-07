@@ -43,7 +43,7 @@ public class Head implements ICommand {
 		}
 
 		//same as cat, but return only first 100 lines. If file is smaller, just show entire file
-		result.add("head is used to display the starting of a file.\n It is useful when working with large files.\n The kernel opens the file descriptor and uses fstat to read the first few lines of the file.\n The number of lines read by head is configurable.");
+		result.add("head is used to display the starting of a file.\nIt is useful when working with large files.\nThe kernel opens the file descriptor and uses fstat to read the first few lines of the file.\nThe number of lines read by head is configurable.");
 		return result;	
 	}
 

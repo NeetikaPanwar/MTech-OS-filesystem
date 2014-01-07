@@ -15,15 +15,9 @@ public class Cd implements ICommand {
 	public ArrayList<String> runCommand(List<String> params) {
 		ArrayList<String> result=new ArrayList<String>();
 
-		//Handle Cases .././null/directory
-//		if(params.get(0).equals(null))
-//		{
-//			result.add(ICommand.SUCCESS);
-//			System.out.println("Controller.CURRENT_PATH = User.getHome()");
-//
-//		}
-//		else 
-			if(params.get(0).equals(".."))
+		//Handle Cases ../directory
+
+		if(params.get(0).equals(".."))
 		{
 			System.out.println("go to parent directory.");
 			ArrayList<String> split_path = new ArrayList<String>(Arrays.asList(Controller.CURRENT_PATH.split("/")));
@@ -56,7 +50,7 @@ public class Cd implements ICommand {
 				result.add("cd: " + path.get(0) + ": no such file or directory");
 			}
 		}	
-			result.add("cd is used to change the working directory.\n cd can be used using absolute or relative paths.\n cd works by traversing the filsystem tree using the provided argument and updating the shell descriptor to the pointed directory. ");
+		result.add("cd is used to change the working directory.\ncd can be used using absolute or relative paths.\ncd works by traversing the filsystem tree using the provided argument and updating the shell descriptor to the pointed directory.");
 		return result;
 	}
 

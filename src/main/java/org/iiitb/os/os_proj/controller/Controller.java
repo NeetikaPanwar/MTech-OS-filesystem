@@ -98,7 +98,8 @@ public class Controller {
 						returnString = CURRENT_PATH;
 					else	//pass msg failure
 						returnString = result.get(1);
-				}else
+				}
+				else
 					returnString="cd: Incorrect no of arguments.";
 				break;
 
@@ -148,7 +149,6 @@ public class Controller {
 						for(String location:result)
 							returnString+=location+"\n";
 					}
-
 				}
 				else
 					returnString="locate: Incorrect no of arguments.";
@@ -164,11 +164,7 @@ public class Controller {
 					{
 						result.remove(0);
 						for(int i=0;i<result.size()-1;i++)
-						{
 							returnString+=result.get(i)+"\n";
-						}
-
-
 					}
 				}
 				else
@@ -187,7 +183,6 @@ public class Controller {
 				else
 					returnString="mkdir: Incorrect no of arguments.";
 				break;
-
 
 			case mv:
 				if(params.size() == 2)
@@ -276,15 +271,12 @@ public class Controller {
 			default:
 				System.out.println(cmd + ": Command not found.");
 			}
-
 		}
-		else{
+		else
 			returnString="Invalid Command";
-		}
 
 		int size = result.size();
 		return "\nOS Concept-- \n" + result.get(size-1) + "\n\nCommand Output--\n" + returnString;
 
 	}
-
 }
