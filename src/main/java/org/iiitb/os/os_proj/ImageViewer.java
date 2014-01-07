@@ -33,6 +33,9 @@ public class ImageViewer extends JFrame {
 		add(shellPanel);
 		add(imgPane);
 		this.setTitle(u.getName());
+		this.setSize(500, 500);
+		this.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+		this.setVisible(true);
 	}
 
 	public static BufferedImage decodeToImage(String imageString) {

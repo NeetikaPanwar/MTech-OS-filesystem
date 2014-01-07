@@ -13,6 +13,7 @@ import org.iiitb.os.os_proj.commands.Filesize;
 import org.iiitb.os.os_proj.commands.Head;
 import org.iiitb.os.os_proj.commands.ICommand;
 import org.iiitb.os.os_proj.commands.Kedit;
+import org.iiitb.os.os_proj.commands.Kview;
 import org.iiitb.os.os_proj.commands.Locate;
 import org.iiitb.os.os_proj.commands.Ls;
 import org.iiitb.os.os_proj.commands.Mkdir;
@@ -25,7 +26,7 @@ import org.iiitb.os.os_proj.commands.Touch;
 public class Controller {
 
 	private enum commands {
-		cat, cd, file, filesize, head, locate, ls, mkdir, mv, pwd, rmdir, tail, touch, kedit
+		cat, cd, file, filesize, head, locate, ls, mkdir, mv, pwd, rmdir, tail, touch, kedit, kview
 	}
 
 	public static String CURRENT_PATH = "";
@@ -244,20 +245,31 @@ public class Controller {
 						returnString=result.get(0);
 				}
 				else
-					returnString="tail: Incorrect no of arguments.";
+					returnString="touch: Incorrect no of arguments.";
 				break;
 
 			case kedit:
-				if(params.size() <= 1)
+				if(params.size() == 1)
 				{
 					Kedit kedit = new Kedit();
-					params.add(Controller.CURRENT_PATH);
 					result = kedit.runCommand(params);
 					if(result.get(0).equals(ICommand.FAILURE))
 						returnString=result.get(0);
 				}
 				else
-					returnString="tail: Incorrect no of arguments.";
+					returnString="kedit: Incorrect no of arguments.";
+				break;
+				
+			case kview:
+				if(params.size() == 1)
+				{
+					Kview kview = new Kview();
+					result = kview.runCommand(params);
+					if(result.get(0).equals(ICommand.FAILURE))
+						returnString=result.get(0);
+				}
+				else
+					returnString="kview: Incorrect no of arguments.";
 				break;
 
 			default:

@@ -46,15 +46,15 @@ public class Kedit implements ICommand {
 			usr.setDate_updated(date);
 			usr.setUser_created(1);
 			usr.setUser_updated(1);
-			usr.setDirectory(true);
+			usr.setDirectory(false);
 			usr.setData(null);
 
 			mongoConnect.createFile(usr);
-			new TextEditor(usr, true);
+			new TextEditor(usr, false);
 
 		} 
 		else 	//file exists..open file in editor with data
-			new TextEditor(receivedFile.get(0), true);
+			new TextEditor(receivedFile.get(0), false);
 
 		result.add(ICommand.SUCCESS);
 		return result;
