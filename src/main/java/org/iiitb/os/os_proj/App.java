@@ -19,7 +19,7 @@ public class App
 		shell.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
 		shell.setVisible(true);
 
-        boolean fillDatabase=true;
+        boolean fillDatabase=false;
 
        if(fillDatabase){
            if(fillDatabase){

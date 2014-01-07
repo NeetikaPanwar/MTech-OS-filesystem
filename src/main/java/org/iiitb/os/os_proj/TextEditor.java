@@ -30,7 +30,7 @@ public TextEditor(UserFile u, boolean readOnly)
     user_file = returnUserFile(u);
     setSize(600, 600);
     setLocationRelativeTo(null);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     Container pane = getContentPane();
     pane.setLayout(new BorderLayout());
 
@@ -101,10 +101,9 @@ public void actionPerformed(ActionEvent e)
     {
       dataToSave = textArea.getText();
       user_file.setData(dataToSave);
-      
     }
     else if (choice == exitI)
-        System.exit(0);
+        this.dispose();
     else if (choice == cutI)
     {
         content = textArea.getSelectedText();
