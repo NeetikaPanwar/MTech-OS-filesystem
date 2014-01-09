@@ -165,7 +165,7 @@ public class TestCommand {
         u.setName("newfile.txt");
         u.setPath("/home/iiitb/");
         u.setDirectory(false);
-        u.setFiletypeId(0);
+        u.setFiletypeId(1);
         testMongo.createFile(u);
         searchPath.add("newfile.txt");
         result = f.runCommand(searchPath);

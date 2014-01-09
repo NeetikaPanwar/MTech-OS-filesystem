@@ -6,10 +6,6 @@ import java.util.Date;
 import org.iiitb.os.os_proj.db.MongoConnectivity;
 import org.iiitb.os.os_proj.shell.Shell;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )

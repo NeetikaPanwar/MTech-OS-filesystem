@@ -11,6 +11,7 @@ import javax.swing.*;
 
 import org.iiitb.os.os_proj.commands.ICommand;
 
+@SuppressWarnings("serial")
 public class TextEditor extends JFrame implements ActionListener,ICommand
 {
 	private JTextArea textArea;
@@ -31,15 +32,12 @@ public class TextEditor extends JFrame implements ActionListener,ICommand
 		user_file = u;
 
 		String dataFromFile = u.getData();
-		System.out.println(dataFromFile);
 		setSize(600, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setTitle(u.getName());
 		Container pane = getContentPane();
 		pane.setLayout(new BorderLayout());
-
-
 
 		content = " ";
 		textArea = new JTextArea();
@@ -56,7 +54,6 @@ public class TextEditor extends JFrame implements ActionListener,ICommand
 		selectI = new JMenuItem("Select All"); //menuitems
 		saveI = new JMenuItem("Save"); //menuitems
 
-
 		toolBar = new JToolBar();
 
 		textArea.setLineWrap(true);
@@ -66,9 +63,7 @@ public class TextEditor extends JFrame implements ActionListener,ICommand
 		menuBar.add(fileM);
 		menuBar.add(editM);
 
-
 		fileM.add(saveI);
-
 		fileM.add(exitI);
 
 		editM.add(cutI);
@@ -76,16 +71,10 @@ public class TextEditor extends JFrame implements ActionListener,ICommand
 		editM.add(pasteI);        
 		editM.add(selectI);
 
-
-
-
-
-
 		pane.add(scpane,BorderLayout.CENTER);
 		pane.add(toolBar,BorderLayout.SOUTH);
 
 		saveI.addActionListener(this);
-
 		exitI.addActionListener(this);
 		cutI.addActionListener(this);
 		copyI.addActionListener(this);
@@ -106,7 +95,6 @@ public class TextEditor extends JFrame implements ActionListener,ICommand
 		if (choice == saveI)
 		{
 			dataToSave = textArea.getText();
-			System.out.println(dataToSave);
 			user_file.setData(dataToSave);
 			mongoConnect.updateCommon(user_file);
 		}
@@ -125,12 +113,7 @@ public class TextEditor extends JFrame implements ActionListener,ICommand
 			textArea.selectAll();
 
 	}
-	/*public static void main(String[] args) 
-{
-	String file_name = "Kanchu17";
-	String file_path = "/home/kanchan";
-    new TextEditor();
-}*/
+
 	public ArrayList<String> runCommand(List<String> params) {
 		// TODO Auto-generated method stub
 		return null;

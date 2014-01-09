@@ -19,7 +19,7 @@ public class Cd implements ICommand {
 
 		if(params.get(0).equals(".."))
 		{
-			System.out.println("go to parent directory.");
+			//go to parent directory
 			ArrayList<String> split_path = new ArrayList<String>(Arrays.asList(Controller.CURRENT_PATH.split("/")));
 			split_path.remove(split_path.size() - 1);
 			result.add(ICommand.SUCCESS);

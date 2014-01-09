@@ -88,7 +88,6 @@ public class MongoConnectivity{
 		if (dbcollection != null) {
 			result = dbcollection.insert(dbObject);
 		}
-		System.out.println(result);
 		return result;
 	}
 
@@ -131,11 +130,9 @@ public class MongoConnectivity{
 
 	public static void main(String args[])
 	{
-
 		UserFile u = ICommand.mongoConnect.getTestFile();
 		ICommand.mongoConnect.createFile(u);
 
-		//mongoConnect.updateCommon(u);
 	}
 	
 	public UserFile getTestFile() {
@@ -171,13 +168,12 @@ public class MongoConnectivity{
 		}
 
 		DBCursor cursor = dbcollection.find(searchFile);
-		System.out.println();
 		while (cursor.hasNext()) {
 			files.add(convertToUserFile(cursor.next()));
 		}
-		for (UserFile file : files) {
-			System.out.println(file.getName());
-		}
+//		for (UserFile file : files) {
+//			System.out.println(file.getName());
+//		}
 		return files;
 	}
 
@@ -198,9 +194,9 @@ public class MongoConnectivity{
 		while (cursor.hasNext()) {
 			files.add(convertToUser(cursor.next()));
 		}
-		for (User file : files) {
-			System.out.println(file.getUsername());
-		}
+//		for (User file : files) {
+//			System.out.println(file.getUsername());
+//		}
 		return files;
 	}
 
@@ -253,12 +249,6 @@ public class MongoConnectivity{
 
 		}
 		delete(listOfObjects);
-
-		/*while (cursor.hasNext()) {
-			ObjectId item = (ObjectId) cursor.next().get("_id");
-			System.out.println("file deleted" + item.toString());
-			//dbcollection.remove(basicObject);
-		}*/
 	}
 
 	private void delete(ArrayList<DBObject> listOfObjects) {
