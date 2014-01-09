@@ -226,14 +226,13 @@ public class TestCommand {
         }
         System.out.println(actualresult);
         if (result.get(0) == ICommand.SUCCESS) {
-        	
             assertEquals(ICommand.SUCCESS, result.get(0));
             assertEquals(actualresult, result.get(1));
 
         } else
             assertEquals(ICommand.FAILURE, result.get(0));
     }
-    
+
     @Ignore
     public void testTail() {
         Tail t = new Tail();
