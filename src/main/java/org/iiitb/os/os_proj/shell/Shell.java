@@ -117,7 +117,7 @@ public class Shell extends JFrame {
 
 
                 } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    System.out.println(command.getText());
+                    //System.out.println(command.getText());
                     if(command.getText().length()>userString.length()+4 && command.getText().substring(userString.length(),userString.length()+4).equals("sudo")){
                         if(!isRoot){
                           sudoProcedureOngoing=true;
